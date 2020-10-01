@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/material-calculator/static/css/main.36a50ae3.chunk.css",
+    "main.js": "/material-calculator/static/js/main.e1efc7ff.chunk.js",
+    "main.js.map": "/material-calculator/static/js/main.e1efc7ff.chunk.js.map",
+    "runtime-main.js": "/material-calculator/static/js/runtime-main.e8a12f00.js",
+    "runtime-main.js.map": "/material-calculator/static/js/runtime-main.e8a12f00.js.map",
+    "static/js/2.a5be7cdb.chunk.js": "/material-calculator/static/js/2.a5be7cdb.chunk.js",
+    "static/js/2.a5be7cdb.chunk.js.map": "/material-calculator/static/js/2.a5be7cdb.chunk.js.map",
+    "index.html": "/material-calculator/index.html",
+    "precache-manifest.8c2c43c7c1b6f5f9d6307be32f2afd88.js": "/material-calculator/precache-manifest.8c2c43c7c1b6f5f9d6307be32f2afd88.js",
+    "service-worker.js": "/material-calculator/service-worker.js",
+    "static/css/main.36a50ae3.chunk.css.map": "/material-calculator/static/css/main.36a50ae3.chunk.css.map",
+    "static/js/2.a5be7cdb.chunk.js.LICENSE.txt": "/material-calculator/static/js/2.a5be7cdb.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e8a12f00.js",
+    "static/js/2.a5be7cdb.chunk.js",
+    "static/css/main.36a50ae3.chunk.css",
+    "static/js/main.e1efc7ff.chunk.js"
+  ]
+}
