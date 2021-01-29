@@ -1,23 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import useLongPress from "../utils/useLongPress";
 import clsx from "clsx";
 
-const CountButton = () => {
-  const [count, setCount] = useState(0);
-
+const CountButton = ({ count, changeCount }) => {
   const increment = () => {
-    setCount((c) => c + 1);
+    changeCount(count + 1);
   };
   const decrement = () => {
-    setCount((c) => (c > 0 ? c - 1 : c));
+    changeCount(count > 0 ? count - 1 : count);
   };
   const onChange = (e) => {
     var val = parseInt(e.target.value) || 0;
-    return setCount(val);
+    return changeCount(val);
   };
 
   const onLongPress = () => {
-    setCount(0);
+    changeCount(0);
   };
 
   const defaultOptions = {
