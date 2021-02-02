@@ -13,6 +13,11 @@ const inventoryReducer = (state, action) => {
         if (d.id === action.payload.id) d.count = action.payload.newCount;
         return d;
       });
+    case "clearCount":
+      return state.map((d) => {
+        d.count = 0;
+        return d;
+      });
     default:
       return state;
   }
@@ -35,8 +40,9 @@ const InventoryProvider = (props) => {
   // const num5 = useKeyPress("5");
 
   useEffect(() => {
+    console.log(small);
     return () => {};
-  }, []);
+  }, [small]);
 
   const value = React.useMemo(() => {
     return { small, inventory, dispatch };

@@ -1,4 +1,5 @@
 import React from "react";
+import ClearInventory from "./components/ClearInventory";
 
 import { Materials } from "./components/Materials";
 
@@ -10,7 +11,7 @@ function App() {
       <div className="max-w-lg rounded overflow-hidden shadow-lg mx-auto mt-2">
         <div className="px-6 py-4 ">
           <div className="font-bold text-orange-500 text-xl mb-0 text-center">
-            Material Calculator
+            Material Calculator <ClearInventory />
           </div>
         </div>
 
