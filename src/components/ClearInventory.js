@@ -5,11 +5,7 @@ const ClearInventory = () => {
   const { dispatch } = useInventory();
 
   return (
-    <button
-      type="reset"
-      onClick={() => dispatch({ type: "clearCount" })}
-      className="btn btn-default p-2 btn-icon bg-red-500 hover:bg-red-600 text-white space-x-1"
-    >
+    <button type="reset" onClick={() => dispatch({ type: "clearCount" })}>
       <span>x </span>
     </button>
   );

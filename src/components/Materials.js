@@ -37,18 +37,14 @@ export const Materials = () => {
   // const num5 = useKeyPress('5');
 
   return (
-    <table className="min-w-full divide-y divide-gray-200">
+    <table>
       <thead>
-        <tr>
-          <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-            Material
-          </th>
-          <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-            Count
-          </th>
+        <tr className="bg-green-700 text-white">
+          <th>Material</th>
+          <th>Count</th>
         </tr>
       </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
+      <tbody>
         {inventory.map((m) => (
           <Material m={m} key={m.name + m.volume} />
         ))}
