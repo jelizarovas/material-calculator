@@ -37,7 +37,7 @@ export const Material = ({ m }) => {
   return (
     <tr>
       <td>
-        <div className="flex align-middle">
+        <div className="flex align-middle w-60">
           <div className="p-1">
             <img
               className="max-h-4 w-4"
@@ -50,7 +50,7 @@ export const Material = ({ m }) => {
               {name}{" "}
               {/* <div className={tooltip ? "" : "hidden"}>
                 <div>
-                  {w && d && h ? `W: ${w}", D: ${d}", H: ${h}" ` : description}
+                {w && d && h ? `W: ${w}", D: ${d}", H: ${h}" ` : description}
                 </div>{" "}
               </div> */}
               {/*  */}

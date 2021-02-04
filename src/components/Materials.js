@@ -37,18 +37,20 @@ export const Materials = () => {
   // const num5 = useKeyPress('5');
 
   return (
-    <table>
-      <thead>
-        <tr className="bg-green-700 text-white">
-          <th>Material</th>
-          <th>Count</th>
-        </tr>
-      </thead>
-      <tbody>
-        {inventory.map((m) => (
-          <Material m={m} key={m.name + m.volume} />
-        ))}
-      </tbody>
-    </table>
+    <div className="flex p-5 justify-center  align-center ">
+      <table className="rounded-md ">
+        <thead className="">
+          <tr className="bg-green-700 text-white">
+            <th>Material</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white">
+          {inventory.map((m) => (
+            <Material m={m} key={m.name + m.volume} />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
