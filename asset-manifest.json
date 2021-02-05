@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/material-calculator/static/css/main.b37609ef.chunk.css",
-    "main.js": "/material-calculator/static/js/main.2b253fba.chunk.js",
-    "main.js.map": "/material-calculator/static/js/main.2b253fba.chunk.js.map",
+    "main.css": "/material-calculator/static/css/main.877765ea.chunk.css",
+    "main.js": "/material-calculator/static/js/main.cdc47fb3.chunk.js",
+    "main.js.map": "/material-calculator/static/js/main.cdc47fb3.chunk.js.map",
     "runtime-main.js": "/material-calculator/static/js/runtime-main.ef500178.js",
     "runtime-main.js.map": "/material-calculator/static/js/runtime-main.ef500178.js.map",
-    "static/js/2.85c0f83d.chunk.js": "/material-calculator/static/js/2.85c0f83d.chunk.js",
-    "static/js/2.85c0f83d.chunk.js.map": "/material-calculator/static/js/2.85c0f83d.chunk.js.map",
+    "static/js/2.a78dd3cd.chunk.js": "/material-calculator/static/js/2.a78dd3cd.chunk.js",
+    "static/js/2.a78dd3cd.chunk.js.map": "/material-calculator/static/js/2.a78dd3cd.chunk.js.map",
     "index.html": "/material-calculator/index.html",
-    "static/css/main.b37609ef.chunk.css.map": "/material-calculator/static/css/main.b37609ef.chunk.css.map",
-    "static/js/2.85c0f83d.chunk.js.LICENSE.txt": "/material-calculator/static/js/2.85c0f83d.chunk.js.LICENSE.txt"
+    "static/css/main.877765ea.chunk.css.map": "/material-calculator/static/css/main.877765ea.chunk.css.map",
+    "static/js/2.a78dd3cd.chunk.js.LICENSE.txt": "/material-calculator/static/js/2.a78dd3cd.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ef500178.js",
-    "static/js/2.85c0f83d.chunk.js",
-    "static/css/main.b37609ef.chunk.css",
-    "static/js/main.2b253fba.chunk.js"
+    "static/js/2.a78dd3cd.chunk.js",
+    "static/css/main.877765ea.chunk.css",
+    "static/js/main.cdc47fb3.chunk.js"
   ]
 }
