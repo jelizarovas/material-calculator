@@ -9,8 +9,10 @@ export const Input = ({
   type = "text",
   defaultValue,
   step,
+  value,
+  onChange,
 }) => {
-  const [value, setValue] = useState(defaultValue || "");
+  // const [value, setValue] = useState(defaultValue || "");
 
   return (
     <div className="relative text-gray-600 focus-within:text-red-400 w-100 m-2">
@@ -24,13 +26,20 @@ export const Input = ({
         placeholder={placeholder}
         autoComplete="off"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={onChange}
         step={step}
       />
       {value.length > 0 ? (
         <span
           className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100"
-          onClick={() => setValue("")}
+          onClick={() =>
+            onChange({
+              target: {
+                name,
+                value: "",
+              },
+            })
+          }
         >
           <Clear />{" "}
         </span>

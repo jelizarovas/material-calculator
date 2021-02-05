@@ -6,7 +6,13 @@ import { Client } from "./components/Client";
 
 import { InventoryProvider } from "./components/Providers/InventoryProvider";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import { Rates } from "./components/Rates";
 
 function App() {
@@ -49,6 +55,7 @@ function App() {
           </div>
 
           <Switch>
+            <Route exact path="/" render={() => <Redirect to="/client" />} />
             <Route path="/materials">
               <ClearInventory />
               <Materials />
