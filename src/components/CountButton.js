@@ -41,7 +41,7 @@ const CountButton = ({ count, changeCount }) => {
           type="number"
           name="custom-input-number"
           className={clsx(
-            "outline-none bg-gray-100 focus:outline-none text-center w-full  font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700",
+            "outline-none bg-gray-100 bg-opacity-50 focus:outline-none text-center w-full  font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700",
             count > 0 && "bg-yellow-300"
           )}
           onChange={onChange}
