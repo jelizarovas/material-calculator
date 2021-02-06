@@ -29,7 +29,7 @@ export const Input = ({
         onChange={onChange}
         step={step}
       />
-      {value.length > 0 ? (
+      {value.length > 0 || (type === "number" && value > 0) ? (
         <span
           className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100"
           onClick={() =>
@@ -41,7 +41,7 @@ export const Input = ({
             })
           }
         >
-          <Clear />{" "}
+          <Clear />
         </span>
       ) : null}
     </div>

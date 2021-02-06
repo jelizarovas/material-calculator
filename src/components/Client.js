@@ -6,43 +6,27 @@ import {
   Phone,
   Home,
   LocalShipping,
-  CalendarToday,
-  AccessTime,
-  Clear,
 } from "@material-ui/icons/";
 
-const reducer = (state, { field, value }) => {
-  return {
-    ...state,
-    [field]: value,
-  };
-};
-
-const initialState = {
-  fullName: "",
-  phoneNumber: "",
-  email: "",
-  originAddress: "",
-  destinationAddress: "",
-};
+import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
 export const Client = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const onChange = (e) =>
-    dispatch({ field: e.target.name, value: e.target.value });
-
+  const client = useClient();
+  const dispatch = useClientDispatch();
   const {
     fullName,
     phoneNumber,
     email,
     originAddress,
     destinationAddress,
-  } = state;
+  } = client;
+
+  const onChange = (e) =>
+    dispatch({ field: e.target.name, value: e.target.value });
 
   return (
     <div className="md:container md:mx-auto">
-      <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/3 flex-row ">
+      <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/2 flex-row ">
         <form action="" method="post">
           <h2>Personal Info</h2>
           <Input
@@ -84,7 +68,7 @@ export const Client = () => {
             placeholder="End Point (Destination)"
           />
         </form>
-        <pre>{JSON.stringify(state, 0, 2)}</pre>
+        {/* <pre>{client && JSON.stringify(client, 0, 2)}</pre> */}
       </div>
     </div>
   );

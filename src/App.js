@@ -3,8 +3,10 @@ import ClearInventory from "./components/ClearInventory";
 
 import { Materials } from "./components/Materials";
 import { Client } from "./components/Client";
+import { Overview } from "./components/Overview";
 
 import { InventoryProvider } from "./components/Providers/InventoryProvider";
+import { ClientProvider } from "./components/Providers/ClientProvider";
 
 import {
   BrowserRouter as Router,
@@ -41,35 +43,40 @@ function App() {
                     <Link to="/rates">Rates</Link>
                   </li>
                   <li className="px-2">
-                    <Link to="/rates">Inventory</Link>
+                    <Link to="/inventory">Inventory</Link>
                   </li>
                   <li className="px-2">
                     <Link to="/materials">Materials</Link>
                   </li>
-                  {/* <li className="px-2">
+                  <li className="px-2">
                     <Link to="/overview">Overview</Link>
-                  </li> */}
+                  </li>
                 </ul>
               </nav>
             </div>
           </div>
 
-          <Switch>
-            <Route exact path="/" render={() => <Redirect to="/client" />} />
-            <Route path="/materials">
-              <ClearInventory />
-              <Materials />
-            </Route>
-            <Route path="/rates">
-              <Rates />
-            </Route>
-            <Route path="/client">
-              <Client />
-            </Route>
-            <Route path="/overview">
-              <Overview />
-            </Route>
-          </Switch>
+          <ClientProvider>
+            <Switch>
+              <Route exact path="/" render={() => <Redirect to="/client" />} />
+              <Route path="/materials">
+                <ClearInventory />
+                <Materials />
+              </Route>
+              <Route path="/rates">
+                <Rates />
+              </Route>
+              <Route path="/client">
+                <Client />
+              </Route>
+              <Route path="/inventory">
+                <Inventory />
+              </Route>
+              <Route path="/overview">
+                <Overview />
+              </Route>
+            </Switch>
+          </ClientProvider>
           {/* </div> */}
         </Router>
       </InventoryProvider>
@@ -78,10 +85,6 @@ function App() {
 }
 export default App;
 
-function Overview() {
-  return <h2>Overview</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
+function Inventory() {
+  return <h2>Inventory</h2>;
 }
