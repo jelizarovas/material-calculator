@@ -4,6 +4,7 @@ import ClearInventory from "./components/ClearInventory";
 import { Materials } from "./components/Materials";
 import { Client } from "./components/Client";
 import { Overview } from "./components/Overview";
+import { Inventory } from "./components/Inventory";
 
 import { InventoryProvider } from "./components/Providers/InventoryProvider";
 import { ClientProvider } from "./components/Providers/ClientProvider";
@@ -84,7 +85,3 @@ function App() {
   );
 }
 export default App;
-
-function Inventory() {
-  return <h2>Inventory</h2>;
-}
