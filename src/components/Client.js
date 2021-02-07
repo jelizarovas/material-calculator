@@ -3,6 +3,7 @@ import { Input } from "./Input";
 import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation, SpeakerNotes } from "@material-ui/icons/";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
+import { TextArea } from "./TextArea";
 
 export const Client = () => {
   const client = useClient();
@@ -48,7 +49,8 @@ export const Client = () => {
             Icon={AddLocation}
             placeholder="Other Stops"
           />
-          <Input name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" />
+          {/* <Input name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" /> */}
+          <TextArea name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" />
         </form>
         {/* <pre>{client && JSON.stringify(client, 0, 2)}</pre> */}
       </div>
