@@ -1,19 +1,8 @@
-import React, { useState } from "react";
-// import { Icon } from "@material-ui/core";
-import { EmojiPeople, Clear, Email, Phone } from "@material-ui/icons/";
+import React from "react";
 
-export const Input = ({
-  name,
-  placeholder,
-  Icon,
-  type = "text",
-  defaultValue,
-  step,
-  value,
-  onChange,
-}) => {
-  // const [value, setValue] = useState(defaultValue || "");
+import { Clear } from "@material-ui/icons/";
 
+export const Input = ({ name, placeholder, Icon, type = "text", step, value, onChange }) => {
   return (
     <div className="relative text-gray-600 focus-within:text-red-400 w-100 m-2">
       <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -32,14 +21,7 @@ export const Input = ({
       {value.length > 0 || (type === "number" && value > 0) ? (
         <span
           className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100"
-          onClick={() =>
-            onChange({
-              target: {
-                name,
-                value: "",
-              },
-            })
-          }
+          onClick={() => onChange({ target: { name, value: "" } })}
         >
           <Clear />
         </span>

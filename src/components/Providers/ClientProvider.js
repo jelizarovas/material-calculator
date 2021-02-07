@@ -1,11 +1,23 @@
 import React, { useContext, useReducer, createContext } from "react";
 
 const initialState = {
-  fullName: "Arnas Jelizarovas",
-  phoneNumber: 8605150847,
+  fullName: "",
+  phoneNumber: "",
   email: "",
   originAddress: "",
   destinationAddress: "",
+  additionalStops: "",
+  notes: "",
+
+  estimateIsBinding: false,
+  valuation: "basic",
+
+  valuationCost: "",
+  valuationCostWithDeductible: "",
+
+  totalValuation: "",
+
+  personnel: [],
 
   date: getFormattedDate(new Date()),
   hourlyRate: "",
@@ -13,9 +25,38 @@ const initialState = {
   travelFee: "",
 
   startTime: "",
+  arriveTime: "",
+  departTime: "",
   endTime: "",
-  breaks: "",
+  breakTime: "",
   totalHours: "",
+
+  distance: "",
+  grossWeight: "",
+  tareWeight: "",
+  netWeight: "",
+  mileageRate: "",
+
+  totalTransportation: "",
+
+  materials: {},
+  totalMaterials: "",
+  otherFees: {},
+  totalOtherFees: "",
+
+  subtotal: "",
+  adjustment: "",
+  totalMovingCharges: "",
+  totalAmountPaid: "",
+  remainingBalance: "",
+
+  signature: "",
+  initials: "",
+  crewSignature: "",
+
+  agreedToEstimate: true,
+  crewLeadAssigned: true,
+  jobComplete: true,
 };
 
 const ClientContext = createContext();
@@ -31,9 +72,7 @@ const useClient = () => {
 const useClientDispatch = () => {
   const context = useContext(ClientDispatchContext);
   if (context === undefined) {
-    throw new Error(
-      "useClientDispatch must be used within a ClientDispatchProvider"
-    );
+    throw new Error("useClientDispatch must be used within a ClientDispatchProvider");
   }
   return context;
 };
@@ -50,9 +89,7 @@ const ClientProvider = ({ children }) => {
 
   return (
     <ClientContext.Provider value={state}>
-      <ClientDispatchContext.Provider value={dispatch}>
-        {children}
-      </ClientDispatchContext.Provider>
+      <ClientDispatchContext.Provider value={dispatch}>{children}</ClientDispatchContext.Provider>
     </ClientContext.Provider>
   );
 };
