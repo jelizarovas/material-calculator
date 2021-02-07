@@ -49,10 +49,8 @@ export const Client = () => {
             Icon={AddLocation}
             placeholder="Other Stops"
           />
-          {/* <Input name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" /> */}
           <TextArea name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" />
         </form>
-        {/* <pre>{client && JSON.stringify(client, 0, 2)}</pre> */}
       </div>
     </div>
   );

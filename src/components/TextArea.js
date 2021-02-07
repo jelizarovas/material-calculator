@@ -26,7 +26,6 @@ export const TextArea = ({ name, placeholder, Icon, value, onChange }) => {
         cols="50"
         value={value}
         onChange={onChange}
-        minHeight={400}
         className=" w-full h-30 px-2 text-sm text-black bg-white rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
       />
     </div>

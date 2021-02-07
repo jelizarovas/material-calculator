@@ -64,6 +64,11 @@ async function fillForm(client) {
   form.getTextField("Destination").setText("     " + client.destinationAddress);
   form.getTextField("Notes").setText("     " + client.notes);
 
+  form.getTextField("Shipment Value").setText(client.shipmentValue.toString());
+  form.getTextField("valuation with deductible").setText(client.valuationCostWithDeductible.toString());
+  form.getTextField("valuation no deductible").setText(client.valuationCost.toString());
+  form.getTextField("Selected Valuation").setText(client.totalValuation.toString());
+
   //ESTIMATE SIGNATURE
   if (client.agreedToEstimate === true) {
     firstPage.drawImage(signatureImage, {
@@ -72,7 +77,7 @@ async function fillForm(client) {
       height: 35,
       width: 150,
     });
-    firstPage.drawText(client.date, {
+    firstPage.drawText(client.estimateAgreedDate || client.date, {
       x: 238,
       y: 103,
       size: 12,

@@ -10,7 +10,7 @@ const TravelTime = () => {
   return (
     <select className="m-2 w-1/2  py-2 pr-6 text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900">
       {times.map((t) => (
-        <option>⏰ {t}</option>
+        <option key={t}>⏰ {t}</option>
       ))}
     </select>
   );

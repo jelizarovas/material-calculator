@@ -6,6 +6,7 @@ import { Client } from "./components/Client";
 import { Overview } from "./components/Overview";
 import { BillOfLading } from "./components/BillOfLading";
 import { Inventory } from "./components/Inventory";
+import { Estimate } from "./components/Estimate";
 
 import { InventoryProvider } from "./components/Providers/InventoryProvider";
 import { ClientProvider } from "./components/Providers/ClientProvider";
@@ -41,6 +42,9 @@ function App() {
                     <Link to="/inventory">Inventory</Link>
                   </li>
                   <li className="px-2">
+                    <Link to="/estimate">Estimate</Link>
+                  </li>
+                  <li className="px-2">
                     <Link to="/materials">Materials</Link>
                   </li>
                   <li className="px-2">
@@ -69,6 +73,9 @@ function App() {
               </Route>
               <Route path="/inventory">
                 <Inventory />
+              </Route>
+              <Route path="/estimate">
+                <Estimate />
               </Route>
               <Route path="/overview">
                 <Overview />

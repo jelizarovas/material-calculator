@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, createContext } from "react";
+import React, { useContext, useReducer, createContext, useEffect } from "react";
 
 const initialState = {
   fullName: "",
@@ -12,8 +12,11 @@ const initialState = {
   estimateIsBinding: false,
   valuation: "basic",
 
+  valuationRate: 1.4,
   valuationCost: "",
+  valuationRateWithDeductible: 1.15,
   valuationCostWithDeductible: "",
+  shipmentValue: "",
 
   totalValuation: "",
 
@@ -37,6 +40,8 @@ const initialState = {
   netWeight: "",
   mileageRate: "",
 
+  estimatedWeight: "",
+
   totalTransportation: "",
 
   materials: {},
@@ -55,6 +60,7 @@ const initialState = {
   crewSignature: "",
 
   agreedToEstimate: true,
+  estimateAgreedDate: getFormattedDate(new Date()),
   crewLeadAssigned: true,
   jobComplete: true,
 };
@@ -86,6 +92,49 @@ const clientReducer = (state, { field, value }) => {
 
 const ClientProvider = ({ children }) => {
   const [state, dispatch] = useReducer(clientReducer, initialState);
+
+  const {
+    valuation,
+    valuationCost,
+    valuationCostWithDeductible,
+    shipmentValue,
+    valuationRate,
+    valuationRateWithDeductible,
+    estimatedWeight,
+  } = state;
+
+  useEffect(() => {
+    dispatch({
+      field: "totalValuation",
+      value: valuation === "basic" ? 0 : valuation === "replacement" ? valuationCost : valuationCostWithDeductible,
+    });
+  }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
+
+  useEffect(() => {
+    // if (shipmentValue < estimatedWeight * 5) {
+    //   dispatch({
+    //     field: "shipmentValue",
+    //     value: estimatedWeight * 5,
+    //   });
+    // }
+    dispatch({
+      field: "valuationCost",
+      value: Math.ceil((shipmentValue / 100) * valuationRate * 100) / 100,
+    });
+    dispatch({
+      field: "valuationCostWithDeductible",
+      value: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
+    });
+  }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
+
+  useEffect(() => {
+    if (shipmentValue < estimatedWeight * 5) {
+      dispatch({
+        field: "shipmentValue",
+        value: estimatedWeight * 5,
+      });
+    }
+  }, [estimatedWeight, shipmentValue, dispatch]);
 
   return (
     <ClientContext.Provider value={state}>
