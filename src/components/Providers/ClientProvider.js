@@ -1,11 +1,11 @@
 import React, { useContext, useReducer, createContext, useEffect } from "react";
 
 const initialState = {
-  fullName: "Kristy Bell",
-  phoneNumber: "(417) 343-7630",
-  email: "kkb747s@hotmail.com",
-  originAddress: "2717 Western Ave Apt 101 Seattle, WA 98121",
-  destinationAddress: "7719 16th Ave NW Seattle, WA 98117",
+  fullName: "Christopher Hammer",
+  phoneNumber: "(417) 343-3327",
+  email: "ch8978hammerindustries@hotmail.com",
+  originAddress: "21 Main St Apt 101 Seattle, WA 98121",
+  destinationAddress: "222 216th Ave NW Seattle, WA 98117",
   additionalStops: "Wingstop",
   notes:
     "Large 1 Bedroom condo/aprt. (Total 750 c.f. / 5250 lbs) (with Living room, Office and Dining room). 2 Movers, 1 Trucks",
