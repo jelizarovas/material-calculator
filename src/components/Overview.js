@@ -69,6 +69,75 @@ async function fillForm(client) {
   form.getTextField("valuation no deductible").setText(client.valuationCost.toString());
   form.getTextField("Selected Valuation").setText(client.totalValuation.toString());
 
+  form.getTextField("PERSONNEL").setText("     " + client.personnel.join(", "));
+
+  form.getTextField("Hourly Time Start").setText(client.startTime);
+  form.getTextField("Hourly Time Arrive").setText(client.arriveTime);
+  form.getTextField("Hourly Time Depart").setText(client.departTime);
+  form.getTextField("Hourly Time End").setText(client.endTime);
+  form.getTextField("Hourly Time Breaks").setText(client.breakTime);
+  form.getTextField("Hourly Time TOTAL").setText(client.totalHours);
+  form.getTextField("Travel Fee").setText(client.travelFee);
+  form.getTextField("Hourly Rate").setText(client.hourlyRate);
+  form.getTextField("Total Transportation").setText(client.totalTransportation);
+
+  form.getTextField("TOTAL PACKING  MATERIAL").setText(client.totalMaterials);
+  form.getTextField("TOTAL OTHER").setText(client.totalOtherFees);
+  form.getTextField("SUBTOTAL 1234").setText(client.subtotal);
+  form.getTextField("Adjustment").setText(client.adjustment);
+  form.getTextField("TOTAL MOVING CHARGES").setText(client.totalMovingCharges);
+  form.getTextField("TOTAL AMOUNT PAID").setText(client.totalAmountPaid);
+  form.getTextField("TIPS  BALANCE DUE").setText(client.remainingBalance);
+
+  form.getTextField("Mileage Miles").setText(client.distance);
+  form.getTextField("Mileage Weight Gross").setText(client.grossWeight);
+  form.getTextField("Mileage Weight Tare").setText(client.tareWeight);
+  form.getTextField("Mileage Weight Net").setText(client.netWeight);
+  form.getTextField("Mileage Rate").setText(client.mileageRate);
+
+  form.getTextField("QTY SMALL").setText(client.materials.small.units);
+  form.getTextField("QTY MEDIUM").setText(client.materials.medium.units);
+  form.getTextField("QTY LARGE").setText(client.materials.large.units);
+  form.getTextField("QTY DISHPACK").setText(client.materials.dishpack.units);
+  form.getTextField("QTY MIRROR PACK").setText(client.materials.mirrorPack.units);
+  form.getTextField("QTY MATTRESS BAG").setText(client.materials.mattressBag.units);
+  form.getTextField("QTY WARDROBE").setText(client.materials.wardrobe.units);
+  form.getTextField("QTY Carpet Protection").setText(client.materials.carpetProtection.units);
+  form.getTextField("QTY Custom").setText(client.materials.custom.units);
+  form.getTextField("Custom").setText(client.materials.custom.text);
+
+  form.getTextField("RATE SMALL").setText(client.materials.small.rate);
+  form.getTextField("RATE MEDIUM").setText(client.materials.medium.rate);
+  form.getTextField("RATE LARGE").setText(client.materials.large.rate);
+  form.getTextField("RATE DISHPACK").setText(client.materials.dishpack.rate);
+  form.getTextField("RATE MIRROR PACK").setText(client.materials.mirrorPack.rate);
+  form.getTextField("RATE MATTRESS BAG").setText(client.materials.mattressBag.rate);
+  form.getTextField("RATE WARDROBE").setText(client.materials.wardrobe.rate);
+  form.getTextField("RATE Carpet Protection").setText(client.materials.carpetProtection.rate);
+  form.getTextField("RATE Custom").setText(client.materials.custom.rate);
+
+  form.getTextField("TOTAL ITEM 15 CU SMALL").setText(client.materials.small.total);
+  form.getTextField("TOTAL ITEM 30 CU MEDIUM").setText(client.materials.medium.total);
+  form.getTextField("TOTAL ITEM 45 CU LARGE").setText(client.materials.large.total);
+  form.getTextField("TOTAL ITEM DISHPACK").setText(client.materials.dishpack.total);
+  form.getTextField("TOTAL ITEM MIRROR PACK").setText(client.materials.mirrorPack.total);
+  form.getTextField("TOTAL ITEM MATTRESS BAG").setText(client.materials.mattressBag.total);
+  form.getTextField("TOTAL ITEM WARDROBE").setText(client.materials.wardrobe.total);
+  form.getTextField("TOTAL ITEM Carpet Protection").setText(client.materials.carpetProtection.total);
+  form.getTextField("TOTAL ITEM Custom").setText(client.materials.custom.total);
+
+  form.getTextField("AMOUNT Piano").setText(client.otherFees.piano);
+  form.getTextField("AMOUNT Removal").setText(client.otherFees.removal);
+  form.getTextField("AMOUNT Hoist").setText(client.otherFees.hoist);
+  form.getTextField("AMOUNT Ferry").setText(client.otherFees.ferry);
+  form.getTextField("AMOUNT Storage").setText(client.otherFees.storage);
+  form.getTextField("AMOUNT CUSTOM 1").setText(client.otherFees.custom1amount);
+  form.getTextField("AMOUNT CUSTOM 2").setText(client.otherFees.custom2amount);
+  form.getTextField("AMOUNT CUSTOM 3").setText(client.otherFees.custom3amount);
+  form.getTextField("MISC CUSTOM 1").setText(client.otherFees.custom1text);
+  form.getTextField("MISC CUSTOM 2").setText(client.otherFees.custom2text);
+  form.getTextField("MISC CUSTOM 3").setText(client.otherFees.custom3text);
+
   //ESTIMATE SIGNATURE
   if (client.agreedToEstimate === true) {
     firstPage.drawImage(signatureImage, {
