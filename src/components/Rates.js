@@ -128,7 +128,18 @@ export const Rates = () => {
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
-  const { date, hourlyRate, travelFee, totalHours, startTime, endTime } = client;
+  const {
+    isTravelFeeFixed,
+    date,
+    hourlyRate,
+    travelFee,
+    totalHours,
+    startTime,
+    endTime,
+    arriveTime,
+    departTime,
+    breakTime,
+  } = client;
 
   return (
     <div className="md:container md:mx-auto">
@@ -157,23 +168,78 @@ export const Rates = () => {
             Icon={() => <span className="select-none text-bold">$/hr</span>}
             step="5"
           />
+          <input
+            name="isTravelFeeFixed"
+            className="mr-5 ml-3"
+            checked={isTravelFeeFixed}
+            onChange={() => {
+              dispatch({ field: "isTravelFeeFixed", value: !isTravelFeeFixed });
+            }}
+            placeholder="Total Valuation Cost"
+            type="checkbox"
+          />
+          <label htmlFor="isTravelFeeFixed">Fixed Travel Fee?</label>
+          {isTravelFeeFixed ? (
+            <div className="flex">
+              <div className="flex-row">
+                <label htmlFor="startTime" className=" px-2">
+                  Fee
+                </label>
+                <Input
+                  name="travelFee"
+                  value={travelFee}
+                  onChange={onChange}
+                  placeholder="Travel Fee"
+                  type="number"
+                  Icon={LocalShipping}
+                />
+              </div>
+              <div className="flex-row">
+                <label htmlFor="endTime" className=" px-2">
+                  or Travel Time
+                </label>
+
+                <TravelTime />
+              </div>
+            </div>
+          ) : (
+            <div className="flex">
+              <div className="flex-row">
+                <label htmlFor="startTime" className=" px-2">
+                  Start
+                </label>
+                <Input name="startTime" value={startTime} onChange={onChange} placeholder="Start" Icon={AccessTime} />
+              </div>
+              <div className="flex-row">
+                <label htmlFor="endTime" className=" px-2">
+                  End
+                </label>
+                <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
+              </div>
+            </div>
+          )}
+
+          {/* <h2>Time</h2> */}
+
           <div className="flex">
-            <Input
-              name="travelFee"
-              value={travelFee}
-              onChange={onChange}
-              placeholder="Travel Fee"
-              type="number"
-              Icon={LocalShipping}
-            />
-            <TravelTime />
+            <div className="flex-row">
+              <label htmlFor="arriveTime" className=" px-2">
+                Arrive
+              </label>
+              <Input name="arriveTime" value={arriveTime} onChange={onChange} placeholder="Arrive" Icon={AccessTime} />
+            </div>
+            <div className="flex-row">
+              <label htmlFor="departTime" className=" px-2">
+                Depart
+              </label>
+              <Input name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={AccessTime} />
+            </div>
           </div>
-
-          <h2>Time</h2>
-
-          <div className="flex">
-            <Input name="startTime" value={startTime} onChange={onChange} placeholder="Start" Icon={AccessTime} />
-            <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
+          <div className="flex-row">
+            <label htmlFor="breakTime" className=" px-2">
+              Breaks
+            </label>
+            <Input name="breakTime" value={breakTime} onChange={onChange} placeholder="Breaks" Icon={AccessTime} />
           </div>
           <h2>Totals</h2>
           <Input name="totalHours" value={totalHours} onChange={onChange} placeholder="Total Hours" Icon={AccessTime} />

@@ -23,8 +23,11 @@ const initialState = {
 
   personnel: ["Arnas", "Noel", "Logan"],
 
+  jobType: "local", // || "longDistance" || flatRate
+
   date: getFormattedDate(new Date()),
   hourlyRate: "135",
+  isTravelFeeFixed: true,
   travelTime: "1:15",
   travelFee: "168.75",
 
