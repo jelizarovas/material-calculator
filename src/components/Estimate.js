@@ -114,7 +114,7 @@ export const Estimate = () => {
             )}
           </div>
         </form>
-        <pre className="max-w-md overflow-hidden text-xs bg-white">{client && JSON.stringify(client, 0, 2)}</pre>
+        {/* <pre className="max-w-md overflow-hidden text-xs bg-white">{client && JSON.stringify(client, 0, 2)}</pre> */}
       </div>
     </div>
   );
