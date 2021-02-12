@@ -1,126 +1,37 @@
 import React from "react";
 import { Input } from "./Input";
 import { LocalShipping, CalendarToday, AccessTime, Money } from "@material-ui/icons/";
+import dayjs from "dayjs";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
-const TravelTime = () => {
-  const times = ["0:15", "0:30", "0:45", "1:00", "1:15", "1:30", "1:45", "2:00"];
+const TravelTime = ({ onChange, travelTime }) => {
+  const times = [
+    { label: "0:15", value: 0.25 },
+    { label: "0:30", value: 0.5 },
+    { label: "0:45", value: 0.75 },
+    { label: "1:00", value: 1 },
+    { label: "1:15", value: 1.25 },
+    { label: "1:30", value: 1.5 },
+    { label: "1:45", value: 1.75 },
+    { label: "2:00", value: 2 },
+  ];
 
   return (
-    <select className="m-2 w-1/2  py-2 pr-6 text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900">
+    <select
+      name="travelTime"
+      value={travelTime}
+      onChange={onChange}
+      className="m-2 w-1/2  py-2 pr-6 text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900"
+    >
       {times.map((t) => (
-        <option key={t}>⏰ {t}</option>
+        <option key={t.label} value={t.value}>
+          ⏰ {t.label.toString()}
+        </option>
       ))}
     </select>
   );
 };
-
-// const DropDown = () => {
-//   return (
-//     <div>
-//       <label id="listbox-label" className="block text-sm font-medium text-gray-700">
-//         Assigned to
-//       </label>
-//       <div className="mt-1 relative">
-//         <button
-//           type="button"
-//           aria-haspopup="listbox"
-//           aria-expanded="true"
-//           aria-labelledby="listbox-label"
-//           className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//         >
-//           <span className="flex items-center">
-//             <img
-//               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-//               alt=""
-//               className="flex-shrink-0 h-6 w-6 rounded-full"
-//             />
-//             <span className="ml-3 block truncate">Tom Cook</span>
-//           </span>
-//           <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-//             {/* Heroicon name: solid/selector */}
-//             <svg
-//               className="h-5 w-5 text-gray-400"
-//               xmlns="http://www.w3.org/2000/svg"
-//               viewBox="0 0 20 20"
-//               fill="currentColor"
-//               aria-hidden="true"
-//             >
-//               <path
-//                 fillRule="evenodd"
-//                 d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-//                 clipRule="evenodd"
-//               />
-//             </svg>
-//           </span>
-//         </button>
-//         {/*
-//       Select popover, show/hide based on select state.
-
-//       Entering: ""
-//         From: ""
-//         To: ""
-//       Leaving: "transition ease-in duration-100"
-//         From: "opacity-100"
-//         To: "opacity-0"
-//     */}
-//         <div className="absolute mt-1 w-full rounded-md bg-white shadow-lg">
-//           <ul
-//             tabIndex={-1}
-//             role="listbox"
-//             aria-labelledby="listbox-label"
-//             aria-activedescendant="listbox-item-3"
-//             className="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-//           >
-//             {/*
-//           Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
-
-//           Highlighted: "text-white bg-indigo-600", Not Highlighted: "text-gray-900"
-//         */}
-//             <li
-//               id="listbox-item-0"
-//               role="option"
-//               className="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9"
-//             >
-//               <div className="flex items-center">
-//                 <img
-//                   src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-//                   alt=""
-//                   className="flex-shrink-0 h-6 w-6 rounded-full"
-//                 />
-//                 {/* Selected: "font-semibold", Not Selected: "font-normal" */}
-//                 <span className="ml-3 block font-normal truncate">Wade Cooper</span>
-//               </div>
-//               {/*
-//             Checkmark, only display for selected option.
-
-//             Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-//           */}
-//               <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-//                 {/* Heroicon name: solid/check */}
-//                 <svg
-//                   className="h-5 w-5"
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   viewBox="0 0 20 20"
-//                   fill="currentColor"
-//                   aria-hidden="true"
-//                 >
-//                   <path
-//                     fillRule="evenodd"
-//                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-//                     clipRule="evenodd"
-//                   />
-//                 </svg>
-//               </span>
-//             </li>
-//             {/* More items... */}
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export const Rates = () => {
   const client = useClient();
@@ -133,6 +44,7 @@ export const Rates = () => {
     date,
     hourlyRate,
     travelFee,
+    travelTime,
     totalHours,
     startTime,
     endTime,
@@ -223,7 +135,7 @@ export const Rates = () => {
                       or Travel Time
                     </label>
 
-                    <TravelTime />
+                    <TravelTime onChange={onChange} travelTime={travelTime} />
                   </div>
                 </div>
               ) : (
@@ -248,9 +160,7 @@ export const Rates = () => {
                   </div>
                 </div>
               )}
-
               {/* <h2>Time</h2> */}
-
               <div className="flex">
                 <div className="flex-row">
                   <label htmlFor="arriveTime" className=" px-2">
@@ -291,7 +201,9 @@ export const Rates = () => {
                 placeholder="Total Hours"
                 Icon={AccessTime}
               />
-
+              <h2>Total hours</h2>
+              {/* {arriveTime} to {departTime} ={" "} */}
+              {/* {timeToDecimal(departTime) - timeToDecimal(arriveTime) - timeToDecimal(breakTime)} */}
               <h2 className="text-4xl mt-10">
                 Total sum is $ {Number(totalHours) * Number(hourlyRate) + Number(travelFee)}
               </h2>
@@ -302,6 +214,13 @@ export const Rates = () => {
     </div>
   );
 };
+
+function timeToDecimal(t) {
+  var arr = t.split(":");
+  var dec = parseInt((arr[1] / 6) * 10, 10);
+
+  return parseFloat(parseInt(arr[0], 10) + "." + (dec < 10 ? "0" : "") + dec);
+}
 
 const FlatRate = ({ flatAmount, onChange }) => {
   return (

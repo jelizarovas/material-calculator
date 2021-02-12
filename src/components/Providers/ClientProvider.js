@@ -29,7 +29,7 @@ const initialState = {
   date: getFormattedDate(new Date()),
   hourlyRate: "135",
   isTravelFeeFixed: true,
-  travelTime: "1:15",
+  travelTime: "1.25",
   travelFee: "168.75",
 
   startTime: "8:00",
@@ -168,6 +168,14 @@ const ClientProvider = ({ children }) => {
     valuationRate,
     valuationRateWithDeductible,
     estimatedWeight,
+    hourlyRate,
+    travelTime,
+    totalHours,
+    startTime,
+    endTime,
+    arriveTime,
+    departTime,
+    breakTime,
   } = state;
 
   useEffect(() => {
@@ -203,6 +211,26 @@ const ClientProvider = ({ children }) => {
     }
   }, [estimatedWeight, shipmentValue, dispatch]);
 
+  useEffect(() => {
+    let dt = timeToDecimal(departTime);
+    const at = timeToDecimal(arriveTime);
+    const bt = timeToDecimal(breakTime);
+
+    if (dt < at) dt += 12;
+
+    dispatch({
+      field: "totalHours",
+      value: convertToHHMM(dt - at - bt),
+    });
+  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, dispatch]);
+
+  useEffect(() => {
+    dispatch({
+      field: "travelFee",
+      value: (Number(hourlyRate) * Number(travelTime)).toString(),
+    });
+  }, [travelTime, hourlyRate, dispatch]);
+
   return (
     <ClientContext.Provider value={state}>
       <ClientDispatchContext.Provider value={dispatch}>{children}</ClientDispatchContext.Provider>
@@ -219,3 +247,23 @@ function getFormattedDate(date) {
 
   return month + "/" + day + "/" + year;
 }
+
+function timeToDecimal(t) {
+  var arr = t.split(":");
+  var dec = parseInt((arr[1] / 6) * 10, 10);
+
+  return parseFloat(parseInt(arr[0], 10) + "." + (dec < 10 ? "0" : "") + dec);
+}
+
+function convertToHHMM(info) {
+  var hrs = parseInt(Number(info));
+  var min = Math.round((Number(info) - hrs) * 60);
+  return hrs + ":" + (min < 10 ? "0" : "") + min;
+}
+
+// function time_convert(num)
+//  {
+//   var hours = Math.floor(num / 60);
+//   var minutes = (num *60)  % 60;
+//   return hours + ":" + minutes;
+// }
