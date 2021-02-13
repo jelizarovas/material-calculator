@@ -1,34 +1,43 @@
 import React from "react";
 import { Input } from "./Input";
 import { LocalShipping, CalendarToday, AccessTime, Money } from "@material-ui/icons/";
-import dayjs from "dayjs";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
-const TravelTime = ({ onChange, travelTime }) => {
+const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
   const times = [
-    { label: "0:15", value: 0.25 },
-    { label: "0:30", value: 0.5 },
-    { label: "0:45", value: 0.75 },
-    { label: "1:00", value: 1 },
-    { label: "1:15", value: 1.25 },
-    { label: "1:30", value: 1.5 },
-    { label: "1:45", value: 1.75 },
-    { label: "2:00", value: 2 },
+    { label: "0:00 ", value: 0 },
+    {
+      label: "0:15",
+      value: 0.25,
+    },
+    { label: "0:30 ", value: 0.5 },
+    { label: "0:45 ", value: 0.75 },
+    { label: "1:00 ", value: 1 },
+    { label: "1:15 ", value: 1.25 },
+    { label: "1:30 ", value: 1.5 },
+    { label: "1:45 ", value: 1.75 },
+    { label: "2:00 ", value: 2 },
   ];
+  if (hourlyRate)
+    times.map((t) => {
+      t.label += ` ($${hourlyRate * t.value})`;
+      return t;
+    });
 
   return (
     <select
       name="travelTime"
       value={travelTime}
       onChange={onChange}
-      className="m-2 w-1/2  py-2 pr-6 text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900"
+      className="m-2 w-full  py-2 pr-6 text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900"
     >
       {times.map((t) => (
         <option key={t.label} value={t.value}>
           ⏰ {t.label.toString()}
         </option>
       ))}
+      <option onSelect={() => console.log("more")}>More...</option>
     </select>
   );
 };
@@ -104,39 +113,43 @@ export const Rates = () => {
                 Icon={() => <span className="select-none text-bold">$/hr</span>}
                 step="5"
               />
-              <input
-                name="isTravelFeeFixed"
-                className="mr-5 ml-3"
-                checked={isTravelFeeFixed}
-                onChange={() => {
-                  dispatch({ field: "isTravelFeeFixed", value: !isTravelFeeFixed });
-                }}
-                placeholder="Total Valuation Cost"
-                type="checkbox"
-              />
-              <label htmlFor="isTravelFeeFixed">Fixed Travel Fee?</label>
+              <div className="flex items-center">
+                <input
+                  name="isTravelFeeFixed"
+                  className="mr-5 ml-3"
+                  checked={isTravelFeeFixed}
+                  onChange={() => {
+                    dispatch({ field: "isTravelFeeFixed", value: !isTravelFeeFixed });
+                  }}
+                  placeholder="Total Valuation Cost"
+                  type="checkbox"
+                />
+                <label htmlFor="isTravelFeeFixed">Fixed?</label>
+              </div>
               {isTravelFeeFixed ? (
-                <div className="flex">
-                  <div className="flex-row">
+                <div className="flex-col">
+                  <div className="flex justify-between">
+                    <label htmlFor="travelTime" className=" px-2 w-full">
+                      Travel Time
+                    </label>
+                  </div>
+                  {/* <div className="flex-row">
                     <label htmlFor="startTime" className=" px-2">
-                      Fee
+                    Fee
                     </label>
                     <Input
-                      name="travelFee"
-                      value={travelFee}
-                      onChange={onChange}
-                      placeholder="Travel Fee"
-                      type="number"
-                      Icon={LocalShipping}
+                    name="travelFee"
+                    value={travelFee}
+                    onChange={onChange}
+                    placeholder="Travel Fee"
+                    type="number"
+                    Icon={LocalShipping}
                     />
-                  </div>
-                  <div className="flex-row">
-                    <label htmlFor="endTime" className=" px-2">
-                      or Travel Time
-                    </label>
+                  </div> */}
+                  {/* <div className="flex-row"> */}
 
-                    <TravelTime onChange={onChange} travelTime={travelTime} />
-                  </div>
+                  <TravelTime name="travelTime" onChange={onChange} travelTime={travelTime} hourlyRate={hourlyRate} />
+                  {/* </div> */}
                 </div>
               ) : (
                 <div className="flex">
@@ -201,12 +214,12 @@ export const Rates = () => {
                 placeholder="Total Hours"
                 Icon={AccessTime}
               />
-              <h2>Total hours</h2>
+              {/* <h2>Total hours</h2> */}
               {/* {arriveTime} to {departTime} ={" "} */}
               {/* {timeToDecimal(departTime) - timeToDecimal(arriveTime) - timeToDecimal(breakTime)} */}
-              <h2 className="text-4xl mt-10">
+              {/* <h2 className="text-4xl mt-10">
                 Total sum is $ {Number(totalHours) * Number(hourlyRate) + Number(travelFee)}
-              </h2>
+              </h2> */}
             </React.Fragment>
           )}
         </form>
@@ -215,12 +228,12 @@ export const Rates = () => {
   );
 };
 
-function timeToDecimal(t) {
-  var arr = t.split(":");
-  var dec = parseInt((arr[1] / 6) * 10, 10);
+// function timeToDecimal(t) {
+//   var arr = t.split(":");
+//   var dec = parseInt((arr[1] / 6) * 10, 10);
 
-  return parseFloat(parseInt(arr[0], 10) + "." + (dec < 10 ? "0" : "") + dec);
-}
+//   return parseFloat(parseInt(arr[0], 10) + "." + (dec < 10 ? "0" : "") + dec);
+// }
 
 const FlatRate = ({ flatAmount, onChange }) => {
   return (
