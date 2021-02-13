@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "./Input";
 import { FitnessCenter } from "@material-ui/icons/";
+import { ChipsInput } from "./ChipsInput";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
@@ -9,11 +10,12 @@ export const Inventory = () => {
   const dispatch = useClientDispatch();
   const { estimatedWeight } = client;
 
-  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) =>
+    dispatch({ field: e.target.name, value: e.target.value });
 
   return (
     <div>
-      Inventory, test
+      Inventory
       <Input
         name="estimatedWeight"
         value={estimatedWeight}
@@ -22,6 +24,9 @@ export const Inventory = () => {
         placeholder="Estimated Weight"
         type="number"
       />
+      <div className="flex">
+        <ChipsInput name="crew" chips={["Arnas", "Logan", "Marc"]} />
+      </div>
     </div>
   );
 };
