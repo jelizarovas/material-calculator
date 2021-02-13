@@ -1,6 +1,6 @@
 import React from "react";
 import { Input } from "./Input";
-import { LocalShipping, CalendarToday, AccessTime, Money } from "@material-ui/icons/";
+import { CalendarToday, AccessTime, Money } from "@material-ui/icons/";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
@@ -52,7 +52,7 @@ export const Rates = () => {
     isTravelFeeFixed,
     date,
     hourlyRate,
-    travelFee,
+    // travelFee,
     travelTime,
     totalHours,
     startTime,

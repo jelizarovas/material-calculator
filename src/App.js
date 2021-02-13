@@ -11,14 +11,14 @@ import { Estimate } from "./components/Estimate";
 import { InventoryProvider } from "./components/Providers/InventoryProvider";
 import { ClientProvider } from "./components/Providers/ClientProvider";
 
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import { Rates } from "./components/Rates";
 
 function App() {
   return (
     <div>
       <InventoryProvider>
-        <Router>
+        <Router basename="/">
           <div className="flex-row justify-center w-screen bg-gray-800 ">
             <div className="text-white p-4 bg-black flex  justify-around">
               <div className="flex cursor-pointer">
