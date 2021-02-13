@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/material-calculator/static/css/main.8071c407.chunk.css",
-    "main.js": "/material-calculator/static/js/main.e5dcb670.chunk.js",
-    "main.js.map": "/material-calculator/static/js/main.e5dcb670.chunk.js.map",
-    "runtime-main.js": "/material-calculator/static/js/runtime-main.ef500178.js",
-    "runtime-main.js.map": "/material-calculator/static/js/runtime-main.ef500178.js.map",
-    "static/js/2.87812a94.chunk.js": "/material-calculator/static/js/2.87812a94.chunk.js",
-    "static/js/2.87812a94.chunk.js.map": "/material-calculator/static/js/2.87812a94.chunk.js.map",
-    "index.html": "/material-calculator/index.html",
-    "static/css/main.8071c407.chunk.css.map": "/material-calculator/static/css/main.8071c407.chunk.css.map",
-    "static/js/2.87812a94.chunk.js.LICENSE.txt": "/material-calculator/static/js/2.87812a94.chunk.js.LICENSE.txt"
+    "main.css": "/sfm/static/css/main.4c400a4f.chunk.css",
+    "main.js": "/sfm/static/js/main.4fa2056d.chunk.js",
+    "main.js.map": "/sfm/static/js/main.4fa2056d.chunk.js.map",
+    "runtime-main.js": "/sfm/static/js/runtime-main.d50d6d3f.js",
+    "runtime-main.js.map": "/sfm/static/js/runtime-main.d50d6d3f.js.map",
+    "static/js/2.c6258794.chunk.js": "/sfm/static/js/2.c6258794.chunk.js",
+    "static/js/2.c6258794.chunk.js.map": "/sfm/static/js/2.c6258794.chunk.js.map",
+    "index.html": "/sfm/index.html",
+    "static/css/main.4c400a4f.chunk.css.map": "/sfm/static/css/main.4c400a4f.chunk.css.map",
+    "static/js/2.c6258794.chunk.js.LICENSE.txt": "/sfm/static/js/2.c6258794.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.ef500178.js",
-    "static/js/2.87812a94.chunk.js",
-    "static/css/main.8071c407.chunk.css",
-    "static/js/main.e5dcb670.chunk.js"
+    "static/js/runtime-main.d50d6d3f.js",
+    "static/js/2.c6258794.chunk.js",
+    "static/css/main.4c400a4f.chunk.css",
+    "static/js/main.4fa2056d.chunk.js"
   ]
 }
