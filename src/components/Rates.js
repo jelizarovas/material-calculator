@@ -74,7 +74,7 @@ export const Rates = () => {
       <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/2 flex-row ">
         <form method="post">
           <h2>Job Type</h2>
-
+          <h2>Added through my laptop</h2>
           <select
             name="jobType"
             onChange={onChange}
@@ -152,27 +152,27 @@ export const Rates = () => {
                   {/* </div> */}
                 </div>
               ) : (
-                <div className="flex">
-                  <div className="flex-row">
-                    <label htmlFor="startTime" className=" px-2">
-                      Start
+                  <div className="flex">
+                    <div className="flex-row">
+                      <label htmlFor="startTime" className=" px-2">
+                        Start
                     </label>
-                    <Input
-                      name="startTime"
-                      value={startTime}
-                      onChange={onChange}
-                      placeholder="Start"
-                      Icon={AccessTime}
-                    />
-                  </div>
-                  <div className="flex-row">
-                    <label htmlFor="endTime" className=" px-2">
-                      End
+                      <Input
+                        name="startTime"
+                        value={startTime}
+                        onChange={onChange}
+                        placeholder="Start"
+                        Icon={AccessTime}
+                      />
+                    </div>
+                    <div className="flex-row">
+                      <label htmlFor="endTime" className=" px-2">
+                        End
                     </label>
-                    <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
+                      <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               {/* <h2>Time</h2> */}
               <div className="flex">
                 <div className="flex-row">
