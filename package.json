@@ -1,8 +1,8 @@
 {
-  "name": "material-calculator",
-  "homepage": "http://jelizarovas.github.io/material-calculator",
+  "name": "sft",
+  "homepage": "http://jelizarovas.github.io/sfm",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@craco/craco": "^6.1.0",
     "@material-ui/core": "^4.11.3",
