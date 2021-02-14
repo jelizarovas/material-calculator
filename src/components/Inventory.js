@@ -24,7 +24,7 @@ export const Inventory = () => {
         type="number"
       />
       <div className="flex">
-        <ChipsInput name="crew" chips={personnel} onChange={onChange} />
+        <ChipsInput name="personnel" chips={personnel} />
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Clear } from "@material-ui/icons";
-
+import { useClientDispatch } from "./Providers/ClientProvider";
+/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
 Array.prototype.remove = function () {
   var what,
     a = arguments,
@@ -15,23 +16,37 @@ Array.prototype.remove = function () {
   return this;
 };
 
-export const ChipsInput = ({ chips, placeholder = "Add a mover...", maxLength = 20, max }) => {
-  const [state, setState] = useState(chips);
+export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLength = 20, max }) => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
 
+  const dispatch = useClientDispatch();
+
   const asyncSetState = (newState) => {
-    setState([...new Set(newState)]);
+    const validatedState = [...new Set(newState)];
+    dispatch({ field: name, value: validatedState });
+
+    if (newState.length !== validatedState.length) setError("Duplicate Entry");
+    // dispatch({ field: name, value: newState });
   };
 
-  const removeChip = (chip) => asyncSetState([...state.remove(chip)]);
-  const focusInput = () => {};
+  React.useEffect(() => {
+    if (error !== "") {
+      window.setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+
+    return () => window.clearTimeout();
+  }, [error, setError]);
+
+  const removeChip = (chip) => asyncSetState([...chips.remove(chip)]);
 
   const ADD_KEYBAORD_EVENTS = ["Enter", "Tab", ","];
 
   const handleKeyDown = (ev) => {
-    if (ev.key === "Backspace" && value === "" && state.length > 0) {
-      const tempState = state;
+    if (ev.key === "Backspace" && value === "" && chips.length > 0) {
+      const tempState = chips;
       tempState.pop();
       asyncSetState([...tempState]);
     } else if (ADD_KEYBAORD_EVENTS.includes(ev.key)) {
@@ -39,24 +54,18 @@ export const ChipsInput = ({ chips, placeholder = "Add a mover...", maxLength = 
       // console.log(ev.target.defaultValue);
       const trimmedValue = value.trim();
       if (trimmedValue) {
-        asyncSetState([...state, value]);
+        asyncSetState([...chips, value]);
         setValue("");
       }
+    } else if (ev.key === "Backspace" && chips.length === 0) {
+      setError("There is nothing to delete");
     }
   };
   const handlePaste = (e) => {
     e.preventDefault();
     const pastedValue = e.clipboardData.getData("Text");
-    asyncSetState([...state, value + pastedValue]);
+    asyncSetState([...chips, value + pastedValue]);
     setValue("");
-    // console.log(e.clipboardData.getData('Text'));
-    // console.log(e.clipboardData.getData('text/plain'));
-    // console.log(e.clipboardData.getData('text/html'));
-    // console.log(e.clipboardData.getData('text/rtf'));
-
-    // console.log(e.clipboardData.getData('Url'));
-    // console.log(e.clipboardData.getData('text/uri-list'));
-    // console.log(e.clipboardData.getData('text/x-moz-url'));
   };
 
   const Chips = ({ chips }) => {
@@ -75,16 +84,24 @@ export const ChipsInput = ({ chips, placeholder = "Add a mover...", maxLength = 
   let inputPlaceholder = !max || chips.length < max ? placeholder : "";
 
   return (
-    <div className="bg-white p-2 m-2 rounded-md focus-within:bg-white" onClick={focusInput}>
-      <Chips chips={state} />
+    <div className={"relative bg-white p-2 m-2 rounded-md focus-within:bg-white pb-4"}>
+      <Chips chips={chips} />
       <input
-        className={"p-2 bg-transparent focus:outline-none " + (error ? "has-error" : "")}
+        className={"p-2 bg-transparent focus:outline-none "}
         value={value}
         placeholder={inputPlaceholder}
         onKeyDown={handleKeyDown}
         onChange={(e) => setValue(e.target.value)}
         onPaste={handlePaste}
       />
+      {error && (
+        <span
+          className="w-full text-red-500 text-xs cursor-pointer absolute left-4 bottom-0"
+          onClick={() => setError("")}
+        >
+          {error}
+        </span>
+      )}
     </div>
   );
 };
