@@ -1,20 +1,6 @@
 import React, { useState } from "react";
 import { Clear } from "@material-ui/icons";
 import { useClientDispatch } from "./Providers/ClientProvider";
-/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
-Array.prototype.remove = function () {
-  var what,
-    a = arguments,
-    L = a.length,
-    ax;
-  while (L && this.length) {
-    what = a[--L];
-    while ((ax = this.indexOf(what)) !== -1) {
-      this.splice(ax, 1);
-    }
-  }
-  return this;
-};
 
 export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLength = 20, max }) => {
   const [value, setValue] = useState("");
@@ -27,7 +13,6 @@ export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLen
     dispatch({ field: name, value: validatedState });
 
     if (newState.length !== validatedState.length) setError("Duplicate Entry");
-    // dispatch({ field: name, value: newState });
   };
 
   React.useEffect(() => {
@@ -40,7 +25,7 @@ export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLen
     return () => window.clearTimeout();
   }, [error, setError]);
 
-  const removeChip = (chip) => asyncSetState([...chips.remove(chip)]);
+  const removeChip = (chip) => asyncSetState(chips.filter((i) => i !== chip));
 
   const ADD_KEYBAORD_EVENTS = ["Enter", "Tab", ","];
 
@@ -51,7 +36,6 @@ export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLen
       asyncSetState([...tempState]);
     } else if (ADD_KEYBAORD_EVENTS.includes(ev.key)) {
       ev.preventDefault();
-      // console.log(ev.target.defaultValue);
       const trimmedValue = value.trim();
       if (trimmedValue) {
         asyncSetState([...chips, value]);
