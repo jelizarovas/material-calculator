@@ -8,10 +8,9 @@ import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 export const Inventory = () => {
   const client = useClient();
   const dispatch = useClientDispatch();
-  const { estimatedWeight } = client;
+  const { estimatedWeight, personnel } = client;
 
-  const onChange = (e) =>
-    dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   return (
     <div>
@@ -25,7 +24,7 @@ export const Inventory = () => {
         type="number"
       />
       <div className="flex">
-        <ChipsInput name="crew" chips={["Arnas", "Logan", "Marc"]} />
+        <ChipsInput name="crew" chips={personnel} onChange={onChange} />
       </div>
     </div>
   );

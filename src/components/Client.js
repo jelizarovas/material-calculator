@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "./Input";
 import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation, SpeakerNotes } from "@material-ui/icons/";
 
@@ -11,6 +11,10 @@ export const Client = () => {
   const { fullName, phoneNumber, email, originAddress, destinationAddress, additionalStops, notes } = client;
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
+
+  useEffect(() => {
+    document.title = `${fullName} - move`;
+  });
 
   return (
     <div className="md:container md:mx-auto">
