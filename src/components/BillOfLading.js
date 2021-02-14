@@ -10,7 +10,7 @@ export const BillOfLading = () => {
   const hasMovedCursor = typeof x === "number" && typeof y === "number";
 
   const { pdfDocument /*, pdfPage*/ } = usePdf({
-    file: process.env.PUBLIC_URL + "/pdf/bol.pdf",
+    file: process.env.PUBLIC_URL + "/pdf/bol-sfm.pdf",
     page,
     canvasRef,
   });

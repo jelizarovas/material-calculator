@@ -49,68 +49,97 @@ const initialState = {
 
   totalTransportation: "708.75",
 
-  materials: {
-    small: {
+  materials: [
+    {
+      name: "Small (1.5 cu)",
       units: "5",
       rate: "2.00",
       total: "10.00",
     },
-    medium: {
+    {
+      name: "Medium (3.0 cu)",
       units: "10",
       rate: "3.68",
       total: "36.80",
     },
-    large: {
+    {
+      name: "Large (4.5 cu)",
       units: "0",
       rate: "4.62",
       total: "0",
     },
-    dishpack: {
+    {
+      name: "Wardrobe (Rent)",
       units: "1",
       rate: "11.58",
       total: "11.58",
     },
-    mirrorPack: {
+    {
+      name: "Wardrobe",
       units: "6",
       rate: "16.75",
       total: "100.5",
     },
-    mattressBag: {
+    {
+      name: "Flat Wardrobe",
       units: "2",
       rate: "9.00",
       total: "18.00",
     },
-    wardrobe: {
+    {
+      name: "Mattress Bag",
       units: "5",
       rate: "10.00",
       total: "50.00",
     },
-    carpetProtection: {
+    {
+      name: "Mirror Pack (S)",
       units: "1",
       rate: "60.00",
       total: "60.00",
     },
-    custom: {
+    {
+      name: "Mirror Pack (L)",
       units: "2",
       rate: "8",
       total: "16",
-      text: "Speedpacks",
     },
-  },
+  ],
   totalMaterials: "5",
-  otherFees: {
-    piano: "125",
-    removal: "95",
-    hoist: "350",
-    ferry: "180",
-    storage: "1200",
-    custom1amount: "25",
-    custom1text: "Long Carry",
-    custom2amount: "200",
-    custom2text: "Elevator",
-    custom3amount: "75",
-    custom3text: "Included lunch",
-  },
+  miscFees: [
+    {
+      name: "Piano",
+      amount: "125",
+    },
+    {
+      name: "Removal (Dump/Donate)",
+      amount: "85",
+    },
+    {
+      name: "Hoist",
+      amount: "350",
+    },
+    {
+      name: "Ferry",
+      amount: "185",
+    },
+    {
+      name: "Storage",
+      amount: "100",
+    },
+    {
+      name: "Bulky",
+      amount: "1",
+    },
+    {
+      name: "Hot tub",
+      amount: "2",
+    },
+    {
+      name: "Custom #3",
+      amount: "3",
+    },
+  ],
   totalOtherFees: "0",
 
   subtotal: "713.75",

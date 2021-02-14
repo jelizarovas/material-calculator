@@ -32,7 +32,7 @@ import SignatureCanvas from "react-signature-canvas";
 
 async function fillForm(client) {
   //const pdf =  http://localhost:3000/material-calculator/pdf/bol.pdf
-  const pdf = "pdf/bol.pdf";
+  const pdf = "pdf/bol-sfm.pdf";
   const baseUrl = window.location.origin.toString() + process.env.PUBLIC_URL + "/";
   const formUrl = baseUrl + pdf;
   const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
@@ -71,14 +71,31 @@ async function fillForm(client) {
 
   form.getTextField("PERSONNEL").setText("     " + client.personnel.join(", "));
 
-  form.getTextField("Hourly Time Start").setText(client.startTime);
-  form.getTextField("Hourly Time Arrive").setText(client.arriveTime);
-  form.getTextField("Hourly Time Depart").setText(client.departTime);
-  form.getTextField("Hourly Time End").setText(client.endTime);
-  form.getTextField("Hourly Time Breaks").setText(client.breakTime);
-  form.getTextField("Hourly Time TOTAL").setText(client.totalHours);
-  form.getTextField("Travel Fee").setText(client.travelFee);
-  form.getTextField("Hourly Rate").setText(client.hourlyRate);
+  switch (client.jobType) {
+    case "local":
+      form.getTextField("Hourly Time Start").setText(client.startTime);
+      form.getTextField("Hourly Time Arrive").setText(client.arriveTime);
+      form.getTextField("Hourly Time Depart").setText(client.departTime);
+      form.getTextField("Hourly Time End").setText(client.endTime);
+      form.getTextField("Hourly Time Breaks").setText(client.breakTime);
+      form.getTextField("Hourly Time TOTAL").setText(client.totalHours);
+      form.getTextField("Travel Fee").setText(client.travelFee);
+      form.getTextField("Hourly Rate").setText(client.hourlyRate);
+      break;
+    case "longDistance":
+      form.getTextField("Mileage Miles").setText(client.distance);
+      form.getTextField("Mileage Weight Gross").setText(client.grossWeight);
+      form.getTextField("Mileage Weight Tare").setText(client.tareWeight);
+      form.getTextField("Mileage Weight Net").setText(client.netWeight);
+      form.getTextField("Mileage Rate").setText(client.mileageRate);
+      break;
+    case "flatRate":
+      //FLAT RATE FIELDS
+      break;
+
+    default:
+      break;
+  }
   form.getTextField("Total Transportation").setText(client.totalTransportation);
 
   form.getTextField("TOTAL PACKING  MATERIAL").setText(client.totalMaterials);
@@ -89,54 +106,69 @@ async function fillForm(client) {
   form.getTextField("TOTAL AMOUNT PAID").setText(client.totalAmountPaid);
   form.getTextField("TIPS  BALANCE DUE").setText(client.remainingBalance);
 
-  form.getTextField("Mileage Miles").setText(client.distance);
-  form.getTextField("Mileage Weight Gross").setText(client.grossWeight);
-  form.getTextField("Mileage Weight Tare").setText(client.tareWeight);
-  form.getTextField("Mileage Weight Net").setText(client.netWeight);
-  form.getTextField("Mileage Rate").setText(client.mileageRate);
+  const materials = client.materials.filter((m) => m.units > 0);
+  materials.forEach((item, index) => {
+    const i = index + 1;
 
-  form.getTextField("QTY SMALL").setText(client.materials.small.units);
-  form.getTextField("QTY MEDIUM").setText(client.materials.medium.units);
-  form.getTextField("QTY LARGE").setText(client.materials.large.units);
-  form.getTextField("QTY DISHPACK").setText(client.materials.dishpack.units);
-  form.getTextField("QTY MIRROR PACK").setText(client.materials.mirrorPack.units);
-  form.getTextField("QTY MATTRESS BAG").setText(client.materials.mattressBag.units);
-  form.getTextField("QTY WARDROBE").setText(client.materials.wardrobe.units);
-  form.getTextField("QTY Carpet Protection").setText(client.materials.carpetProtection.units);
-  form.getTextField("QTY Custom").setText(client.materials.custom.units);
-  form.getTextField("Custom").setText(client.materials.custom.text);
+    if (0 < i && i < 10) {
+      form.getTextField(`C${i}`).setText(item.name);
+      form.getTextField(`QTY C${i}`).setText(item.units);
+      form.getTextField(`RATE C${i}`).setText(item.rate);
+      form.getTextField(`TOTAL C${i}`).setText(item.total);
+    }
+  });
+  const miscFees = client.miscFees.filter((m) => m.amount > 0);
+  miscFees.forEach((item, index) => {
+    const i = index + 1;
 
-  form.getTextField("RATE SMALL").setText(client.materials.small.rate);
-  form.getTextField("RATE MEDIUM").setText(client.materials.medium.rate);
-  form.getTextField("RATE LARGE").setText(client.materials.large.rate);
-  form.getTextField("RATE DISHPACK").setText(client.materials.dishpack.rate);
-  form.getTextField("RATE MIRROR PACK").setText(client.materials.mirrorPack.rate);
-  form.getTextField("RATE MATTRESS BAG").setText(client.materials.mattressBag.rate);
-  form.getTextField("RATE WARDROBE").setText(client.materials.wardrobe.rate);
-  form.getTextField("RATE Carpet Protection").setText(client.materials.carpetProtection.rate);
-  form.getTextField("RATE Custom").setText(client.materials.custom.rate);
+    if (0 < i && i < 9) {
+      form.getTextField(`M${i}`).setText(truncateString(item.name, 9));
+      form.getTextField(`AMOUNT M${i}`).setText(item.amount);
+    }
+  });
 
-  form.getTextField("TOTAL ITEM 15 CU SMALL").setText(client.materials.small.total);
-  form.getTextField("TOTAL ITEM 30 CU MEDIUM").setText(client.materials.medium.total);
-  form.getTextField("TOTAL ITEM 45 CU LARGE").setText(client.materials.large.total);
-  form.getTextField("TOTAL ITEM DISHPACK").setText(client.materials.dishpack.total);
-  form.getTextField("TOTAL ITEM MIRROR PACK").setText(client.materials.mirrorPack.total);
-  form.getTextField("TOTAL ITEM MATTRESS BAG").setText(client.materials.mattressBag.total);
-  form.getTextField("TOTAL ITEM WARDROBE").setText(client.materials.wardrobe.total);
-  form.getTextField("TOTAL ITEM Carpet Protection").setText(client.materials.carpetProtection.total);
-  form.getTextField("TOTAL ITEM Custom").setText(client.materials.custom.total);
+  // form.getTextField("QTY SMALL").setText(client.materials.small.units);
+  // form.getTextField("QTY MEDIUM").setText(client.materials.medium.units);
+  // form.getTextField("QTY LARGE").setText(client.materials.large.units);
+  // form.getTextField("QTY DISHPACK").setText(client.materials.dishpack.units);
+  // form.getTextField("QTY MIRROR PACK").setText(client.materials.mirrorPack.units);
+  // form.getTextField("QTY MATTRESS BAG").setText(client.materials.mattressBag.units);
+  // form.getTextField("QTY WARDROBE").setText(client.materials.wardrobe.units);
+  // form.getTextField("QTY Carpet Protection").setText(client.materials.carpetProtection.units);
+  // form.getTextField("QTY Custom").setText(client.materials.custom.units);
+  // form.getTextField("Custom").setText(client.materials.custom.text);
 
-  form.getTextField("AMOUNT Piano").setText(client.otherFees.piano);
-  form.getTextField("AMOUNT Removal").setText(client.otherFees.removal);
-  form.getTextField("AMOUNT Hoist").setText(client.otherFees.hoist);
-  form.getTextField("AMOUNT Ferry").setText(client.otherFees.ferry);
-  form.getTextField("AMOUNT Storage").setText(client.otherFees.storage);
-  form.getTextField("AMOUNT CUSTOM 1").setText(client.otherFees.custom1amount);
-  form.getTextField("AMOUNT CUSTOM 2").setText(client.otherFees.custom2amount);
-  form.getTextField("AMOUNT CUSTOM 3").setText(client.otherFees.custom3amount);
-  form.getTextField("MISC CUSTOM 1").setText(client.otherFees.custom1text);
-  form.getTextField("MISC CUSTOM 2").setText(client.otherFees.custom2text);
-  form.getTextField("MISC CUSTOM 3").setText(client.otherFees.custom3text);
+  // form.getTextField("RATE SMALL").setText(client.materials.small.rate);
+  // form.getTextField("RATE MEDIUM").setText(client.materials.medium.rate);
+  // form.getTextField("RATE LARGE").setText(client.materials.large.rate);
+  // form.getTextField("RATE DISHPACK").setText(client.materials.dishpack.rate);
+  // form.getTextField("RATE MIRROR PACK").setText(client.materials.mirrorPack.rate);
+  // form.getTextField("RATE MATTRESS BAG").setText(client.materials.mattressBag.rate);
+  // form.getTextField("RATE WARDROBE").setText(client.materials.wardrobe.rate);
+  // form.getTextField("RATE Carpet Protection").setText(client.materials.carpetProtection.rate);
+  // form.getTextField("RATE Custom").setText(client.materials.custom.rate);
+
+  // form.getTextField("TOTAL ITEM 15 CU SMALL").setText(client.materials.small.total);
+  // form.getTextField("TOTAL ITEM 30 CU MEDIUM").setText(client.materials.medium.total);
+  // form.getTextField("TOTAL ITEM 45 CU LARGE").setText(client.materials.large.total);
+  // form.getTextField("TOTAL ITEM DISHPACK").setText(client.materials.dishpack.total);
+  // form.getTextField("TOTAL ITEM MIRROR PACK").setText(client.materials.mirrorPack.total);
+  // form.getTextField("TOTAL ITEM MATTRESS BAG").setText(client.materials.mattressBag.total);
+  // form.getTextField("TOTAL ITEM WARDROBE").setText(client.materials.wardrobe.total);
+  // form.getTextField("TOTAL ITEM Carpet Protection").setText(client.materials.carpetProtection.total);
+  // form.getTextField("TOTAL ITEM Custom").setText(client.materials.custom.total);
+
+  // form.getTextField("AMOUNT Piano").setText(client.otherFees.piano);
+  // form.getTextField("AMOUNT Removal").setText(client.otherFees.removal);
+  // form.getTextField("AMOUNT Hoist").setText(client.otherFees.hoist);
+  // form.getTextField("AMOUNT Ferry").setText(client.otherFees.ferry);
+  // form.getTextField("AMOUNT Storage").setText(client.otherFees.storage);
+  // form.getTextField("AMOUNT CUSTOM 1").setText(client.otherFees.custom1amount);
+  // form.getTextField("AMOUNT CUSTOM 2").setText(client.otherFees.custom2amount);
+  // form.getTextField("AMOUNT CUSTOM 3").setText(client.otherFees.custom3amount);
+  // form.getTextField("MISC CUSTOM 1").setText(client.otherFees.custom1text);
+  // form.getTextField("MISC CUSTOM 2").setText(client.otherFees.custom2text);
+  // form.getTextField("MISC CUSTOM 3").setText(client.otherFees.custom3text);
 
   //ESTIMATE SIGNATURE
   if (client.agreedToEstimate === true) {
@@ -146,7 +178,7 @@ async function fillForm(client) {
       height: 35,
       width: 150,
     });
-    firstPage.drawText(client.estimateAgreedDate || client.date, {
+    firstPage.drawText(client.estimateAgreedDate || client.dates[0], {
       x: 238,
       y: 103,
       size: 12,
@@ -161,7 +193,7 @@ async function fillForm(client) {
       height: 35,
       width: 150,
     });
-    firstPage.drawText(client.date, {
+    firstPage.drawText(client.dates[0], {
       x: 238,
       y: 73,
       size: 12,
@@ -176,7 +208,7 @@ async function fillForm(client) {
       height: 35,
       width: 150,
     });
-    firstPage.drawText(client.date, {
+    firstPage.drawText(client.dates[0], {
       x: 530,
       y: 40,
       size: 12,
@@ -311,3 +343,13 @@ const SignatureBlock = ({ type, name, width = 500, height = 200 }) => {
     </div>
   );
 };
+
+function truncateString(str, num) {
+  // If the length of str is less than or equal to num
+  // just return str--don't truncate it.
+  if (str.length <= num) {
+    return str;
+  }
+  // Return str truncated with '...' concatenated to the end of str.
+  return str.slice(0, num) + "...";
+}

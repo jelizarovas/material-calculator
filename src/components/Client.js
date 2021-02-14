@@ -13,8 +13,25 @@ export const Client = () => {
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   useEffect(() => {
-    document.title = `${fullName} - move`;
-  });
+    document.title = fullName ? `${fullName} - move` : "Bill of Lading";
+  }, [fullName]);
+
+  // TODO when address autocomplete is done, if address not found
+  // (most likely case of newly built house) allow entry of coordinates
+
+  // TODO autocomplete address
+
+  // TODO name parse field
+
+  // TODO phone number field show
+
+  // TODO phone number mask
+
+  // TODO add 2nd contact
+
+  // TODO add autocomplete @ email
+
+  // TODO calculate distance as the crow flies
 
   return (
     <div className="md:container md:mx-auto">

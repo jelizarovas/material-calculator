@@ -69,15 +69,17 @@ const Day = ({ index = 1, value, handleChange, handleDelete, canDelete }) => {
         type="text"
         className="flex-grow w-full"
       />
-      <span className="text-white flex-shrink hover:text-red-500 cursor-pointer m-2">
-        <Add onClick={() => handleChange({ target: { value: getFormattedDate(new Date(value)) } }, index)} />
-      </span>
-      <span className="text-white flex-shrink hover:text-red-500 cursor-pointer m-2">
-        <Today onClick={() => handleChange({ target: { value: getFormattedDate(new Date()) } }, index)} />
-      </span>
-      <span className="text-white flex-shrink hover:text-red-500 cursor-pointer m-2">
-        <Remove onClick={() => handleChange({ target: { value: getFormattedDate(new Date(value)) } }, index)} />
-      </span>
+      <div className="flex">
+        <span className="text-white flex-shrink hover:text-red-500 cursor-pointer m-2">
+          <Remove onClick={() => handleChange({ target: { value: decrementDate(value) } }, index)} />
+        </span>
+        <span className="text-white flex-shrink hover:text-blue-500 cursor-pointer m-2">
+          <Today onClick={() => handleChange({ target: { value: getFormattedDate(new Date()) } }, index)} />
+        </span>
+        <span className="text-white flex-shrink hover:text-green-500 cursor-pointer m-2">
+          <Add onClick={() => handleChange({ target: { value: incrementDate(value) } }, index)} />
+        </span>
+      </div>
       {canDelete && (
         <span className="text-white flex-shrink hover:text-red-500 cursor-pointer m-2">
           <EventBusy onClick={() => handleDelete(index)} />
@@ -93,4 +95,15 @@ function getFormattedDate(date) {
   let day = date.getDate().toString().padStart(2, "0");
 
   return month + "/" + day + "/" + year;
+}
+
+function incrementDate(dateString) {
+  const date = new Date(dateString);
+  date.setDate(date.getDate() + 1);
+  return getFormattedDate(date);
+}
+function decrementDate(dateString) {
+  const date = new Date(dateString);
+  date.setDate(date.getDate() - 1);
+  return getFormattedDate(date);
 }

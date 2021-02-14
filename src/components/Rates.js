@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "./Input";
 import { Dates } from "./Dates";
 import { AccessTime, Money } from "@material-ui/icons/";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
+import { ChipsInput } from "./ChipsInput";
+
 const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
   const times = [
     { label: "0:00 ", value: 0 },
-    {
-      label: "0:15",
-      value: 0.25,
-    },
+    { label: "0:15", value: 0.25 },
     { label: "0:30 ", value: 0.5 },
     { label: "0:45 ", value: 0.75 },
     { label: "1:00 ", value: 1 },
@@ -52,7 +51,7 @@ export const Rates = () => {
   const {
     isTravelFeeFixed,
     hourlyRate,
-    // travelFee,
+    personnel,
     travelTime,
     totalHours,
     startTime,
@@ -74,6 +73,7 @@ export const Rates = () => {
       <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/2 flex-row ">
         <form method="post">
           <Dates />
+          <ChipsInput name="personnel" chips={personnel} />
 
           <h2>Job Type</h2>
           <select
@@ -235,6 +235,11 @@ export const Rates = () => {
 // }
 
 const FlatRate = ({ flatAmount, onChange }) => {
+  const [showHelp, setshowHelp] = useState(false);
+
+  const explanation =
+    "Is this flat amount just for the transportation/labor, or are all the materials included in price?";
+
   return (
     <div>
       <Input
@@ -244,6 +249,13 @@ const FlatRate = ({ flatAmount, onChange }) => {
         placeholder="Flat Amount"
         Icon={() => <span>$</span>}
       />
+      <label htmlFor="materialsIncluded">
+        <input type="checkbox" name="materialsIncluded" /> Materials included?
+        <span className="text-xs  cursor-pointer select-none pl-4" onClick={() => setshowHelp(!showHelp)}>
+          {!showHelp ? "> " : "x "} Help
+        </span>
+      </label>
+      {showHelp && <span className="block">{explanation}</span>}
     </div>
   );
 };
@@ -252,10 +264,15 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
   return (
     <div>
       <h2>Long Distance</h2>
+      <label htmlFor="distance">Distance (Miles)</label>
       <Input name="distance" value={distance} onChange={onChange} placeholder="distance" Icon={Money} />
+      <label htmlFor="grossWeight">Gross Weight (lbs.)</label>
       <Input name="grossWeight" value={grossWeight} onChange={onChange} placeholder="grossWeight" Icon={Money} />
+      <label htmlFor="tareWeight">Tare Weight (lbs.)</label>
       <Input name="tareWeight" value={tareWeight} onChange={onChange} placeholder="tareWeight" Icon={Money} />
+      <label htmlFor="netWeight">Net Weight (lbs.)</label>
       <Input name="netWeight" value={netWeight} onChange={onChange} placeholder="netWeight" Icon={Money} />
+      <label htmlFor="mileageRate">Mileage Rate ($/mile)</label>
       <Input name="mileageRate" value={mileageRate} onChange={onChange} placeholder="mileageRate" Icon={Money} />
     </div>
   );
