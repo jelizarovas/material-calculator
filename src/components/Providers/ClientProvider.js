@@ -26,7 +26,7 @@ const initialState = {
   jobType: "local", // || "longDistance" || flatRate
   flatAmount: "",
 
-  date: getFormattedDate(new Date()),
+  dates: [getFormattedDate(new Date()), getFormattedDate(new Date())],
   hourlyRate: "135",
   isTravelFeeFixed: true,
   travelTime: "1.25",

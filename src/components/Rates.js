@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "./Input";
-import { CalendarToday, AccessTime, Money } from "@material-ui/icons/";
+import { Dates } from "./Dates";
+import { AccessTime, Money } from "@material-ui/icons/";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
@@ -50,7 +51,6 @@ export const Rates = () => {
 
   const {
     isTravelFeeFixed,
-    date,
     hourlyRate,
     // travelFee,
     travelTime,
@@ -73,8 +73,9 @@ export const Rates = () => {
     <div className="md:container md:mx-auto">
       <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/2 flex-row ">
         <form method="post">
+          <Dates />
+
           <h2>Job Type</h2>
-          <h2>Added through my laptop</h2>
           <select
             name="jobType"
             onChange={onChange}
@@ -86,9 +87,7 @@ export const Rates = () => {
             <option value="flatRate">💳 Flat Rate</option>
           </select>
 
-          <h2>Date</h2>
           {/* <DropDown /> */}
-          <Input name="date" value={date} onChange={onChange} Icon={CalendarToday} placeholder="Date" type="text" />
 
           {jobType === "flatRate" && <FlatRate onChange={onChange} flatAmount={flatAmount} />}
           {jobType === "longDistance" && (
@@ -152,27 +151,27 @@ export const Rates = () => {
                   {/* </div> */}
                 </div>
               ) : (
-                  <div className="flex">
-                    <div className="flex-row">
-                      <label htmlFor="startTime" className=" px-2">
-                        Start
+                <div className="flex">
+                  <div className="flex-row">
+                    <label htmlFor="startTime" className=" px-2">
+                      Start
                     </label>
-                      <Input
-                        name="startTime"
-                        value={startTime}
-                        onChange={onChange}
-                        placeholder="Start"
-                        Icon={AccessTime}
-                      />
-                    </div>
-                    <div className="flex-row">
-                      <label htmlFor="endTime" className=" px-2">
-                        End
-                    </label>
-                      <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
-                    </div>
+                    <Input
+                      name="startTime"
+                      value={startTime}
+                      onChange={onChange}
+                      placeholder="Start"
+                      Icon={AccessTime}
+                    />
                   </div>
-                )}
+                  <div className="flex-row">
+                    <label htmlFor="endTime" className=" px-2">
+                      End
+                    </label>
+                    <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
+                  </div>
+                </div>
+              )}
               {/* <h2>Time</h2> */}
               <div className="flex">
                 <div className="flex-row">
@@ -238,7 +237,13 @@ export const Rates = () => {
 const FlatRate = ({ flatAmount, onChange }) => {
   return (
     <div>
-      <Input name="flatAmount" value={flatAmount} onChange={onChange} placeholder="Flat Amount" Icon={Money} />
+      <Input
+        name="flatAmount"
+        value={flatAmount}
+        onChange={onChange}
+        placeholder="Flat Amount"
+        Icon={() => <span>$</span>}
+      />
     </div>
   );
 };
