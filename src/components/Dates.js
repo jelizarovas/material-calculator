@@ -59,7 +59,7 @@ export const Dates = () => {
 
 const Day = ({ index = 1, value, handleChange, handleDelete, canDelete }) => {
   return (
-    <div className="flex items-center justify-between rounded-md bg-gray-600 m-1">
+    <div className="flex items-center justify-between rounded-md bg-gray-200 m-1">
       <Input
         name={"date-" + (index + 1)}
         value={value}
@@ -70,18 +70,18 @@ const Day = ({ index = 1, value, handleChange, handleDelete, canDelete }) => {
         className="flex-grow w-full"
       />
       <div className="flex">
-        <span className="text-white flex-shrink hover:text-red-500 cursor-pointer m-2">
+        <span className=" flex-shrink hover:text-red-500 cursor-pointer m-2">
           <Remove onClick={() => handleChange({ target: { value: decrementDate(value) } }, index)} />
         </span>
-        <span className="text-white flex-shrink hover:text-blue-500 cursor-pointer m-2">
+        <span className=" flex-shrink hover:text-blue-500 cursor-pointer m-2">
           <Today onClick={() => handleChange({ target: { value: getFormattedDate(new Date()) } }, index)} />
         </span>
-        <span className="text-white flex-shrink hover:text-green-500 cursor-pointer m-2">
+        <span className=" flex-shrink hover:text-green-500 cursor-pointer m-2">
           <Add onClick={() => handleChange({ target: { value: incrementDate(value) } }, index)} />
         </span>
       </div>
       {canDelete && (
-        <span className="text-white flex-shrink hover:text-red-500 cursor-pointer m-2">
+        <span className=" flex-shrink hover:text-red-500 cursor-pointer m-2">
           <EventBusy onClick={() => handleDelete(index)} />
         </span>
       )}
@@ -98,12 +98,12 @@ function getFormattedDate(date) {
 }
 
 function incrementDate(dateString) {
-  const date = new Date(dateString);
+  const date = dateString ? new Date(dateString) : new Date();
   date.setDate(date.getDate() + 1);
   return getFormattedDate(date);
 }
 function decrementDate(dateString) {
-  const date = new Date(dateString);
+  const date = dateString ? new Date(dateString) : new Date();
   date.setDate(date.getDate() - 1);
   return getFormattedDate(date);
 }

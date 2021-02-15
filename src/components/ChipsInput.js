@@ -55,12 +55,12 @@ export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLen
   const Chips = ({ chips }) => {
     return chips.map((chip, index) => {
       return (
-        <span className="border-b-2 rounded-md bg-gray-200 leading-none text-base p-2 mx-2" key={index}>
+        <div className="border-b-2 inline-block rounded-md bg-gray-200 leading-none text-base p-2 m-2" key={index}>
           <span className="bg-grey-800">{chip}</span>
           <button className="ml-2 " onClick={() => removeChip(chip)}>
             <Clear fontSize="small" />
           </button>
-        </span>
+        </div>
       );
     });
   };
