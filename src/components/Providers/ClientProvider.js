@@ -174,7 +174,9 @@ const useClient = () => {
 const useClientDispatch = () => {
   const context = useContext(ClientDispatchContext);
   if (context === undefined) {
-    throw new Error("useClientDispatch must be used within a ClientDispatchProvider");
+    throw new Error(
+      "useClientDispatch must be used within a ClientDispatchProvider"
+    );
   }
   return context;
 };
@@ -210,7 +212,12 @@ const ClientProvider = ({ children }) => {
   useEffect(() => {
     dispatch({
       field: "totalValuation",
-      value: valuation === "basic" ? 0 : valuation === "replacement" ? valuationCost : valuationCostWithDeductible,
+      value:
+        valuation === "basic"
+          ? 0
+          : valuation === "replacement"
+          ? valuationCost
+          : valuationCostWithDeductible,
     });
   }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
 
@@ -227,18 +234,20 @@ const ClientProvider = ({ children }) => {
     });
     dispatch({
       field: "valuationCostWithDeductible",
-      value: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
+      value:
+        Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) /
+        100,
     });
   }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
 
   useEffect(() => {
-    if (shipmentValue < estimatedWeight * 5) {
-      dispatch({
-        field: "shipmentValue",
-        value: estimatedWeight * 5,
-      });
-    }
-  }, [estimatedWeight, shipmentValue, dispatch]);
+    // if (shipmentValue < estimatedWeight * 5) {
+    dispatch({
+      field: "shipmentValue",
+      value: estimatedWeight * 5,
+    });
+    // }
+  }, [estimatedWeight, dispatch]);
 
   useEffect(() => {
     let dt = timeToDecimal(departTime);
@@ -251,7 +260,15 @@ const ClientProvider = ({ children }) => {
       field: "totalHours",
       value: convertToHHMM(dt - at - bt),
     });
-  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, dispatch]);
+  }, [
+    totalHours,
+    startTime,
+    endTime,
+    arriveTime,
+    departTime,
+    breakTime,
+    dispatch,
+  ]);
 
   useEffect(() => {
     dispatch({
@@ -260,9 +277,13 @@ const ClientProvider = ({ children }) => {
     });
   }, [travelTime, hourlyRate, dispatch]);
 
+  
+
   return (
     <ClientContext.Provider value={state}>
-      <ClientDispatchContext.Provider value={dispatch}>{children}</ClientDispatchContext.Provider>
+      <ClientDispatchContext.Provider value={dispatch}>
+        {children}
+      </ClientDispatchContext.Provider>
     </ClientContext.Provider>
   );
 };
