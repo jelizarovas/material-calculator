@@ -2,7 +2,7 @@ import React, { useContext, useReducer, createContext, useEffect } from "react";
 
 const initialState = {
   fullName: "Christopher Hammer",
-  phoneNumber: "(417) 343-3327",
+  phoneNumber: "4173433327",
   email: "ch8978hammerindustries@hotmail.com",
   originAddress: "21 Main St Apt 101 Seattle, WA 98121",
   destinationAddress: "222 216th Ave NW Seattle, WA 98117",
@@ -31,7 +31,7 @@ const initialState = {
   isTravelFeeFixed: true,
   travelTime: "1.25",
   travelFee: "168.75",
-
+  paymentOption: "cash",
   startTime: "8:00",
   arriveTime: "8:30",
   departTime: "13:00",
@@ -207,6 +207,15 @@ const ClientProvider = ({ children }) => {
     arriveTime,
     departTime,
     breakTime,
+    subtotal,
+    // adjustment,
+    totalMovingCharges,
+    totalAmountPaid,
+    // remainingBalance,
+    paymentOption,
+    totalTransportation,
+    totalMaterials,
+    totalOtherFees,
   } = state;
 
   useEffect(() => {
@@ -277,7 +286,69 @@ const ClientProvider = ({ children }) => {
     });
   }, [travelTime, hourlyRate, dispatch]);
 
-  
+  //TODO totalMaterials
+
+  useEffect(() => {
+    dispatch({
+      field: "subtotal",
+      value: (
+        Number(totalTransportation) +
+        Number(totalOtherFees) +
+        Number(totalMaterials) +
+        Number(valuationCost)
+      ).toString(),
+    });
+
+    return () => {};
+  }, [
+    totalTransportation,
+    totalOtherFees,
+    totalMaterials,
+    valuationCost,
+    // adjustment,
+    // totalMovingCharges,
+    // totalAmountPaid,
+    // remainingBalance,
+  ]);
+
+  //TODO totalOtherFees
+
+  //TODO adjustment
+  useEffect(() => {
+    let adjustment = 0;
+
+    switch (paymentOption) {
+      case "cash":
+        adjustment = -5 / 100;
+        break;
+      case "card":
+        adjustment = 3 / 100;
+        break;
+
+      default:
+        break;
+    }
+
+    dispatch({
+      field: "adjustment",
+      value: (Number(subtotal) * adjustment).toString(),
+    });
+    dispatch({
+      field: "totalMovingCharges",
+      value: (Number(subtotal) * (1 + Number(adjustment))).toString(),
+    });
+    return () => {};
+  }, [paymentOption, subtotal]);
+
+  useEffect(() => {
+    dispatch({
+      field: "remainingBalance",
+      value: (Number(totalMovingCharges) - Number(totalAmountPaid)).toString(),
+    });
+  }, [totalAmountPaid]);
+  //TODO totalAmountPaid
+
+  //TODO remianing balance
 
   return (
     <ClientContext.Provider value={state}>

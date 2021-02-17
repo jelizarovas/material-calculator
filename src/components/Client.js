@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
 import { Input } from "./Input";
-import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation, SpeakerNotes } from "@material-ui/icons/";
+import {
+  EmojiPeople,
+  Email,
+  Phone,
+  Home,
+  LocalShipping,
+  AddLocation,
+  SpeakerNotes,
+} from "@material-ui/icons/";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 import { TextArea } from "./TextArea";
@@ -8,9 +16,18 @@ import { TextArea } from "./TextArea";
 export const Client = () => {
   const client = useClient();
   const dispatch = useClientDispatch();
-  const { fullName, phoneNumber, email, originAddress, destinationAddress, additionalStops, notes } = client;
+  const {
+    fullName,
+    phoneNumber,
+    email,
+    originAddress,
+    destinationAddress,
+    additionalStops,
+    notes,
+  } = client;
 
-  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) =>
+    dispatch({ field: e.target.name, value: e.target.value });
 
   useEffect(() => {
     document.title = fullName ? `${fullName} - move` : "Bill of Lading";
@@ -38,7 +55,13 @@ export const Client = () => {
       <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/2 flex-row ">
         <form action="" method="post">
           <h2>Personal Info</h2>
-          <Input name="fullName" value={fullName} onChange={onChange} Icon={EmojiPeople} placeholder="Full Name" />
+          <Input
+            name="fullName"
+            value={fullName}
+            onChange={onChange}
+            Icon={EmojiPeople}
+            placeholder="Full Name"
+          />
           <Input
             name="phoneNumber"
             value={phoneNumber}
@@ -47,7 +70,14 @@ export const Client = () => {
             placeholder="Phone Number"
             type="number"
           />
-          <Input name="email" value={email} onChange={onChange} Icon={Email} placeholder="Email" type="email" />
+          <Input
+            name="email"
+            value={email}
+            onChange={onChange}
+            Icon={Email}
+            placeholder="Email"
+            type="email"
+          />
           <h2>Locations</h2>
           <Input
             name="originAddress"
@@ -70,7 +100,13 @@ export const Client = () => {
             Icon={AddLocation}
             placeholder="Other Stops"
           />
-          <TextArea name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" />
+          <TextArea
+            name="notes"
+            value={notes}
+            onChange={onChange}
+            Icon={SpeakerNotes}
+            placeholder="Notes"
+          />
         </form>
       </div>
     </div>

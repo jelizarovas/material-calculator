@@ -30,7 +30,8 @@ export const Estimate = () => {
     valuationRateWithDeductible,
   } = client;
 
-  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) =>
+    dispatch({ field: e.target.name, value: e.target.value });
 
   return (
     <div className="md:container md:mx-auto">
@@ -59,7 +60,10 @@ export const Estimate = () => {
             type="number"
             readOnly={true}
           />
-          <EstimateIsBinding onChange={onChange} estimateIsBinding={estimateIsBinding} />
+          <EstimateIsBinding
+            onChange={onChange}
+            estimateIsBinding={estimateIsBinding}
+          />
           <Valuation
             onChange={onChange}
             valuation={valuation}
@@ -97,7 +101,10 @@ export const Estimate = () => {
               className="mr-5 ml-3"
               checked={agreedToEstimate}
               onChange={() => {
-                dispatch({ field: "agreedToEstimate", value: !agreedToEstimate });
+                dispatch({
+                  field: "agreedToEstimate",
+                  value: !agreedToEstimate,
+                });
               }}
               placeholder="Total Valuation Cost"
               type="checkbox"
@@ -163,7 +170,10 @@ const Valuation = ({
     <div className="mt-4 text-gray-700 flex-row">
       <div className="w-full    flex items-start justify-between p-2">
         <span className="text-gray-700">Valuation</span>
-        <span className=" text-xs cursor-pointer select-none p-1" onClick={() => setShowChangeRates(!showChangeRates)}>
+        <span
+          className=" text-xs cursor-pointer select-none p-1"
+          onClick={() => setShowChangeRates(!showChangeRates)}
+        >
           {!showChangeRates ? (
             <span>
               <Edit fontSize="small" />
@@ -217,7 +227,9 @@ const Valuation = ({
             checked={valuation === "replacementWithDeductible"}
             value="replacementWithDeductible"
           />
-          <span className="ml-2">Replacement (w/$300 Ded) (${valuationCostWithDeductible})</span>
+          <span className="ml-2">
+            Replacement (w/$300 Ded) (${valuationCostWithDeductible})
+          </span>
         </label>
         <label className="block">
           <input

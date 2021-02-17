@@ -1,8 +1,10 @@
 import React, { /*useState,*/ useRef } from "react";
-import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 import { PDFDocument } from "pdf-lib";
 import download from "downloadjs";
 import SignatureCanvas from "react-signature-canvas";
+import { Input } from "./Input";
+
+import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
 //get page dimentions https://github.com/Hopding/pdf-lib/issues/62#issuecomment-453847201
 // Returns an object of shape: { width: number, height: number }
@@ -33,7 +35,8 @@ import SignatureCanvas from "react-signature-canvas";
 async function fillForm(client) {
   //const pdf =  http://localhost:3000/material-calculator/pdf/bol.pdf
   const pdf = "pdf/bol-sfm.pdf";
-  const baseUrl = window.location.origin.toString() + process.env.PUBLIC_URL + "/";
+  const baseUrl =
+    window.location.origin.toString() + process.env.PUBLIC_URL + "/";
   const formUrl = baseUrl + pdf;
   const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
 
@@ -43,15 +46,21 @@ async function fillForm(client) {
   const firstPage = pages[0];
 
   const signatureUrl = client.signature;
-  const signatureBytes = await fetch(signatureUrl).then((res) => res.arrayBuffer());
+  const signatureBytes = await fetch(signatureUrl).then((res) =>
+    res.arrayBuffer()
+  );
   const signatureImage = await pdfDoc.embedPng(signatureBytes);
 
   const initialsUrl = client.initials;
-  const initialsBytes = await fetch(initialsUrl).then((res) => res.arrayBuffer());
+  const initialsBytes = await fetch(initialsUrl).then((res) =>
+    res.arrayBuffer()
+  );
   const initialsImage = await pdfDoc.embedPng(initialsBytes);
 
   const crewSignatureUrl = client.crewSignature;
-  const crewSignatureBytes = await fetch(crewSignatureUrl).then((res) => res.arrayBuffer());
+  const crewSignatureBytes = await fetch(crewSignatureUrl).then((res) =>
+    res.arrayBuffer()
+  );
   const crewSignatureImage = await pdfDoc.embedPng(crewSignatureBytes);
 
   const form = pdfDoc.getForm();
@@ -65,9 +74,15 @@ async function fillForm(client) {
   form.getTextField("Notes").setText("     " + client.notes);
 
   form.getTextField("Shipment Value").setText(client.shipmentValue.toString());
-  form.getTextField("valuation with deductible").setText(client.valuationCostWithDeductible.toString());
-  form.getTextField("valuation no deductible").setText(client.valuationCost.toString());
-  form.getTextField("Selected Valuation").setText(client.totalValuation.toString());
+  form
+    .getTextField("valuation with deductible")
+    .setText(client.valuationCostWithDeductible.toString());
+  form
+    .getTextField("valuation no deductible")
+    .setText(client.valuationCost.toString());
+  form
+    .getTextField("Selected Valuation")
+    .setText(client.totalValuation.toString());
 
   form.getTextField("PERSONNEL").setText("     " + client.personnel.join(", "));
 
@@ -272,10 +287,37 @@ async function fillForm(client) {
 
 export const Overview = () => {
   const client = useClient();
+  const { totalAmountPaid, paymentOption } = client;
+  const dispatch = useClientDispatch();
+
+  const onChange = (e) =>
+    dispatch({ field: e.target.name, value: e.target.value });
 
   return (
     <div>
-      <pre className="max-w-md overflow-hidden text-xs bg-white">{client && JSON.stringify(client, 0, 2)}</pre>
+      <h2>Payment option</h2>
+      <Input
+        name="paymentOption"
+        value={paymentOption}
+        onChange={onChange}
+        Icon={() => {
+          return <span>$</span>;
+        }}
+        placeholder="Payment Option (cash or card)"
+      />
+      <h2>Total Amount Paid</h2>
+      <Input
+        name="totalAmountPaid"
+        value={totalAmountPaid}
+        onChange={onChange}
+        Icon={() => {
+          return <span>$</span>;
+        }}
+        placeholder="Total Amount Paid"
+      />
+      <pre className="max-w-md overflow-hidden text-xs bg-white">
+        {client && JSON.stringify(client, 0, 2)}
+      </pre>
       <div className="flex">
         <SignatureBlock type="signature" name="Customer Signature" />
         <SignatureBlock type="initials" name="Customer Initials" width="200" />
@@ -285,7 +327,10 @@ export const Overview = () => {
       </div>
 
       <br></br>
-      <button className="bg-gray-700 p-2 m-2 text-white" onClick={() => fillForm(client)}>
+      <button
+        className="bg-gray-700 p-2 m-2 text-white"
+        onClick={() => fillForm(client)}
+      >
         Get bill of lading
       </button>
     </div>
@@ -325,7 +370,10 @@ const SignatureBlock = ({ type, name, width = 500, height = 200 }) => {
           ref={sigCanvas}
         />
       </div>
-      <button className="bg-blue-600 p-2 m-2 text-white absolute top-4 right-2 rounded-lg" onClick={clear}>
+      <button
+        className="bg-blue-600 p-2 m-2 text-white absolute top-4 right-2 rounded-lg"
+        onClick={clear}
+      >
         Reset
       </button>
       {/* {imageURL ? (
