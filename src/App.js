@@ -7,11 +7,18 @@ import { Overview } from "./components/Overview";
 import { BillOfLading } from "./components/BillOfLading";
 import { Inventory } from "./components/Inventory";
 import { Estimate } from "./components/Estimate";
+import { Totals } from "./components/Totals";
 
 import { InventoryProvider } from "./components/Providers/InventoryProvider";
 import { ClientProvider } from "./components/Providers/ClientProvider";
 
-import { HashRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import { Rates } from "./components/Rates";
 
 function App() {
@@ -22,7 +29,11 @@ function App() {
           <div className="flex-row justify-center w-screen bg-gray-800 ">
             <div className="text-white p-4 bg-black flex  justify-around">
               <div className="flex cursor-pointer">
-                <img className="bg-white w-6 h-6 p-1" src={`${process.env.PUBLIC_URL}/favicon.ico`} alt="" />
+                <img
+                  className="bg-white w-6 h-6 p-1"
+                  src={`${process.env.PUBLIC_URL}/favicon.ico`}
+                  alt=""
+                />
                 <span className="px-2">
                   SFM<strong>tools</strong>
                 </span>
@@ -81,6 +92,7 @@ function App() {
                 <Overview />
               </Route>
             </Switch>
+            <Totals />
           </ClientProvider>
         </Router>
       </InventoryProvider>
