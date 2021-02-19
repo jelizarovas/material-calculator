@@ -174,9 +174,7 @@ const useClient = () => {
 const useClientDispatch = () => {
   const context = useContext(ClientDispatchContext);
   if (context === undefined) {
-    throw new Error(
-      "useClientDispatch must be used within a ClientDispatchProvider"
-    );
+    throw new Error("useClientDispatch must be used within a ClientDispatchProvider");
   }
   return context;
 };
@@ -221,12 +219,7 @@ const ClientProvider = ({ children }) => {
   useEffect(() => {
     dispatch({
       field: "totalValuation",
-      value:
-        valuation === "basic"
-          ? 0
-          : valuation === "replacement"
-          ? valuationCost
-          : valuationCostWithDeductible,
+      value: valuation === "basic" ? 0 : valuation === "replacement" ? valuationCost : valuationCostWithDeductible,
     });
   }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
 
@@ -243,9 +236,7 @@ const ClientProvider = ({ children }) => {
     });
     dispatch({
       field: "valuationCostWithDeductible",
-      value:
-        Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) /
-        100,
+      value: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
     });
   }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
 
@@ -269,15 +260,7 @@ const ClientProvider = ({ children }) => {
       field: "totalHours",
       value: convertToHHMM(dt - at - bt),
     });
-  }, [
-    totalHours,
-    startTime,
-    endTime,
-    arriveTime,
-    departTime,
-    breakTime,
-    dispatch,
-  ]);
+  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, dispatch]);
 
   useEffect(() => {
     dispatch({
@@ -329,21 +312,25 @@ const ClientProvider = ({ children }) => {
         break;
     }
 
+    const adjustmentNumber = Number(subtotal) * adjustment;
+    const totalMovingChargesNumber = Number(subtotal) * (1 + Number(adjustment));
     dispatch({
       field: "adjustment",
-      value: (Number(subtotal) * adjustment).toString(),
+      value: money_round(adjustmentNumber).toString(),
     });
     dispatch({
       field: "totalMovingCharges",
-      value: (Number(subtotal) * (1 + Number(adjustment))).toString(),
+      value: money_round(totalMovingChargesNumber).toString(),
     });
     return () => {};
   }, [paymentOption, subtotal]);
 
   useEffect(() => {
+    const remainingBalanceNumber = Number(totalMovingCharges) - Number(totalAmountPaid);
+
     dispatch({
       field: "remainingBalance",
-      value: (Number(totalMovingCharges) - Number(totalAmountPaid)).toString(),
+      value: money_round(remainingBalanceNumber).toString(),
     });
   }, [totalAmountPaid]);
   //TODO totalAmountPaid
@@ -352,9 +339,7 @@ const ClientProvider = ({ children }) => {
 
   return (
     <ClientContext.Provider value={state}>
-      <ClientDispatchContext.Provider value={dispatch}>
-        {children}
-      </ClientDispatchContext.Provider>
+      <ClientDispatchContext.Provider value={dispatch}>{children}</ClientDispatchContext.Provider>
     </ClientContext.Provider>
   );
 };
@@ -388,3 +373,7 @@ function convertToHHMM(info) {
 //   var minutes = (num *60)  % 60;
 //   return hours + ":" + minutes;
 // }
+
+function money_round(num) {
+  return Math.ceil(num * 100) / 100;
+}
