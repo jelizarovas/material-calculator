@@ -332,7 +332,7 @@ const ClientProvider = ({ children }) => {
       field: "remainingBalance",
       value: money_round(remainingBalanceNumber).toString(),
     });
-  }, [totalAmountPaid]);
+  }, [totalAmountPaid, totalMovingCharges]);
   //TODO totalAmountPaid
 
   //TODO remianing balance
