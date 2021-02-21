@@ -43,6 +43,7 @@ export const Materials = () => {
           <tr className="bg-green-700 text-white">
             <th>Material</th>
             <th>Count</th>
+            <th>Price</th>
           </tr>
         </thead>
         <tbody className="bg-white">

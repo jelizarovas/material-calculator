@@ -3,7 +3,15 @@ import CountButton from "./CountButton";
 import { useInventory } from "./Providers/InventoryProvider";
 
 export const Material = ({ m }) => {
-  const { id, name, volume, count, img, /*w, d, h, description,*/ subtext } = m;
+  const {
+    id,
+    name,
+    volume,
+    count,
+    img,
+    price,
+    /*w, d, h, description,*/ subtext,
+  } = m;
   const { dispatch } = useInventory();
 
   // const [tooltip, setTooltip] = useState(false);
@@ -39,7 +47,11 @@ export const Material = ({ m }) => {
       <td>
         <div className="flex align-middle w-60">
           <div className="p-1">
-            <img className="max-h-4 w-4" src={process.env.PUBLIC_URL + "/" + img} alt="" />
+            <img
+              className="max-h-4 w-4"
+              src={process.env.PUBLIC_URL + "/" + img}
+              alt=""
+            />
           </div>
           <div className="flex">
             <div className="flex-1">
@@ -60,6 +72,11 @@ export const Material = ({ m }) => {
 
       <td>
         <CountButton count={count} changeCount={changeCount} />
+      </td>
+      <td className="text-right px-3">
+        {count > 0 ? 
+        
+       ` × $ ${price} = $ ${price * count}` : `$ ${price} / unit` }
       </td>
     </tr>
   );
