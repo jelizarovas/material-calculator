@@ -5,9 +5,13 @@ import clsx from "clsx";
 const CountButton = ({ count, changeCount }) => {
   const increment = () => {
     changeCount(count + 1);
+    window.navigator.vibrate([50]);
   };
   const decrement = () => {
-    changeCount(count > 0 ? count - 1 : count);
+    if (count > 0) {
+      changeCount(count - 1);
+      window.navigator.vibrate([50, 50, 50]);
+    }
   };
   const onChange = (e) => {
     var val = parseInt(e.target.value) || 0;
@@ -16,6 +20,7 @@ const CountButton = ({ count, changeCount }) => {
 
   const onLongPress = () => {
     changeCount(0);
+    window.navigator.vibrate([100, 50, 100]);
   };
 
   const defaultOptions = {
@@ -26,9 +31,7 @@ const CountButton = ({ count, changeCount }) => {
   const longPressEvent = useLongPress(onLongPress, decrement, defaultOptions);
 
   return (
-    <div
-      className={`custom-number-input w-32 bg-gray-100 bg-opacity-50  rounded-lg`}
-    >
+    <div className={`custom-number-input w-32 bg-gray-100 bg-opacity-50  rounded-lg`}>
       <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent ">
         <button
           {...longPressEvent}

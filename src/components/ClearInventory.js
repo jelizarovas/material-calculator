@@ -5,10 +5,15 @@ const ClearInventory = () => {
   const { dispatch } = useInventory();
 
   return (
-    <button type="reset" onClick={() => dispatch({ type: "clearCount" })}>
-      <span className="bg-gray-800 px-4 py-2 rounded-sm text-white text-xs hover:bg-red-700">
-        Clear
-      </span>
+    <button
+      type="reset"
+      className="px-2 py-1 hover:bg-red-700 rounded-sm text-white text-xs "
+      onClick={() => {
+        window.navigator.vibrate(500);
+        dispatch({ type: "clearCount" });
+      }}
+    >
+      <span> × Clear</span>
     </button>
   );
 };

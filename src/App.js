@@ -1,5 +1,4 @@
 import React from "react";
-import ClearInventory from "./components/ClearInventory";
 
 import { Materials } from "./components/Materials";
 import { Client } from "./components/Client";
@@ -7,17 +6,12 @@ import { Overview } from "./components/Overview";
 import { BillOfLading } from "./components/BillOfLading";
 import { Inventory } from "./components/Inventory";
 import { Estimate } from "./components/Estimate";
-import { Totals } from "./components/Totals";
+// import { Totals } from "./components/Totals";
 
 import { InventoryProvider } from "./components/Providers/InventoryProvider";
 import { ClientProvider } from "./components/Providers/ClientProvider";
 
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { Rates } from "./components/Rates";
 import Navbar from "./components/Navbar";
 
@@ -36,7 +30,6 @@ function App() {
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/client" />} />
               <Route path="/materials">
-                <ClearInventory />
                 <Materials />
               </Route>
               <Route path="/rates">
@@ -58,7 +51,7 @@ function App() {
                 <Overview />
               </Route>
             </Switch>
-            <Totals />
+            {/* <Totals /> */}
           </ClientProvider>
         </Router>
       </InventoryProvider>

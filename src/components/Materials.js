@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useInventory } from "./Providers/InventoryProvider";
 import { Material } from "./Material";
+import ClearInventory from "./ClearInventory";
 
 export const Materials = () => {
   // const [materials, setMaterials] = useState(initialMaterials);
   const { inventory } = useInventory();
+  const [totalMaterial, setTotalMaterial] = useState(0);
+
+  useEffect(() => {
+    setTotalMaterial(inventory.reduce((sum, { count, price }) => sum + count * price, 0));
+  }, [inventory]);
 
   // console.log(inventory)
   // <div style={{minHeight: 200, background: "pink"}}>
@@ -37,13 +43,13 @@ export const Materials = () => {
   // const num5 = useKeyPress('5');
 
   return (
-    <div className="flex p-5 justify-center  align-center ">
-      <table className="rounded-md ">
+    <div className="flex justify-center align-center  ">
+      <table className="w-full">
         <thead className="">
-          <tr className="bg-green-700 text-white">
-            <th>Material</th>
-            <th>Count</th>
-            <th>Price</th>
+          <tr className="bg-purple-700 text-white rounded-t-lg">
+            <th className="w-1/2">Material</th>
+            <th className="w-1/4">Count</th>
+            <th className="w-1/4">Price</th>
           </tr>
         </thead>
         <tbody className="bg-white">
@@ -51,6 +57,15 @@ export const Materials = () => {
             <Material m={m} key={m.name + m.volume} />
           ))}
         </tbody>
+        <tfoot className="  text-white rounded-t-lg">
+          <tr>
+            <td className="p-2">{totalMaterial > 0 ? <ClearInventory /> : null}</td>
+            <td className="text-right ">Total: </td>
+            <td className="text-right p-2" style={{ minWidth: 120 }}>
+              {" $" + totalMaterial}
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   );
