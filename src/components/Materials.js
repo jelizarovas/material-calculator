@@ -44,7 +44,7 @@ export const Materials = () => {
 
   return (
     <div className="flex justify-center align-center  ">
-      <table className="w-full">
+      <table className="w-full sm:w-3/4 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4">
         <thead className="">
           <tr className="bg-purple-700 text-white rounded-t-lg">
             <th className="w-1/2">Material</th>
