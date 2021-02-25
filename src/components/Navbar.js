@@ -1,10 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Menu, Clear, TurnedIn, TurnedInNot } from "@material-ui/icons";
+import { Link, useLocation, useHistory } from "react-router-dom";
+import { Menu, Clear, TurnedIn, TurnedInNot, NavigateNext, NavigateBefore } from "@material-ui/icons";
 
 export default function Navbar({ fixed }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [navbarPinned, setNavbarPinned] = React.useState(false);
+
+  let { pathname } = useLocation();
+  let history = useHistory();
+
+  const steps = ["client", "rates", "inventory", "estimate", "materials", "overview"];
+  const currentIndex = steps.indexOf(pathname.substring(1));
+
+  const nextStep = () => {
+    if (steps.length - 1 > currentIndex) history.push("/" + steps[currentIndex + 1]);
+  };
+
+  const previousStep = () => {
+    if (0 < currentIndex) history.push("/" + steps[currentIndex - 1]);
+  };
 
   const NavLink = ({ to, text }) => {
     return (
@@ -15,17 +29,20 @@ export default function Navbar({ fixed }) {
           }}
           className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75 ml-2"
           to={to}
+          replace
         >
           {text}
         </Link>
       </li>
     );
   };
+
   return (
-    <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black ">
+    <nav className=" fixed inset-x-0 bottom-0 z-10  flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black ">
+      {/* <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black "> */}
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-          <div className="flex cursor-pointer">
+          <div className="flex text-white   cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent lg:hidden outline-none focus:outline-none ">
             <img className="bg-white w-6 h-6 p-1" src={`${process.env.PUBLIC_URL}/favicon.ico`} alt="" />
             <span className="px-2 text-white">
               <strong>SFM</strong>
@@ -36,11 +53,26 @@ export default function Navbar({ fixed }) {
               <button
                 type="button"
                 onClick={() => setNavbarPinned(!navbarPinned)}
-                className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+                className="text-white opacity-30 cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
               >
                 {navbarPinned ? <TurnedIn /> : <TurnedInNot />}
               </button>
             ) : null}
+
+            <button
+              className="text-white  cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none "
+              type="button"
+              onClick={previousStep}
+            >
+              <NavigateBefore />
+            </button>
+            <button
+              className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+              type="button"
+              onClick={nextStep}
+            >
+              <NavigateNext />
+            </button>
             <button
               className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
               type="button"

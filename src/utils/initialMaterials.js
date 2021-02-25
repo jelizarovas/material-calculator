@@ -68,7 +68,7 @@ export const initialMaterials = [
     count: 0,
     img: "img/wardrobe.jpg",
     history: {},
-    price: 0,
+    price: 15,
   },
   {
     id: "Aic8ie",
@@ -81,7 +81,7 @@ export const initialMaterials = [
     count: 0,
     img: "img/laydown.jpg",
     history: {},
-    price: 0,
+    price: 5,
   },
   {
     id: "fjCPOT",
