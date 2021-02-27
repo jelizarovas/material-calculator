@@ -3,7 +3,18 @@ import React from "react";
 import { Clear } from "@material-ui/icons/";
 
 export const Input = (props) => {
-  const { name, placeholder, Icon, type = "text", step, value, onChange, readOnly = false, clear = true } = props;
+  const {
+    name,
+    placeholder,
+    Icon,
+    type = "text",
+    inputmode,
+    step,
+    value,
+    onChange,
+    readOnly = false,
+    clear = true,
+  } = props;
 
   return (
     <div className="relative text-gray-600 focus-within:text-red-400 w-100 m-2">
@@ -20,6 +31,7 @@ export const Input = (props) => {
         onChange={onChange}
         step={step}
         readOnly={readOnly}
+        inputmode={inputmode}
       />
       {clear && (value.length > 0 || (type === "number" && value > 0)) ? (
         <span
