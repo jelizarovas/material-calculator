@@ -31,12 +31,12 @@ const CountButton = ({ count, changeCount }) => {
   const longPressEvent = useLongPress(onLongPress, decrement, defaultOptions);
 
   return (
-    <div className="flex flex-row w-28 h-8  rounded-md relative bg-gray-100 bg-opacity-50 my-1 ">
+    <div className="flex flex-row w-28 h-8 mx-auto  rounded-md relative bg-gray-100 bg-opacity-50 my-1 ">
       <button
         {...longPressEvent}
         className="disable-select leading-4 p-2 text-gray-600 hover:text-red-700 hover:bg-red-200   w-10 rounded-l cursor-pointer outline-none"
       >
-        <span className="m-auto text-2xl   font-thin  ">−</span>
+        <span className="m-auto text-2xl leading-4  font-thin  ">−</span>
       </button>
       <input
         min="0"
@@ -68,7 +68,7 @@ const CountButton = ({ count, changeCount }) => {
         onClick={increment}
         className="leading-4 p-2 text-gray-600 hover:text-green-700 hover:bg-green-200 h-full w-20 rounded-r cursor-pointer"
       >
-        <span className="m-auto text-2xl font-thin">+</span>
+        <span className="m-auto text-2xl  leading-4 font-thin">+</span>
       </button>
     </div>
   );
