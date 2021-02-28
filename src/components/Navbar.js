@@ -53,7 +53,7 @@ export default function Navbar({ fixed }) {
   };
 
   return (
-    <nav className=" fixed inset-x-0 bottom-0 z-100  flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black ">
+    <nav className=" fixed inset-x-0 bottom-0 z-10  flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black ">
       {/* <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black "> */}
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
