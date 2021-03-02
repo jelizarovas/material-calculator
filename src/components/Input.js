@@ -8,7 +8,7 @@ export const Input = (props) => {
     placeholder,
     Icon,
     type = "text",
-    inputmode,
+    inputMode,
     step,
     value,
     onChange,
@@ -39,7 +39,7 @@ export const Input = (props) => {
         onChange={onChange}
         step={step}
         readOnly={readOnly}
-        inputmode={inputmode}
+        inputMode={inputMode}
         // onFocus={onFocus}
         // onBlur={onBlur}
       />

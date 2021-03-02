@@ -50,59 +50,24 @@ const initialState = {
   totalTransportation: "708.75",
 
   materials: [
+    // {
+    //   name: "Small (1.5 cu)",
+    //   units: "5",
+    //   rate: "2.00",
+    //   total: "10.00",
+    // },
     {
-      name: "Small (1.5 cu)",
-      units: "5",
-      rate: "2.00",
-      total: "10.00",
-    },
-    {
-      name: "Medium (3.0 cu)",
-      units: "10",
-      rate: "3.68",
-      total: "36.80",
-    },
-    {
-      name: "Large (4.5 cu)",
-      units: "0",
-      rate: "4.62",
-      total: "0",
-    },
-    {
-      name: "Wardrobe (Rent)",
-      units: "1",
-      rate: "11.58",
-      total: "11.58",
-    },
-    {
-      name: "Wardrobe",
-      units: "6",
-      rate: "16.75",
-      total: "100.5",
-    },
-    {
-      name: "Flat Wardrobe",
-      units: "2",
-      rate: "9.00",
-      total: "18.00",
-    },
-    {
-      name: "Mattress Bag",
-      units: "5",
-      rate: "10.00",
-      total: "50.00",
-    },
-    {
-      name: "Mirror Pack (S)",
-      units: "1",
-      rate: "60.00",
-      total: "60.00",
-    },
-    {
-      name: "Mirror Pack (L)",
-      units: "2",
-      rate: "8",
-      total: "16",
+      id: "q3lYEM",
+      name: "Small Box",
+      volume: 1.5,
+      w: "16 3/8",
+      d: "12 5/8",
+      h: "12 5/8",
+      units: 0,
+      img: "img/small.png",
+      history: {},
+      rate: 3,
+      total: 0,
     },
   ],
   totalMaterials: "5",
@@ -174,16 +139,42 @@ const useClient = () => {
 const useClientDispatch = () => {
   const context = useContext(ClientDispatchContext);
   if (context === undefined) {
-    throw new Error("useClientDispatch must be used within a ClientDispatchProvider");
+    throw new Error(
+      "useClientDispatch must be used within a ClientDispatchProvider"
+    );
   }
   return context;
 };
 
-const clientReducer = (state, { field, value }) => {
-  return {
-    ...state,
-    [field]: value,
-  };
+const clientReducer = (state, { field, value, type, payload }) => {
+  if (!type) {
+    return {
+      ...state,
+      [field]: value,
+    };
+  } else {
+    switch (type) {
+      case "changeCount":
+        return state.materials.map((d) => {
+          if (d.id === payload.id) d.units = payload.newCount;
+          return d;
+        });
+      case "clearCount":
+        return state.materials.map((d) => {
+          d.units = 0;
+          return d;
+        });
+      case "keyAdd":
+        return state.materials.map((d) => {
+          if (d.id === payload) {
+            d.units = d.units + 1;
+          }
+          return d;
+        });
+      default:
+        return state;
+    }
+  }
 };
 
 const ClientProvider = ({ children }) => {
@@ -219,7 +210,12 @@ const ClientProvider = ({ children }) => {
   useEffect(() => {
     dispatch({
       field: "totalValuation",
-      value: valuation === "basic" ? 0 : valuation === "replacement" ? valuationCost : valuationCostWithDeductible,
+      value:
+        valuation === "basic"
+          ? 0
+          : valuation === "replacement"
+          ? valuationCost
+          : valuationCostWithDeductible,
     });
   }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
 
@@ -236,7 +232,9 @@ const ClientProvider = ({ children }) => {
     });
     dispatch({
       field: "valuationCostWithDeductible",
-      value: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
+      value:
+        Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) /
+        100,
     });
   }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
 
@@ -260,7 +258,15 @@ const ClientProvider = ({ children }) => {
       field: "totalHours",
       value: convertToHHMM(dt - at - bt),
     });
-  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, dispatch]);
+  }, [
+    totalHours,
+    startTime,
+    endTime,
+    arriveTime,
+    departTime,
+    breakTime,
+    dispatch,
+  ]);
 
   useEffect(() => {
     dispatch({
@@ -313,7 +319,8 @@ const ClientProvider = ({ children }) => {
     }
 
     const adjustmentNumber = Number(subtotal) * adjustment;
-    const totalMovingChargesNumber = Number(subtotal) * (1 + Number(adjustment));
+    const totalMovingChargesNumber =
+      Number(subtotal) * (1 + Number(adjustment));
     dispatch({
       field: "adjustment",
       value: money_round(adjustmentNumber).toString(),
@@ -326,7 +333,8 @@ const ClientProvider = ({ children }) => {
   }, [paymentOption, subtotal]);
 
   useEffect(() => {
-    const remainingBalanceNumber = Number(totalMovingCharges) - Number(totalAmountPaid);
+    const remainingBalanceNumber =
+      Number(totalMovingCharges) - Number(totalAmountPaid);
 
     dispatch({
       field: "remainingBalance",
@@ -339,7 +347,9 @@ const ClientProvider = ({ children }) => {
 
   return (
     <ClientContext.Provider value={state}>
-      <ClientDispatchContext.Provider value={dispatch}>{children}</ClientDispatchContext.Provider>
+      <ClientDispatchContext.Provider value={dispatch}>
+        {children}
+      </ClientDispatchContext.Provider>
     </ClientContext.Provider>
   );
 };
