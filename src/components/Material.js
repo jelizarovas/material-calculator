@@ -1,10 +1,19 @@
 import React /*, { useState }*/ from "react";
 import CountButton from "./CountButton";
 import { useInventory } from "./Providers/InventoryProvider";
+import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
 export const Material = ({ m }) => {
-  const { id, name, volume, count, img, price, /*w, d, h, description,*/ subtext } = m;
-  const { dispatch } = useInventory();
+  const {
+    id,
+    name,
+    volume,
+    units,
+    img,
+    rate,
+    /*w, d, h, description,*/ subtext,
+  } = m;
+  const  dispatch  = useClientDispatch();
 
   // const [tooltip, setTooltip] = useState(false);
 
@@ -39,7 +48,11 @@ export const Material = ({ m }) => {
       <td>
         <div className="flex align-middle">
           <div className="p-1">
-            <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
+            <img
+              className="max-h-5 w-5"
+              src={process.env.PUBLIC_URL + "/" + img}
+              alt=""
+            />
           </div>
           <div className="flex-col">
             <div className="flex-1 text-sm">
@@ -59,10 +72,10 @@ export const Material = ({ m }) => {
       </td>
 
       <td>
-        <CountButton count={count} changeCount={changeCount} />
+        <CountButton count={units} changeCount={changeCount} />
       </td>
       <td className="text-right text-xs px-3">
-        {count > 0 ? ` × $ ${price} = $ ${price * count}` : `$ ${price} / unit`}
+        {units > 0 ? ` × $ ${rate} = $ ${rate * units}` : `$ ${rate} / unit`}
       </td>
     </tr>
   );
