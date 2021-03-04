@@ -4,16 +4,8 @@ import { useInventory } from "./Providers/InventoryProvider";
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
 export const Material = ({ m }) => {
-  const {
-    id,
-    name,
-    volume,
-    units,
-    img,
-    rate,
-    /*w, d, h, description,*/ subtext,
-  } = m;
-  const  dispatch  = useClientDispatch();
+  const { id, name, volume, units, img, rate, /*w, d, h, description,*/ subtext } = m;
+  const dispatch = useClientDispatch();
 
   // const [tooltip, setTooltip] = useState(false);
 
@@ -40,6 +32,7 @@ export const Material = ({ m }) => {
   // };
 
   const changeCount = (newCount) => {
+    //if id includes allow
     dispatch({ type: "changeCount", payload: { id, newCount } });
   };
 
@@ -48,11 +41,7 @@ export const Material = ({ m }) => {
       <td>
         <div className="flex align-middle">
           <div className="p-1">
-            <img
-              className="max-h-5 w-5"
-              src={process.env.PUBLIC_URL + "/" + img}
-              alt=""
-            />
+            <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
           </div>
           <div className="flex-col">
             <div className="flex-1 text-sm">
@@ -74,9 +63,7 @@ export const Material = ({ m }) => {
       <td>
         <CountButton count={units} changeCount={changeCount} />
       </td>
-      <td className="text-right text-xs px-3">
-        {units > 0 ? ` × $ ${rate} = $ ${rate * units}` : `$ ${rate} / unit`}
-      </td>
+      <td className="text-right text-xs px-3">{units > 0 ? ` × $ ${rate} = $ ${rate * units}` : `$ ${rate} / unit`}</td>
     </tr>
   );
 };

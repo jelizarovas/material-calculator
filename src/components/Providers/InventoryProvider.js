@@ -1,9 +1,5 @@
-import React, {
-  /*useEffect,*/ useContext,
-  createContext,
-  useReducer,
-} from "react";
-import { initialMaterials } from "../../utils/initialMaterials";
+import React, { /*useEffect,*/ useContext, createContext, useReducer } from "react";
+import { defaultMaterials } from "../../utils/defaultMaterials";
 // import { useKeyPress } from "../../utils/useKeyPress";
 
 const inventoryContext = createContext();
@@ -22,19 +18,19 @@ const inventoryReducer = (state, action) => {
         d.count = 0;
         return d;
       });
-    case "keyAdd":
-      return state.map((d) => {
-        if (d.id === action.payload) {
-          d.count = d.count + 1;
-        }
-        return d;
-      });
+    // case "keyAdd":
+    //   return state.map((d) => {
+    //     if (d.id === action.payload) {
+    //       d.count = d.count + 1;
+    //     }
+    //     return d;
+    //   });
     default:
       return state;
   }
 };
 
-const initialState = initialMaterials;
+const initialState = defaultMaterials;
 
 const InventoryProvider = (props) => {
   console.log("inventory provider rerender");

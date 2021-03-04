@@ -1,8 +1,8 @@
 import React from "react";
-import { useInventory } from "./Providers/InventoryProvider";
+import { useClientDispatch } from "./Providers/ClientProvider";
 
 const ClearInventory = () => {
-  const { dispatch } = useInventory();
+  const dispatch = useClientDispatch();
 
   return (
     <button
