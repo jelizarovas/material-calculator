@@ -4,7 +4,7 @@ import { useInventory } from "./Providers/InventoryProvider";
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
 export const Material = ({ m }) => {
-  const { id, name, volume, units, img, rate, /*w, d, h, description,*/ subtext } = m;
+  const { id, name, volume, units = 0, img, rate, /*w, d, h, description,*/ subtext } = m;
   const dispatch = useClientDispatch();
 
   // const [tooltip, setTooltip] = useState(false);
@@ -32,8 +32,15 @@ export const Material = ({ m }) => {
   // };
 
   const changeCount = (newCount) => {
+    if (newCount === 0) {
+      //remove entry
+    }
     //if id includes allow
-    dispatch({ type: "changeCount", payload: { id, newCount } });
+    if (units === 0) {
+      //add entry
+
+      dispatch({ type: "changeCount", payload: { id, units: newCount, name, rate } });
+    }
   };
 
   return (

@@ -154,13 +154,30 @@ const clientReducer = (state, { field, value, type, payload }) => {
     const materials = state.materials;
     switch (type) {
       case "changeCount":
-        return {
-          ...state,
-          materials: materials.map((d) => {
-            if (d.id === payload.id) d.units = payload.newCount;
-            return d;
-          }),
-        };
+        let idExists = false;
+        if (materials.length > 0) {
+          for (let i = 0; i < materials.length; i++) {
+            const { id } = materials[i];
+            if (id === payload.id) idExists = true;
+            if (idExists === true) console.log("idExists");
+          }
+        }
+        if (idExists) {
+          //if existst add to units,
+          return {
+            ...state,
+            materials: materials.map((d) => {
+              if (d.id === payload.id) d.units = payload.units;
+              return d;
+            }),
+          };
+        } else {
+          //if not add to materials arrayt
+          return {
+            ...state,
+            materials: { ...materials, payload },
+          };
+        }
       case "clearCount":
         return {
           ...state,
