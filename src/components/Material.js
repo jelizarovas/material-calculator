@@ -1,7 +1,7 @@
 import React /*, { useState }*/ from "react";
 import CountButton from "./CountButton";
-import { useInventory } from "./Providers/InventoryProvider";
-import { useClient, useClientDispatch } from "./Providers/ClientProvider";
+// import { useInventory } from "./Providers/InventoryProvider";
+import { useClientDispatch } from "./Providers/ClientProvider";
 
 export const Material = ({ m }) => {
   const {

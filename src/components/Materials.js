@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useInventory } from "./Providers/InventoryProvider";
+// import { useInventory } from "./Providers/InventoryProvider";
 import { useClient } from "./Providers/ClientProvider";
 import { Material } from "./Material";
 import ClearInventory from "./ClearInventory";
@@ -7,7 +7,7 @@ import { defaultMaterials } from "../utils/defaultMaterials";
 
 export const Materials = () => {
   // const [materials, setMaterials] = useState(initialMaterials);
-  const { inventory } = useInventory();
+  // const { inventory } = useInventory();
 
   const [totalMaterial, setTotalMaterial] = useState(0);
 
@@ -16,7 +16,7 @@ export const Materials = () => {
   const { materials } = client;
 
   useEffect(() => {
-    setTotalMaterial(materials.reduce((sum, { units, rate }) => sum + Number(units) * Number(rate), 0));
+  if (materials)  setTotalMaterial(materials.reduce((sum, { units, rate }) => sum + Number(units) * Number(rate), 0));
   }, [materials]);
 
   // console.log(inventory)
@@ -60,9 +60,9 @@ export const Materials = () => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {materials.map((m) => (
+          {/* {materials.map((m) => (
             <Material m={m} key={m.name + m.volume} />
-          ))}
+          ))} */}
           {defaultMaterials.map((m) => (
             <Material m={m} key={m.name + m.volume} />
           ))}
