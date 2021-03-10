@@ -13,7 +13,7 @@ const ClearInventory = () => {
         dispatch({ type: "clearCount" });
       }}
     >
-      <span> × Clear</span>
+      <span alt="Clear">×</span>
     </button>
   );
 };

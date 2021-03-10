@@ -1,19 +1,18 @@
 import React /*, { useState }*/ from "react";
 import CountButton from "./CountButton";
 // import { useInventory } from "./Providers/InventoryProvider";
-import { useClientDispatch } from "./Providers/ClientProvider";
+import { useClientDispatch, useClient } from "./Providers/ClientProvider";
 
 export const Material = ({ m }) => {
-  const {
-    id,
-    name,
-    volume,
-    units = 0,
-    img,
-    rate,
-    /*w, d, h, description,*/ subtext,
-  } = m;
+  const { id, name, volume, img, rate, /*w, d, h, description,*/ subtext } = m;
   const dispatch = useClientDispatch();
+  const client = useClient();
+
+  const material = client.materials.find((m) => m.id === id);
+
+  const units = material !== undefined ? material.units : 0;
+
+  // console.log(material);
 
   // const [tooltip, setTooltip] = useState(false);
 
@@ -40,19 +39,7 @@ export const Material = ({ m }) => {
   // };
 
   const changeCount = (newCount) => {
-    if (newCount === 0) {
-      //remove entry
-      dispatch({ type: "removeMaterial", payload: { id } });
-    }
-    //if id includes allow
-    if (units === 0) {
-      //add entry
-
-      dispatch({
-        type: "changeCount",
-        payload: { id, units: newCount, name, rate },
-      });
-    }
+    dispatch({ type: "changeCount", payload: { id, units: newCount, rate, name } });
   };
 
   return (
@@ -60,11 +47,7 @@ export const Material = ({ m }) => {
       <td>
         <div className="flex align-middle">
           <div className="p-1">
-            <img
-              className="max-h-5 w-5"
-              src={process.env.PUBLIC_URL + "/" + img}
-              alt=""
-            />
+            <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
           </div>
           <div className="flex-col">
             <div className="flex-1 text-sm">
@@ -84,11 +67,9 @@ export const Material = ({ m }) => {
       </td>
 
       <td>
-        <CountButton count={units} changeCount={changeCount} />
+        <CountButton count={units || 0} changeCount={changeCount} />
       </td>
-      <td className="text-right text-xs px-3">
-        {units > 0 ? ` × $ ${rate} = $ ${rate * units}` : `$ ${rate} / unit`}
-      </td>
+      <td className="text-right text-xs px-3">{units > 0 ? ` × $ ${rate} = $ ${rate * units}` : `$ ${rate} / unit`}</td>
     </tr>
   );
 };

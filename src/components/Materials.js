@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from "react";
-// import { useInventory } from "./Providers/InventoryProvider";
+import React from "react";
 import { useClient } from "./Providers/ClientProvider";
 import { Material } from "./Material";
 import ClearInventory from "./ClearInventory";
 import { defaultMaterials } from "../utils/defaultMaterials";
 
 export const Materials = () => {
-  // const [materials, setMaterials] = useState(initialMaterials);
-  // const { inventory } = useInventory();
-
-  const [totalMaterial, setTotalMaterial] = useState(0);
-
   const client = useClient();
-  // const dispatch = useClientDispatch();
-  const { materials } = client;
-
-  useEffect(() => {
-  if (materials)  setTotalMaterial(materials.reduce((sum, { units, rate }) => sum + Number(units) * Number(rate), 0));
-  }, [materials]);
-
-  // console.log(inventory)
-  // <div style={{minHeight: 200, background: "pink"}}>
+  const { totalMaterials } = client;
 
   // {shift && 'shift '}
   // {small && 'small '}
@@ -55,7 +41,7 @@ export const Materials = () => {
         <thead className="">
           <tr className="bg-purple-700 text-white rounded-t-lg">
             <th className="w-1/2">Material</th>
-            <th className="w-1/4">Count</th>
+            <th className="w-1/4">Count {totalMaterials > 0 ? <ClearInventory /> : null} </th>
             <th className="w-1/4">Price</th>
           </tr>
         </thead>
@@ -69,10 +55,12 @@ export const Materials = () => {
         </tbody>
         <tfoot className="  text-white rounded-t-lg">
           <tr>
-            <td className="p-2">{totalMaterial > 0 ? <ClearInventory /> : null}</td>
+            <td className="p-2">
+              <span className="cursor-pointer">+</span>
+            </td>
             <td className="text-right ">Total: </td>
             <td className="text-right p-2" style={{ minWidth: 120 }}>
-              {" $" + totalMaterial}
+              {" $" + totalMaterials}
             </td>
           </tr>
         </tfoot>

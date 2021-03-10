@@ -139,9 +139,7 @@ const useClient = () => {
 const useClientDispatch = () => {
   const context = useContext(ClientDispatchContext);
   if (context === undefined) {
-    throw new Error(
-      "useClientDispatch must be used within a ClientDispatchProvider"
-    );
+    throw new Error("useClientDispatch must be used within a ClientDispatchProvider");
   }
   return context;
 };
@@ -161,11 +159,10 @@ const clientReducer = (state, { field, value, type, payload }) => {
           for (let i = 0; i < materials.length; i++) {
             const { id } = materials[i];
             if (id === payload.id) idExists = true;
-            if (idExists === true) console.log("idExists");
           }
         }
         if (idExists) {
-          //if existst add to units,
+          if (payload.units === 0) return { ...state, materials: materials.filter((m) => m.id !== payload.id) };
           return {
             ...state,
             materials: materials.map((d) => {
@@ -174,24 +171,15 @@ const clientReducer = (state, { field, value, type, payload }) => {
             }),
           };
         } else {
-          //if not add to materials arrayt
           return {
             ...state,
-            materials: { ...materials, payload },
+            materials: [...materials, payload],
           };
         }
-      case "removeMaterial":
-        return {
-          ...state,
-          materials: materials.filter((m) => m.id !== payload.id),
-        };
       case "clearCount":
         return {
           ...state,
-          materials: materials.map((d) => {
-            d.units = 0;
-            return d;
-          }),
+          materials: [],
         };
       default:
         return state;
@@ -219,6 +207,7 @@ const ClientProvider = ({ children }) => {
     departTime,
     breakTime,
     subtotal,
+    materials,
     // adjustment,
     totalMovingCharges,
     totalAmountPaid,
@@ -231,13 +220,15 @@ const ClientProvider = ({ children }) => {
 
   useEffect(() => {
     dispatch({
+      field: "totalMaterials",
+      value: materials.reduce((sum, { units, rate }) => sum + Number(units) * Number(rate), 0),
+    });
+  }, [materials, dispatch]);
+
+  useEffect(() => {
+    dispatch({
       field: "totalValuation",
-      value:
-        valuation === "basic"
-          ? 0
-          : valuation === "replacement"
-          ? valuationCost
-          : valuationCostWithDeductible,
+      value: valuation === "basic" ? 0 : valuation === "replacement" ? valuationCost : valuationCostWithDeductible,
     });
   }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
 
@@ -254,9 +245,7 @@ const ClientProvider = ({ children }) => {
     });
     dispatch({
       field: "valuationCostWithDeductible",
-      value:
-        Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) /
-        100,
+      value: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
     });
   }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
 
@@ -280,15 +269,7 @@ const ClientProvider = ({ children }) => {
       field: "totalHours",
       value: convertToHHMM(dt - at - bt),
     });
-  }, [
-    totalHours,
-    startTime,
-    endTime,
-    arriveTime,
-    departTime,
-    breakTime,
-    dispatch,
-  ]);
+  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, dispatch]);
 
   useEffect(() => {
     dispatch({
@@ -341,8 +322,7 @@ const ClientProvider = ({ children }) => {
     }
 
     const adjustmentNumber = Number(subtotal) * adjustment;
-    const totalMovingChargesNumber =
-      Number(subtotal) * (1 + Number(adjustment));
+    const totalMovingChargesNumber = Number(subtotal) * (1 + Number(adjustment));
     dispatch({
       field: "adjustment",
       value: money_round(adjustmentNumber).toString(),
@@ -355,8 +335,7 @@ const ClientProvider = ({ children }) => {
   }, [paymentOption, subtotal]);
 
   useEffect(() => {
-    const remainingBalanceNumber =
-      Number(totalMovingCharges) - Number(totalAmountPaid);
+    const remainingBalanceNumber = Number(totalMovingCharges) - Number(totalAmountPaid);
 
     dispatch({
       field: "remainingBalance",
@@ -369,9 +348,7 @@ const ClientProvider = ({ children }) => {
 
   return (
     <ClientContext.Provider value={state}>
-      <ClientDispatchContext.Provider value={dispatch}>
-        {children}
-      </ClientDispatchContext.Provider>
+      <ClientDispatchContext.Provider value={dispatch}>{children}</ClientDispatchContext.Provider>
     </ClientContext.Provider>
   );
 };
