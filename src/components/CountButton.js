@@ -62,8 +62,9 @@ const CountButton = ({ count, changeCount }) => {
             e.preventDefault();
           }
         }}
+        // onBlur={(e) => changeCount(parseInt(e.target.value, 10))}
         onKeyDown={(e) => (e.key === "Enter" ? e.target.blur() : null)}
-        value={count}
+        value={count.toString()}
       ></input>
       <button
         onClick={increment}
