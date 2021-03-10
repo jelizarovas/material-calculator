@@ -72,8 +72,9 @@ export const defaultMaterials = [
   },
   {
     id: "Aic8ie",
-    name: "Laydown Wardrobe",
+    name: "Flat Wardrobe",
     volume: 13,
+    // @TODO ISSUE #18
     w: "24",
     d: "24",
     h: "40",
@@ -87,9 +88,9 @@ export const defaultMaterials = [
     id: "fjCPOT",
     name: "Mirror Pack (Small)",
     volume: 13,
-    w: "24",
-    d: "24",
-    h: "40",
+    w: "37 5/16",
+    d: "4 3/8",
+    h: "26 15/16",
 
     units: 0,
     img: "img/smirror.png",
@@ -99,6 +100,7 @@ export const defaultMaterials = [
   {
     id: "UmttCz",
     name: "Mirror Pack (Large)",
+    // @TODO ISSUE #18
     volume: 13,
     w: "24",
     d: "24",
@@ -154,6 +156,8 @@ export const defaultMaterials = [
     name: "TV Box",
     units: 0,
     img: "img/tv.png",
+    // @TODO ISSUE #18
+
     history: {},
     rate: 25,
   },

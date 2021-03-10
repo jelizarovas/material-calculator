@@ -22,7 +22,7 @@ export const Inventory = () => {
         placeholder="Estimated Weight"
         type="number"
       />
-      <div className="flex"></div>
+      <div className="bg-red-500"></div>
     </div>
   );
 };

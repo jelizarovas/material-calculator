@@ -1,16 +1,17 @@
 import React from "react";
 import useLongPress from "../utils/useLongPress";
 import clsx from "clsx";
+import { vibrate } from "../utils/vibrate";
 
 const CountButton = ({ count, changeCount }) => {
   const increment = () => {
     changeCount(count + 1);
-    window.navigator.vibrate([50]);
+    vibrate([50]);
   };
   const decrement = () => {
     if (count > 0) {
       changeCount(count - 1);
-      window.navigator.vibrate([50, 50, 50]);
+      vibrate([50, 50, 50]);
     }
   };
   const onChange = (e) => {
@@ -20,7 +21,7 @@ const CountButton = ({ count, changeCount }) => {
 
   const onLongPress = () => {
     changeCount(0);
-    window.navigator.vibrate([100, 50, 100]);
+    vibrate([100, 50, 100]);
   };
 
   const defaultOptions = {

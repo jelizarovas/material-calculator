@@ -1,5 +1,6 @@
 import React from "react";
 import { useClientDispatch } from "./Providers/ClientProvider";
+import { vibrate } from "../utils/vibrate";
 
 const ClearInventory = () => {
   const dispatch = useClientDispatch();
@@ -9,11 +10,11 @@ const ClearInventory = () => {
       type="reset"
       className="px-2 py-1 hover:bg-red-700 rounded-sm text-white text-xs "
       onClick={() => {
-        window.navigator.vibrate(500);
         dispatch({ type: "clearCount" });
+        vibrate(500);
       }}
     >
-      <span alt="Clear">×</span>
+      <span alt="Clear">× clear</span>
     </button>
   );
 };
