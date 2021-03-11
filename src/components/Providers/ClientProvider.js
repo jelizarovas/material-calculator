@@ -187,8 +187,37 @@ const clientReducer = (state, { field, value, type, payload }) => {
   }
 };
 
+// const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// const getDataFromAPI = async () => {
+//   await delay(2000);
+//   return {
+//     my: "data"
+//   };
+// };
+
+const getInitialState = () => {
+  if ("client" in localStorage) {
+    try {
+      return JSON.parse(localStorage.getItem("client"));
+    } catch (err) {
+      return {};
+    }
+  } else {
+    return initialState;
+  }
+};
+
+const withLocalStorageCache = (reducer) => {
+  return (state, action) => {
+    const newState = reducer(state, action);
+    localStorage.setItem("client", JSON.stringify(newState));
+    return newState;
+  };
+};
+
 const ClientProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(clientReducer, initialState);
+  const [state, dispatch] = useReducer(withLocalStorageCache(clientReducer), getInitialState());
 
   const {
     valuation,
