@@ -11,6 +11,7 @@ export const Material = ({ m }) => {
   const material = client.materials.find((m) => m.id === id);
 
   const units = material !== undefined ? material.units : 0;
+  const total = material !== undefined ? material.total : 0;
 
   // console.log(material);
 
@@ -39,7 +40,7 @@ export const Material = ({ m }) => {
   // };
 
   const changeCount = (newCount) => {
-    dispatch({ type: "changeCount", payload: { id, units: newCount, rate, name } });
+    dispatch({ type: "changeCount", payload: { id, units: newCount, rate, name, total: newCount * rate } });
   };
 
   return (
@@ -69,7 +70,7 @@ export const Material = ({ m }) => {
       <td>
         <CountButton count={units || 0} changeCount={changeCount} />
       </td>
-      <td className="text-right text-xs px-3">{units > 0 ? ` × $ ${rate} = $ ${rate * units}` : `$ ${rate} / unit`}</td>
+      <td className="text-right text-xs px-3">{units > 0 ? ` × $ ${rate} = $ ${total}` : `$ ${rate} / unit`}</td>
     </tr>
   );
 };

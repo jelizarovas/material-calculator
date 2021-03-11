@@ -8,33 +8,6 @@ export const Materials = () => {
   const client = useClient();
   const { totalMaterials } = client;
 
-  // {shift && 'shift '}
-  // {small && 'small '}
-  // {medium && 'medium '}
-  // {large && 'large '}
-  // {mattressbag && 'mattressbag '}
-  // {wardrobeRent && 'wardrobeRent '}
-  // {wardrobeBuy && 'wardrobeBuy '}
-  // {num1 && '1 '}
-  // {num2 && '2 '}
-  // {num3 && '3 '}
-  // {num4 && '4 '}
-  // {num5 && '5 '}
-  // </div>
-
-  // const shift = useKeyPress('shift');
-  // const small = useKeyPress('q');
-  // const medium = useKeyPress('w');
-  // const large = useKeyPress('e');
-  // const mattressbag = useKeyPress('r');
-  // const wardrobeRent = useKeyPress('t');
-  // const wardrobeBuy = useKeyPress('y');
-  // const num1 = useKeyPress('1');
-  // const num2 = useKeyPress('2');
-  // const num3 = useKeyPress('3');
-  // const num4 = useKeyPress('4');
-  // const num5 = useKeyPress('5');
-
   return (
     <div className="flex justify-center align-center  ">
       <table className="w-full sm:w-3/4 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4">
@@ -46,9 +19,6 @@ export const Materials = () => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {/* {materials.map((m) => (
-            <Material m={m} key={m.name + m.volume} />
-          ))} */}
           {defaultMaterials.map((m) => (
             <Material m={m} key={m.name + m.volume} />
           ))}

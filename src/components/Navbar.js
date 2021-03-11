@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { Menu, Clear, TurnedIn, TurnedInNot, NavigateNext, NavigateBefore } from "@material-ui/icons";
 
-export default function Navbar({ fixed }) {
+export function Navbar({ fixed }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [navbarPinned, setNavbarPinned] = React.useState(false);
 

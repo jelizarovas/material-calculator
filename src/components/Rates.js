@@ -237,6 +237,11 @@ export const Rates = () => {
 const FlatRate = ({ flatAmount, onChange }) => {
   const [showHelp, setshowHelp] = useState(false);
 
+  const client = useClient();
+  const dispatch = useClientDispatch();
+
+  const { flatIsMaterialsIncluded } = client;
+
   const explanation =
     "Is this flat amount just for the transportation/labor, or are all the materials included in price?";
 
@@ -249,8 +254,21 @@ const FlatRate = ({ flatAmount, onChange }) => {
         placeholder="Flat Amount"
         Icon={() => <span>$</span>}
       />
-      <label htmlFor="materialsIncluded">
-        <input type="checkbox" name="materialsIncluded" /> Materials included?
+      <input
+        name="flatIsMaterialsIncluded"
+        className="mr-5 ml-3"
+        checked={flatIsMaterialsIncluded}
+        onChange={() => {
+          dispatch({
+            field: "flatIsMaterialsIncluded",
+            value: !flatIsMaterialsIncluded,
+          });
+        }}
+        placeholder="Total Valuation Cost"
+        type="checkbox"
+      />
+      <label htmlFor="flatIsMaterialsIncluded">
+        Materials included?
         <span className="text-xs  cursor-pointer select-none pl-4" onClick={() => setshowHelp(!showHelp)}>
           {!showHelp ? "> " : "x "} Help
         </span>

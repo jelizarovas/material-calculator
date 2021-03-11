@@ -75,13 +75,17 @@ async function fillForm(client) {
 
   switch (client.jobType) {
     case "local":
-      form.getTextField("Hourly Time Start").setText(client.startTime);
+      if (client.isTravelFeeFixed) {
+        form.getTextField("Travel Fee").setText(client.travelFee);
+      } else {
+        form.getTextField("Hourly Time Start").setText(client.startTime);
+        form.getTextField("Hourly Time End").setText(client.endTime);
+      }
+
       form.getTextField("Hourly Time Arrive").setText(client.arriveTime);
       form.getTextField("Hourly Time Depart").setText(client.departTime);
-      form.getTextField("Hourly Time End").setText(client.endTime);
       form.getTextField("Hourly Time Breaks").setText(client.breakTime);
       form.getTextField("Hourly Time TOTAL").setText(client.totalHours);
-      form.getTextField("Travel Fee").setText(client.travelFee);
       form.getTextField("Hourly Rate").setText(client.hourlyRate);
       break;
     case "longDistance":
@@ -93,6 +97,8 @@ async function fillForm(client) {
       break;
     case "flatRate":
       //FLAT RATE FIELDS
+      // flatIsMaterialsIncluded
+      //flatAmount
       break;
 
     default:
@@ -100,7 +106,7 @@ async function fillForm(client) {
   }
   form.getTextField("Total Transportation").setText(client.totalTransportation);
 
-  form.getTextField("TOTAL PACKING  MATERIAL").setText(client.totalMaterials);
+  form.getTextField("TOTAL PACKING  MATERIAL").setText(client.totalMaterials.toString());
   form.getTextField("TOTAL OTHER").setText(client.totalOtherFees);
   form.getTextField("SUBTOTAL 1234").setText(client.subtotal);
   form.getTextField("Adjustment").setText(client.adjustment);
@@ -114,9 +120,9 @@ async function fillForm(client) {
 
     if (0 < i && i < 10) {
       form.getTextField(`C${i}`).setText(item.name);
-      form.getTextField(`QTY C${i}`).setText(item.units);
-      form.getTextField(`RATE C${i}`).setText(item.rate);
-      form.getTextField(`TOTAL C${i}`).setText(item.total);
+      form.getTextField(`QTY C${i}`).setText(item.units.toString());
+      form.getTextField(`RATE C${i}`).setText(item.rate.toString());
+      form.getTextField(`TOTAL C${i}`).setText(item.total.toString());
     }
   });
   const miscFees = client.miscFees.filter((m) => m.amount > 0);
@@ -294,7 +300,7 @@ export const Overview = () => {
         }}
         placeholder="Total Amount Paid"
       />
-      <pre className="max-w-md overflow-hidden text-xs bg-white">{client && JSON.stringify(client, 0, 2)}</pre>
+
       <div className="flex">
         <SignatureBlock type="signature" name="Customer Signature" />
         <SignatureBlock type="initials" name="Customer Initials" width="200" />
