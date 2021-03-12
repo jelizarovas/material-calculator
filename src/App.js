@@ -7,7 +7,12 @@ import { BillOfLading } from "./components/BillOfLading";
 import { Inventory } from "./components/Inventory";
 import { Estimate } from "./components/Estimate";
 import { ClientProvider } from "./components/Providers/ClientProvider";
-import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { Rates } from "./components/Rates";
 import { Navbar } from "./components/Navbar";
 import { Steps } from "./components/Steps";

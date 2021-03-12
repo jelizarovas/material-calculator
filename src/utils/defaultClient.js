@@ -12,6 +12,7 @@ export const defaultClient = {
   email: "ch8978hammerindustries@hotmail.com",
   originAddress: "21 Main St Apt 101 Seattle, WA 98121",
   destinationAddress: "222 216th Ave NW Seattle, WA 98117",
+  anyAdditionalStops: false,
   additionalStops: "Wingstop",
   notes:
     "Large 1 Bedroom condo/aprt. (Total 750 c.f. / 5250 lbs) (with Living room, Office and Dining room). 2 Movers, 1 Trucks",

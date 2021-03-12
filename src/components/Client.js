@@ -1,18 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Input } from "./Input";
-import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation } from "@material-ui/icons/";
+import {
+  EmojiPeople,
+  Email,
+  Phone,
+  Home,
+  LocalShipping,
+  AddLocation,
+} from "@material-ui/icons/";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 import { SectionTitle } from "./SectionTitle";
 
 export const Client = () => {
-  const [showAdditionalStop, setshowAdditionalStop] = useState(false);
-
   const client = useClient();
   const dispatch = useClientDispatch();
-  const { fullName, phoneNumber, email, originAddress, destinationAddress, additionalStops, notes } = client;
+  const {
+    fullName,
+    phoneNumber,
+    email,
+    originAddress,
+    destinationAddress,
+    additionalStops,
+    anyAdditionalStops,
+  } = client;
 
-  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) =>
+    dispatch({ field: e.target.name, value: e.target.value });
 
   useEffect(() => {
     document.title = fullName ? `${fullName} - move` : "Bill of Lading";
@@ -40,7 +54,13 @@ export const Client = () => {
       <div className=" w-full sm:w-3/4 xs:w-full mx-auto lg:w-1/2 flex-row ">
         <form action="" method="post">
           <SectionTitle title="Contact Info" hidePlus={true} />
-          <Input name="fullName" value={fullName} onChange={onChange} Icon={EmojiPeople} placeholder="Full Name" />
+          <Input
+            name="fullName"
+            value={fullName}
+            onChange={onChange}
+            Icon={EmojiPeople}
+            placeholder="Full Name"
+          />
           <Input
             name="phoneNumber"
             value={phoneNumber}
@@ -51,11 +71,23 @@ export const Client = () => {
             // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             type="tel"
           />
-          <Input name="email" value={email} onChange={onChange} Icon={Email} placeholder="Email" type="email" />
+          <Input
+            name="email"
+            value={email}
+            onChange={onChange}
+            Icon={Email}
+            placeholder="Email"
+            type="email"
+          />
           <SectionTitle
             title="Locations"
-            onPlusClick={() => setshowAdditionalStop(!showAdditionalStop)}
-            plus={!showAdditionalStop}
+            onPlusClick={() =>
+              dispatch({
+                field: "anyAdditionalStops",
+                value: !anyAdditionalStops,
+              })
+            }
+            plus={!anyAdditionalStops}
           />
           <Input
             name="originAddress"
@@ -64,14 +96,7 @@ export const Client = () => {
             Icon={Home}
             placeholder="Starting Point (Origin)"
           />
-          <Input
-            name="destinationAddress"
-            value={destinationAddress}
-            onChange={onChange}
-            Icon={LocalShipping}
-            placeholder="End Point (Destination)"
-          />
-          {showAdditionalStop && (
+          {anyAdditionalStops && (
             <Input
               name="additionalStops"
               value={additionalStops}
@@ -80,6 +105,13 @@ export const Client = () => {
               placeholder="Other Stops"
             />
           )}
+          <Input
+            name="destinationAddress"
+            value={destinationAddress}
+            onChange={onChange}
+            Icon={LocalShipping}
+            placeholder="End Point (Destination)"
+          />
         </form>
       </div>
     </div>
