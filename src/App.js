@@ -10,15 +10,16 @@ import { ClientProvider } from "./components/Providers/ClientProvider";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { Rates } from "./components/Rates";
 import { Navbar } from "./components/Navbar";
-import { Contents } from "./components/Contents";
+import { Steps } from "./components/Steps";
+// import { Contents } from "./components/Contents";
 
 function App() {
   return (
-    <ClientProvider>
-      <Contents />
-      <div>
-        <Router basename="/">
-          <Navbar />
+    <Router basename="/">
+      <ClientProvider>
+        {/* <Contents /> */}
+        <Navbar />
+        <div className="container mx-auto bg-gray-100  pb-10 rounded-b-lg shadow-2xl">
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/client" />} />
             <Route path="/materials">
@@ -43,10 +44,12 @@ function App() {
               <Overview />
             </Route>
           </Switch>
+
+          <Steps />
           {/* <Totals /> */}
-        </Router>
-      </div>
-    </ClientProvider>
+        </div>
+      </ClientProvider>
+    </Router>
   );
 }
 export default App;

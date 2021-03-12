@@ -23,7 +23,7 @@ export const Materials = () => {
             <Material m={m} key={m.name + m.volume} />
           ))}
         </tbody>
-        <tfoot className="  text-white rounded-t-lg">
+        <tfoot className="  text-sm rounded-t-lg">
           <tr>
             <td className="p-2">
               <span className="cursor-pointer">+</span>

@@ -3,6 +3,8 @@ import { PDFDocument } from "pdf-lib";
 import download from "downloadjs";
 import SignatureCanvas from "react-signature-canvas";
 import { Input } from "./Input";
+import { TextArea } from "./TextArea";
+import { SpeakerNotes } from "@material-ui/icons/";
 
 import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 
@@ -280,13 +282,15 @@ async function fillForm(client) {
 
 export const Overview = () => {
   const client = useClient();
-  const { totalAmountPaid, paymentOption } = client;
+  const { totalAmountPaid, paymentOption, notes } = client;
   const dispatch = useClientDispatch();
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   return (
     <div>
+      <TextArea name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" />
+
       <h2>Payment Type</h2>
       <PaymentType value={paymentOption} onChange={onChange} />
 
