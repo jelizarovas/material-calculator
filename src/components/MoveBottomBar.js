@@ -1,29 +1,58 @@
 import React from "react";
-import { NavigateNext, NavigateBefore, NoteAdd } from "@material-ui/icons";
+import {
+  NavigateNext,
+  NavigateBefore,
+  NoteAdd,
+  Menu,
+} from "@material-ui/icons";
 import { Link, useLocation, useHistory } from "react-router-dom";
 
-export const Steps = () => {
+export const MoveBottomBar = () => {
   let { pathname } = useLocation();
   let history = useHistory();
 
-  const steps = ["client", "rates", "inventory", "estimate", "materials", "overview"];
+  const steps = [
+    "client",
+    "rates",
+    "inventory",
+    "estimate",
+    "materials",
+    "overview",
+  ];
   const currentIndex = steps.indexOf(pathname.substring(1));
 
   const nextStep = () => {
-    if (steps.length - 1 > currentIndex) history.push("/" + steps[currentIndex + 1]);
+    if (steps.length - 1 > currentIndex)
+      history.push("/" + steps[currentIndex + 1]);
   };
 
   const previousStep = () => {
     if (0 < currentIndex) history.push("/" + steps[currentIndex - 1]);
   };
 
+  const note = () => {
+    return;
+  };
+
+  const menuToggle = () => {
+    return;
+  };
+
   return (
     <div className="flex justify-center w-full mt-10">
+      <button
+        className="text-gray-900  cursor-pointer text-md leading-none px-3 py-1 border border-solid border-gray-700 rounded block outline-none focus:outline-none mx-5"
+        type="button"
+        onClick={menuToggle}
+      >
+        <Menu fontSize="small" /> Menu
+      </button>
+
       {/* <span className="mx-auto bg-gray-700 rounded-lg p-2 px-4 cursor-pointer text-white">Steps</span> */}
       <button
         className="text-yellow-400  cursor-pointer text-md leading-none px-3 py-1 border border-solid border-yellow-400 rounded block outline-none focus:outline-none mx-5"
         type="button"
-        onClick={previousStep}
+        onClick={note}
       >
         <NoteAdd fontSize="small" /> Note
       </button>
@@ -33,7 +62,7 @@ export const Steps = () => {
           type="button"
           onClick={previousStep}
         >
-          <NavigateBefore fontSize="small" /> Before
+          <NavigateBefore fontSize="small" /> Previous
         </button>
       )}
       {currentIndex !== steps.length - 1 && (
