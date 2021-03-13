@@ -116,7 +116,7 @@ export function Navbar({ fixed }) {
             <NavLink to="/paramount" text="Paramount" />
             <NavLink to="/dispatch" text="Dispatch" />
             <NavLink to="/warehouse" text="Warehouse" />
-            <NavLink to="/misc" text="Misc" />
+            <NavLink to="/tools" text="tools" />
           </ul>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Estimates = () => {
+export const Tool = () => {
   return <div></div>;
 };
