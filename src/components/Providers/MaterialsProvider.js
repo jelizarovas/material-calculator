@@ -76,7 +76,7 @@ const getInitialState = () => {
       return {};
     }
   } else {
-    return { materials: {} };
+    return { materials: [] };
   }
 };
 

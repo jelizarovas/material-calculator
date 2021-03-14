@@ -1,9 +1,10 @@
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 
-export const MoveMenu = () => {
+export const MoveMenu = ({ showSideMenu }) => {
+  const sideMenuStatus = showSideMenu ? "" : "hidden";
   return (
-    <div className="absolute p-2 z-10 bg-white">
+    <div className={`absolute p-2 z-10 bg-white ${sideMenuStatus}`}>
       <ul className="flex flex-col  list-none lg:ml-auto">
         <NavLink to="client" text="Client" />
         <NavLink to="rates" text="rates" />

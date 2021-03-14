@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   // Link,
   Route,
@@ -23,6 +23,7 @@ import {
 } from "./Providers/ClientProvider";
 
 export const MoveWProvider = () => {
+  const [showSideMenu, setshowSideMenu] = useState(false);
   // let { moveId } = useParams();
   const client = useClient();
   const dispatch = useClientDispatch();
@@ -33,7 +34,7 @@ export const MoveWProvider = () => {
     <React.Fragment>
       {/* <Contents /> */}
 
-      <MoveMenu />
+      <MoveMenu showSideMenu={showSideMenu} />
 
       <Switch>
         <Route
@@ -63,7 +64,10 @@ export const MoveWProvider = () => {
           <Overview />
         </Route>
       </Switch>
-      <MoveBottomBar />
+      <MoveBottomBar
+        showSideMenu={showSideMenu}
+        setshowSideMenu={setshowSideMenu}
+      />
     </React.Fragment>
   );
 };

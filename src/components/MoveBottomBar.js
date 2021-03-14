@@ -7,7 +7,7 @@ import {
 } from "@material-ui/icons";
 import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 
-export const MoveBottomBar = () => {
+export const MoveBottomBar = ({ showSideMenu, setshowSideMenu }) => {
   let { pathname } = useLocation();
   let { url } = useRouteMatch();
 
@@ -39,7 +39,7 @@ export const MoveBottomBar = () => {
   };
 
   const menuToggle = () => {
-    return;
+    return setshowSideMenu(!showSideMenu);
   };
 
   return (
