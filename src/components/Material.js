@@ -1,7 +1,7 @@
 import React /*, { useState }*/ from "react";
 import CountButton from "./CountButton";
 // import { useInventory } from "./Providers/InventoryProvider";
-import { useClientDispatch, useClient } from "./Providers/ClientProvider";
+// import { useClientDispatch, useClient } from "./Providers/ClientProvider";
 
 export const Material = ({ m, state, dispatch }) => {
   const { id, name, volume, img, rate, /*w, d, h, description,*/ subtext } = m;

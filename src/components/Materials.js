@@ -1,5 +1,5 @@
 import React from "react";
-import { useClient } from "./Providers/ClientProvider";
+// import { useClient } from "./Providers/ClientProvider";
 import { Material } from "./Material";
 import ClearInventory from "./ClearInventory";
 import { defaultMaterials } from "../utils/defaultMaterials";

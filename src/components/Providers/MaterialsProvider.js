@@ -106,7 +106,7 @@ const MaterialsProvider = ({ children }) => {
           0
         ),
     });
-  }, [state, dispatch]);
+  }, [materials, dispatch]);
 
   return (
     <MaterialsContext.Provider value={state}>

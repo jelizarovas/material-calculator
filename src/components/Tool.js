@@ -4,8 +4,8 @@ import {
   Route,
   // useParams,
   Switch,
-  useRouteMatch,
-  Redirect,
+  // useRouteMatch,
+  // Redirect,
 } from "react-router-dom";
 import { Materials } from "./Materials";
 import {
@@ -15,12 +15,12 @@ import {
 } from "./Providers/MaterialsProvider";
 
 export const ToosWProviders = () => {
-  let { path, url } = useRouteMatch();
+  // let { path } = useRouteMatch();
 
   const materials = useMaterials();
   const materialsDispatch = useMaterialsDispatch();
 
-  console.log(path);
+  // console.log(path);
   return (
     <React.Fragment>
       <Switch>
