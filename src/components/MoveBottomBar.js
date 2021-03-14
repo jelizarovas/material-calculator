@@ -5,10 +5,14 @@ import {
   NoteAdd,
   Menu,
 } from "@material-ui/icons";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 
 export const MoveBottomBar = () => {
   let { pathname } = useLocation();
+  let { url } = useRouteMatch();
+
+  const newp = pathname.split("/");
+
   let history = useHistory();
 
   const steps = [
@@ -19,15 +23,15 @@ export const MoveBottomBar = () => {
     "materials",
     "overview",
   ];
-  const currentIndex = steps.indexOf(pathname.substring(1));
+  const currentIndex = steps.indexOf(newp[newp.length - 1]);
 
   const nextStep = () => {
     if (steps.length - 1 > currentIndex)
-      history.push("/" + steps[currentIndex + 1]);
+      history.push(`${url}/${steps[currentIndex + 1]}`);
   };
 
   const previousStep = () => {
-    if (0 < currentIndex) history.push("/" + steps[currentIndex - 1]);
+    if (0 < currentIndex) history.push(`${url}/${steps[currentIndex - 1]}`);
   };
 
   const note = () => {

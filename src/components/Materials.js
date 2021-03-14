@@ -4,9 +4,8 @@ import { Material } from "./Material";
 import ClearInventory from "./ClearInventory";
 import { defaultMaterials } from "../utils/defaultMaterials";
 
-export const Materials = () => {
-  const client = useClient();
-  const { totalMaterials } = client;
+export const Materials = ({ state, dispatch }) => {
+  const { totalMaterials } = state;
 
   return (
     <div className="flex justify-center align-center  ">
@@ -14,13 +13,23 @@ export const Materials = () => {
         <thead className="">
           <tr className="bg-purple-700 text-white rounded-t-lg">
             <th className="w-1/2">Material</th>
-            <th className="w-1/4">Count {totalMaterials > 0 ? <ClearInventory /> : null} </th>
+            <th className="w-1/4">
+              Count{" "}
+              {totalMaterials > 0 ? (
+                <ClearInventory dispatch={dispatch} />
+              ) : null}{" "}
+            </th>
             <th className="w-1/4">Price</th>
           </tr>
         </thead>
         <tbody className="bg-white">
           {defaultMaterials.map((m) => (
-            <Material m={m} key={m.name + m.volume} />
+            <Material
+              m={m}
+              key={m.name + m.volume}
+              state={state}
+              dispatch={dispatch}
+            />
           ))}
         </tbody>
         <tfoot className="  text-sm rounded-t-lg">

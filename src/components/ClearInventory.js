@@ -2,8 +2,8 @@ import React from "react";
 import { useClientDispatch } from "./Providers/ClientProvider";
 import { vibrate } from "../utils/vibrate";
 
-const ClearInventory = () => {
-  const dispatch = useClientDispatch();
+const ClearInventory = ({ dispatch }) => {
+  // const dispatch = useClientDispatch();
 
   return (
     <button

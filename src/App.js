@@ -41,7 +41,7 @@ function App() {
           <Route path="/m/:moveId" component={Move} />
 
           <Route path="/estimates" component={Estimates} />
-          <Route path="/t/:estimateId" component={Estimate} />
+          <Route path="/e/:estimateId" component={Estimate} />
 
           <Route path="/paramount" component={Paramounts} />
           <Route path="/p/:pId" component={Paramount} />

@@ -1,39 +1,10 @@
 import React from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import {
-  Menu,
-  Clear,
-  TurnedIn,
-  TurnedInNot,
-  NavigateNext,
-  NavigateBefore,
-} from "@material-ui/icons";
+import { Link } from "react-router-dom";
+import { Menu, Clear, TurnedIn, TurnedInNot } from "@material-ui/icons";
 
 export function Navbar({ fixed }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [navbarPinned, setNavbarPinned] = React.useState(false);
-
-  let { pathname } = useLocation();
-  let history = useHistory();
-
-  const steps = [
-    "client",
-    "rates",
-    "inventory",
-    "estimate",
-    "materials",
-    "overview",
-  ];
-  const currentIndex = steps.indexOf(pathname.substring(1));
-
-  const nextStep = () => {
-    if (steps.length - 1 > currentIndex)
-      history.push("/" + steps[currentIndex + 1]);
-  };
-
-  const previousStep = () => {
-    if (0 < currentIndex) history.push("/" + steps[currentIndex - 1]);
-  };
 
   const NavLink = ({ to, text }) => {
     return (
@@ -80,20 +51,6 @@ export function Navbar({ fixed }) {
               </button>
             ) : null}
 
-            <button
-              className="text-white  cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none "
-              type="button"
-              onClick={previousStep}
-            >
-              <NavigateBefore />
-            </button>
-            <button
-              className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-              type="button"
-              onClick={nextStep}
-            >
-              <NavigateNext />
-            </button>
             <button
               className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
               type="button"

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import { Clear, Restore, Done } from "@material-ui/icons/";
+import { Clear, Restore } from "@material-ui/icons/";
 import useLongPress from "../utils/useLongPress";
 
 export const Input = (props) => {

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
+  // BrowserRouter as Router,
+  // Switch,
+  // Route,
   Link,
-  useParams,
-  useRouteMatch,
+  // useParams,
+  // useRouteMatch,
 } from "react-router-dom";
 import { nanoid } from "nanoid";
 
 const MoveLink = ({ moveId }) => {
-  let { url } = useRouteMatch();
+  // let { url } = useRouteMatch();
   return (
     <li className="p-1">
       <Link to={`/m/${moveId}`}>{moveId}</Link>
@@ -28,14 +28,14 @@ export const Moves = () => {
     }
     setstate(arr);
   }, []);
-  let { path, url } = useRouteMatch();
+  // let { path, url } = useRouteMatch();
 
   return (
     <div>
       List of Moves
       <ul>
         {state.map((a) => (
-          <MoveLink moveId={a} />
+          <MoveLink key={a} moveId={a} />
         ))}
       </ul>
       <button>New Move</button>

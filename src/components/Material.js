@@ -3,12 +3,13 @@ import CountButton from "./CountButton";
 // import { useInventory } from "./Providers/InventoryProvider";
 import { useClientDispatch, useClient } from "./Providers/ClientProvider";
 
-export const Material = ({ m }) => {
+export const Material = ({ m, state, dispatch }) => {
   const { id, name, volume, img, rate, /*w, d, h, description,*/ subtext } = m;
-  const dispatch = useClientDispatch();
-  const client = useClient();
+  // const dispatch = useClientDispatch();
+  // const client = useClient();
 
-  const material = client.materials.find((m) => m.id === id);
+  const material =
+    state && state.materials && state.materials.find((m) => m.id === id);
 
   const units = material !== undefined ? material.units : 0;
   const total = material !== undefined ? material.total : 0;
@@ -40,7 +41,10 @@ export const Material = ({ m }) => {
   // };
 
   const changeCount = (newCount) => {
-    dispatch({ type: "changeCount", payload: { id, units: newCount, rate, name, total: newCount * rate } });
+    dispatch({
+      type: "changeCount",
+      payload: { id, units: newCount, rate, name, total: newCount * rate },
+    });
   };
 
   return (
@@ -48,7 +52,11 @@ export const Material = ({ m }) => {
       <td>
         <div className="flex align-middle">
           <div className="p-1">
-            <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
+            <img
+              className="max-h-5 w-5"
+              src={process.env.PUBLIC_URL + "/" + img}
+              alt=""
+            />
           </div>
           <div className="flex-col">
             <div className="flex-1 text-sm">
@@ -70,7 +78,9 @@ export const Material = ({ m }) => {
       <td>
         <CountButton count={units || 0} changeCount={changeCount} />
       </td>
-      <td className="text-right text-xs px-3">{units > 0 ? ` × $ ${rate} = $ ${total}` : `$ ${rate} / unit`}</td>
+      <td className="text-right text-xs px-3">
+        {units > 0 ? ` × $ ${rate} = $ ${total}` : `$ ${rate} / unit`}
+      </td>
     </tr>
   );
 };
