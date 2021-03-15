@@ -1,26 +1,12 @@
 import React from "react";
-import {
-  // Link,
-  Route,
-  // useParams,
-  Switch,
-  // useRouteMatch,
-  // Redirect,
-} from "react-router-dom";
-import { Materials } from "./Materials";
-import {
-  MaterialsProvider,
-  useMaterialsDispatch,
-  useMaterials,
-} from "./Providers/MaterialsProvider";
+import { Route, Switch } from "react-router-dom";
+import { Materials } from "../Moves/Materials";
+import { MaterialsProvider, useMaterialsDispatch, useMaterials } from "../Providers/MaterialsProvider";
 
 export const ToosWProviders = () => {
-  // let { path } = useRouteMatch();
-
   const materials = useMaterials();
   const materialsDispatch = useMaterialsDispatch();
 
-  // console.log(path);
   return (
     <React.Fragment>
       <Switch>
@@ -32,7 +18,7 @@ export const ToosWProviders = () => {
   );
 };
 
-export const Tool = ({ children }) => {
+export const Tool = () => {
   return (
     <MaterialsProvider>
       <ToosWProviders />

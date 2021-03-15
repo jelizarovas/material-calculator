@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  // Link,
-  Route,
-  // useParams,
-  Switch,
-  useRouteMatch,
-  Redirect,
-} from "react-router-dom";
+import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
 import { Materials } from "./Materials";
 import { Client } from "./Client";
 import { MoveMenu } from "./MoveMenu";
@@ -15,33 +8,22 @@ import { Rates } from "./Rates";
 import { Inventory } from "./Inventory";
 import { Estimate } from "./Estimate";
 import { Overview } from "./Overview";
-// import { Contents } from "./components/Contents";
-import {
-  ClientProvider,
-  useClient,
-  useClientDispatch,
-} from "./Providers/ClientProvider";
+import { MoveProvider, useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
 export const MoveWProvider = () => {
   const [showSideMenu, setshowSideMenu] = useState(false);
   // let { moveId } = useParams();
-  const client = useClient();
-  const dispatch = useClientDispatch();
+  const client = useMove();
+  const dispatch = useMoveDispatch();
 
   let { path, url } = useRouteMatch();
 
   return (
     <React.Fragment>
-      {/* <Contents /> */}
-
       <MoveMenu showSideMenu={showSideMenu} />
 
       <Switch>
-        <Route
-          exact
-          path={`${path}`}
-          render={() => <Redirect to={`${url}/client`} />}
-        />
+        <Route exact path={`${path}`} render={() => <Redirect to={`${url}/client`} />} />
 
         <Route path={`${path}/materials`}>
           <Materials state={client} dispatch={dispatch} />
@@ -64,18 +46,15 @@ export const MoveWProvider = () => {
           <Overview />
         </Route>
       </Switch>
-      <MoveBottomBar
-        showSideMenu={showSideMenu}
-        setshowSideMenu={setshowSideMenu}
-      />
+      <MoveBottomBar showSideMenu={showSideMenu} setshowSideMenu={setshowSideMenu} />
     </React.Fragment>
   );
 };
 
 export const Move = () => {
   return (
-    <ClientProvider>
+    <MoveProvider>
       <MoveWProvider />
-    </ClientProvider>
+    </MoveProvider>
   );
 };

@@ -1,12 +1,12 @@
 import React from "react";
-import { Input } from "./Input";
+import { Input } from "../Inputs/Input";
 import { CalendarToday, EventBusy, Today, Add, Remove } from "@material-ui/icons/";
 
-import { useClient, useClientDispatch } from "./Providers/ClientProvider";
+import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
 export const Dates = () => {
-  const dispatch = useClientDispatch();
-  const client = useClient();
+  const dispatch = useMoveDispatch();
+  const client = useMove();
 
   const { dates } = client;
 

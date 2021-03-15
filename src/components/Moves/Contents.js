@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ReactJson from "react-json-view";
-import { useClient } from "./Providers/ClientProvider";
+import { useMove } from "../Providers/MoveProvider";
 
 export const Contents = () => {
   const [show, setShow] = useState(true);
-  const client = useClient();
+  const client = useMove();
 
   const scroll = show ? "overflow-scroll" : "overflow-auto";
   return (

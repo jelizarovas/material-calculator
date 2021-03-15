@@ -1,5 +1,5 @@
 import React, { useContext, useReducer, createContext, useEffect } from "react";
-import { defaultClient } from "../../utils/defaultClient";
+import { defaultMove } from "../../utils/defaultMove";
 // import { useKeyPress } from "../../utils/useKeyPress";
 // const small = useKeyPress("q");
 // console.log(small);
@@ -21,25 +21,25 @@ import { defaultClient } from "../../utils/defaultClient";
 //   return () => {};
 // }, [small]);
 
-const ClientContext = createContext();
-const ClientDispatchContext = createContext();
+const MoveContext = createContext();
+const MoveDispatchContext = createContext();
 
-const useClient = () => {
-  const context = useContext(ClientContext);
+const useMove = () => {
+  const context = useContext(MoveContext);
   if (context === undefined) {
-    throw new Error("useClient must be used within a ClientProvider");
+    throw new Error("useMove must be used within a MoveProvider");
   }
   return context;
 };
-const useClientDispatch = () => {
-  const context = useContext(ClientDispatchContext);
+const useMoveDispatch = () => {
+  const context = useContext(MoveDispatchContext);
   if (context === undefined) {
-    throw new Error("useClientDispatch must be used within a ClientDispatchProvider");
+    throw new Error("useMoveDispatch must be used within a MoveDispatchProvider");
   }
   return context;
 };
 
-const clientReducer = (state, { field, value, type, payload }) => {
+const moveReducer = (state, { field, value, type, payload }) => {
   if (!type) {
     return {
       ...state,
@@ -93,27 +93,27 @@ const clientReducer = (state, { field, value, type, payload }) => {
 // };
 
 const getInitialState = () => {
-  if ("client" in localStorage) {
+  if ("move" in localStorage) {
     try {
-      return JSON.parse(localStorage.getItem("client"));
+      return JSON.parse(localStorage.getItem("move"));
     } catch (err) {
       return {};
     }
   } else {
-    return defaultClient;
+    return defaultMove;
   }
 };
 
 const withLocalStorageCache = (reducer) => {
   return (state, action) => {
     const newState = reducer(state, action);
-    localStorage.setItem("client", JSON.stringify(newState));
+    localStorage.setItem("move", JSON.stringify(newState));
     return newState;
   };
 };
 
-const ClientProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(withLocalStorageCache(clientReducer), getInitialState());
+const MoveProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(withLocalStorageCache(moveReducer), getInitialState());
 
   const {
     valuation,
@@ -285,13 +285,13 @@ const ClientProvider = ({ children }) => {
   //TODO remianing balance
 
   return (
-    <ClientContext.Provider value={state}>
-      <ClientDispatchContext.Provider value={dispatch}>{children}</ClientDispatchContext.Provider>
-    </ClientContext.Provider>
+    <MoveContext.Provider value={state}>
+      <MoveDispatchContext.Provider value={dispatch}>{children}</MoveDispatchContext.Provider>
+    </MoveContext.Provider>
   );
 };
 
-export { ClientProvider, useClient, useClientDispatch };
+export { MoveProvider, useMove, useMoveDispatch };
 
 function timeToDecimal(t) {
   var arr = t.split(":");

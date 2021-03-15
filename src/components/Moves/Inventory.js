@@ -1,12 +1,12 @@
 import React from "react";
-import { Input } from "./Input";
+import { Input } from "../Inputs/Input";
 import { FitnessCenter } from "@material-ui/icons/";
 
-import { useClient, useClientDispatch } from "./Providers/ClientProvider";
+import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
 export const Inventory = () => {
-  const client = useClient();
-  const dispatch = useClientDispatch();
+  const client = useMove();
+  const dispatch = useMoveDispatch();
   const { estimatedWeight } = client;
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });

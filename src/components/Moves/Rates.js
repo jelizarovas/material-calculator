@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Input } from "./Input";
+import { Input } from "../Inputs/Input";
 import { Dates } from "./Dates";
 import { AccessTime, Money } from "@material-ui/icons/";
 
-import { useClient, useClientDispatch } from "./Providers/ClientProvider";
+import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
-import { ChipsInput } from "./ChipsInput";
+import { ChipsInput } from "../Inputs/ChipsInput";
 
 const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
   const times = [
@@ -43,8 +43,8 @@ const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
 };
 
 export const Rates = () => {
-  const client = useClient();
-  const dispatch = useClientDispatch();
+  const client = useMove();
+  const dispatch = useMoveDispatch();
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
@@ -237,8 +237,8 @@ export const Rates = () => {
 const FlatRate = ({ flatAmount, onChange }) => {
   const [showHelp, setshowHelp] = useState(false);
 
-  const client = useClient();
-  const dispatch = useClientDispatch();
+  const client = useMove();
+  const dispatch = useMoveDispatch();
 
   const { flatIsMaterialsIncluded } = client;
 

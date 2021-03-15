@@ -2,11 +2,11 @@ import React, { /*useState,*/ useRef } from "react";
 import { PDFDocument } from "pdf-lib";
 import download from "downloadjs";
 import SignatureCanvas from "react-signature-canvas";
-import { Input } from "./Input";
-import { TextArea } from "./TextArea";
+import { Input } from "../Inputs/Input";
+import { TextArea } from "../Inputs/TextArea";
 import { SpeakerNotes } from "@material-ui/icons/";
 
-import { useClient, useClientDispatch } from "./Providers/ClientProvider";
+import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
 //get page dimentions https://github.com/Hopding/pdf-lib/issues/62#issuecomment-453847201
 // Returns an object of shape: { width: number, height: number }
@@ -37,8 +37,7 @@ import { useClient, useClientDispatch } from "./Providers/ClientProvider";
 async function fillForm(client) {
   //const pdf =  http://localhost:3000/material-calculator/pdf/bol.pdf
   const pdf = "pdf/bol-sfm.pdf";
-  const baseUrl =
-    window.location.origin.toString() + process.env.PUBLIC_URL + "/";
+  const baseUrl = window.location.origin.toString() + process.env.PUBLIC_URL + "/";
   const formUrl = baseUrl + pdf;
   const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
 
@@ -48,21 +47,15 @@ async function fillForm(client) {
   const firstPage = pages[0];
 
   const signatureUrl = client.signature;
-  const signatureBytes = await fetch(signatureUrl).then((res) =>
-    res.arrayBuffer()
-  );
+  const signatureBytes = await fetch(signatureUrl).then((res) => res.arrayBuffer());
   const signatureImage = await pdfDoc.embedPng(signatureBytes);
 
   const initialsUrl = client.initials;
-  const initialsBytes = await fetch(initialsUrl).then((res) =>
-    res.arrayBuffer()
-  );
+  const initialsBytes = await fetch(initialsUrl).then((res) => res.arrayBuffer());
   const initialsImage = await pdfDoc.embedPng(initialsBytes);
 
   const crewSignatureUrl = client.crewSignature;
-  const crewSignatureBytes = await fetch(crewSignatureUrl).then((res) =>
-    res.arrayBuffer()
-  );
+  const crewSignatureBytes = await fetch(crewSignatureUrl).then((res) => res.arrayBuffer());
   const crewSignatureImage = await pdfDoc.embedPng(crewSignatureBytes);
 
   const form = pdfDoc.getForm();
@@ -71,21 +64,14 @@ async function fillForm(client) {
   form.getTextField("EMAIL").setText("     " + client.email);
   form.getTextField("PHONE 1").setText("     " + client.phoneNumber.toString());
   form.getTextField("Origin").setText("     " + client.originAddress);
-  if (client.anyAdditionalStops)
-    form.getTextField("Other Stops").setText("     " + client.additionalStops);
+  if (client.anyAdditionalStops) form.getTextField("Other Stops").setText("     " + client.additionalStops);
   form.getTextField("Destination").setText("     " + client.destinationAddress);
   form.getTextField("Notes").setText("     " + client.notes);
 
   form.getTextField("Shipment Value").setText(client.shipmentValue.toString());
-  form
-    .getTextField("valuation with deductible")
-    .setText(client.valuationCostWithDeductible.toString());
-  form
-    .getTextField("valuation no deductible")
-    .setText(client.valuationCost.toString());
-  form
-    .getTextField("Selected Valuation")
-    .setText(client.totalValuation.toString());
+  form.getTextField("valuation with deductible").setText(client.valuationCostWithDeductible.toString());
+  form.getTextField("valuation no deductible").setText(client.valuationCost.toString());
+  form.getTextField("Selected Valuation").setText(client.totalValuation.toString());
 
   form.getTextField("PERSONNEL").setText("     " + client.personnel.join(", "));
 
@@ -122,9 +108,7 @@ async function fillForm(client) {
   }
   form.getTextField("Total Transportation").setText(client.totalTransportation);
 
-  form
-    .getTextField("TOTAL PACKING  MATERIAL")
-    .setText(client.totalMaterials.toString());
+  form.getTextField("TOTAL PACKING  MATERIAL").setText(client.totalMaterials.toString());
   form.getTextField("TOTAL OTHER").setText(client.totalOtherFees);
   form.getTextField("SUBTOTAL 1234").setText(client.subtotal);
   form.getTextField("Adjustment").setText(client.adjustment);
@@ -297,22 +281,15 @@ async function fillForm(client) {
 }
 
 export const Overview = () => {
-  const client = useClient();
+  const client = useMove();
   const { totalAmountPaid, paymentOption, notes } = client;
-  const dispatch = useClientDispatch();
+  const dispatch = useMoveDispatch();
 
-  const onChange = (e) =>
-    dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   return (
     <div>
-      <TextArea
-        name="notes"
-        value={notes}
-        onChange={onChange}
-        Icon={SpeakerNotes}
-        placeholder="Notes"
-      />
+      <TextArea name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" />
 
       <h2>Payment Type</h2>
       <PaymentType value={paymentOption} onChange={onChange} />
@@ -337,10 +314,7 @@ export const Overview = () => {
       </div>
 
       <br></br>
-      <button
-        className="bg-gray-700 p-2 m-2 text-white"
-        onClick={() => fillForm(client)}
-      >
+      <button className="bg-gray-700 p-2 m-2 text-white" onClick={() => fillForm(client)}>
         Get bill of lading
       </button>
     </div>
@@ -350,7 +324,7 @@ export const Overview = () => {
 const SignatureBlock = ({ type, name, width = 500, height = 200 }) => {
   // const [imageURL, setImageURL] = useState(null);
 
-  const dispatch = useClientDispatch();
+  const dispatch = useMoveDispatch();
 
   const sigCanvas = useRef({});
 
@@ -380,10 +354,7 @@ const SignatureBlock = ({ type, name, width = 500, height = 200 }) => {
           ref={sigCanvas}
         />
       </div>
-      <button
-        className="bg-blue-600 p-2 m-2 text-white absolute top-4 right-2 rounded-lg"
-        onClick={clear}
-      >
+      <button className="bg-blue-600 p-2 m-2 text-white absolute top-4 right-2 rounded-lg" onClick={clear}>
         Reset
       </button>
       {/* {imageURL ? (

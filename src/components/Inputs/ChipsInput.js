@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Clear } from "@material-ui/icons";
-import { useClientDispatch } from "./Providers/ClientProvider";
+import { useMoveDispatch } from "../Providers/MoveProvider";
 
 export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLength = 20, max }) => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
 
-  const dispatch = useClientDispatch();
+  const dispatch = useMoveDispatch();
 
   const asyncSetState = (newState) => {
     const validatedState = [...new Set(newState)];

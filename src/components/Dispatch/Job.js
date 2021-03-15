@@ -1,5 +1,5 @@
 import React from "react";
 
 export const Job = () => {
-  return <div></div>;
+  return <div>Job</div>;
 };

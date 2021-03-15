@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { usePdf } from "@mikecousins/react-pdf";
-import useMousePosition from "../utils/useMousePosition";
+import useMousePosition from "../../utils/useMousePosition";
 
 export const BillOfLading = () => {
   const [page, setPage] = useState(1);

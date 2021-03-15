@@ -1,10 +1,7 @@
 import React from "react";
-// import { useClientDispatch } from "./Providers/ClientProvider";
-import { vibrate } from "../utils/vibrate";
+import { vibrate } from "../../utils/vibrate";
 
 const ClearInventory = ({ dispatch }) => {
-  // const dispatch = useClientDispatch();
-
   return (
     <button
       type="reset"

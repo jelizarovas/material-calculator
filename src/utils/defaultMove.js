@@ -6,7 +6,7 @@ function getFormattedDate(date) {
   return month + "/" + day + "/" + year;
 }
 
-export const defaultClient = {
+export const defaultMove = {
   fullName: "Christopher Hammer",
   phoneNumber: "4173433327",
   email: "ch8978hammerindustries@hotmail.com",

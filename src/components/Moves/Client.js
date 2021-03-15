@@ -1,20 +1,13 @@
 import React, { useEffect } from "react";
-import { Input } from "./Input";
-import {
-  EmojiPeople,
-  Email,
-  Phone,
-  Home,
-  LocalShipping,
-  AddLocation,
-} from "@material-ui/icons/";
+import { Input } from "../Inputs/Input";
+import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation } from "@material-ui/icons/";
 
-import { useClient, useClientDispatch } from "./Providers/ClientProvider";
-import { SectionTitle } from "./SectionTitle";
+import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
+import { SectionTitle } from "../Layout/SectionTitle";
 
 export const Client = () => {
-  const client = useClient();
-  const dispatch = useClientDispatch();
+  const client = useMove();
+  const dispatch = useMoveDispatch();
   const {
     fullName,
     phoneNumber,
@@ -25,8 +18,7 @@ export const Client = () => {
     anyAdditionalStops,
   } = client;
 
-  const onChange = (e) =>
-    dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   useEffect(() => {
     document.title = fullName ? `${fullName} - move` : "Bill of Lading";
@@ -54,13 +46,7 @@ export const Client = () => {
       <div className=" w-full sm:w-3/4 xs:w-full mx-auto lg:w-1/2 flex-row ">
         <form action="" method="post">
           <SectionTitle title="Contact Info" hidePlus={true} />
-          <Input
-            name="fullName"
-            value={fullName}
-            onChange={onChange}
-            Icon={EmojiPeople}
-            placeholder="Full Name"
-          />
+          <Input name="fullName" value={fullName} onChange={onChange} Icon={EmojiPeople} placeholder="Full Name" />
           <Input
             name="phoneNumber"
             value={phoneNumber}
@@ -71,14 +57,7 @@ export const Client = () => {
             // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             type="tel"
           />
-          <Input
-            name="email"
-            value={email}
-            onChange={onChange}
-            Icon={Email}
-            placeholder="Email"
-            type="email"
-          />
+          <Input name="email" value={email} onChange={onChange} Icon={Email} placeholder="Email" type="email" />
           <SectionTitle
             title="Locations"
             onPlusClick={() =>

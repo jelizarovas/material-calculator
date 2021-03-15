@@ -1,30 +1,25 @@
 import React from "react";
+import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
-import { Moves } from "./components/Moves";
-import { Move } from "./components/Move";
+import { Moves } from "./components/Moves/Moves";
+import { Move } from "./components/Moves/Move";
 
-import { Estimates } from "./components/Estimates";
-import { Estimate } from "./components/Estimate";
+import { Estimates } from "./components/Estimates/Estimates";
+import { Estimate } from "./components/Estimates/Estimate";
 
-import { Paramounts } from "./components/Paramounts";
-import { Paramount } from "./components/Paramount";
+import { Paramounts } from "./components/Paramount/Paramounts";
+import { Paramount } from "./components/Paramount/Paramount";
 
-import { Dispatch } from "./components/Dispatch";
-import { Job } from "./components/Job";
+import { Dispatch } from "./components/Dispatch/Dispatch";
+import { Job } from "./components/Dispatch/Job";
 
-import { Warehouse } from "./components/Warehouse";
-import { Ware } from "./components/Ware";
+import { Warehouse } from "./components/Warehouse/Warehouse";
+import { Ware } from "./components/Warehouse/Ware";
 
-import { Tools } from "./components/Tools";
-import { Tool } from "./components/Tool";
+import { Tools } from "./components/Tools/Tools";
+import { Tool } from "./components/Tools/Tool";
 
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import { Navbar } from "./components/Navbar";
+import { Navbar } from "./components/Layout/Navbar";
 
 function App() {
   return (
