@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input } from "../Inputs/Input";
 import { Dates } from "./Dates";
 import { AccessTime, Money } from "@material-ui/icons/";
+import { SectionTitle } from "../Layout/SectionTitle";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
@@ -66,73 +67,69 @@ export const Rates = () => {
     tareWeight,
     netWeight,
     mileageRate,
+    dates,
   } = client;
 
+  const addDate = () => {
+    dispatch({ field: "dates", value: [...dates, ""] });
+  };
   return (
-    <div className="md:container md:mx-auto">
-      <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/2 flex-row ">
-        <form method="post">
-          <Dates />
-          <ChipsInput name="personnel" chips={personnel} />
+    <form method="post">
+      <SectionTitle title="Dates" onPlusClick={addDate} />
 
-          <h2>Job Type</h2>
-          <select
-            name="jobType"
+      <Dates />
+      <SectionTitle title="Crew" hidePlus={true} />
+      <ChipsInput name="personnel" chips={personnel} />
+
+      <SectionTitle title="Job Type" hidePlus={true} />
+      <JobType onClick={onChange} value={jobType} />
+
+      {/* <DropDown /> */}
+
+      {jobType === "flatRate" && <FlatRate onChange={onChange} flatAmount={flatAmount} />}
+      {jobType === "longDistance" && (
+        <LongDistance
+          onChange={onChange}
+          distance={distance}
+          grossWeight={grossWeight}
+          tareWeight={tareWeight}
+          netWeight={netWeight}
+          mileageRate={mileageRate}
+        />
+      )}
+      {jobType === "local" && (
+        <React.Fragment>
+          <h2>Rates</h2>
+          <Input
+            name="hourlyRate"
+            value={hourlyRate}
             onChange={onChange}
-            value={jobType}
-            className="m-2 w-full  py-2 pr-6 text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900"
-          >
-            <option value="local">⏰ Local (Hourly)</option>
-            <option value="longDistance">🚚 Long Distance</option>
-            <option value="flatRate">💳 Flat Rate</option>
-          </select>
-
-          {/* <DropDown /> */}
-
-          {jobType === "flatRate" && <FlatRate onChange={onChange} flatAmount={flatAmount} />}
-          {jobType === "longDistance" && (
-            <LongDistance
-              onChange={onChange}
-              distance={distance}
-              grossWeight={grossWeight}
-              tareWeight={tareWeight}
-              netWeight={netWeight}
-              mileageRate={mileageRate}
+            placeholder="Hourly"
+            type="number"
+            Icon={() => <span className="select-none text-bold">$/hr</span>}
+            step="5"
+          />
+          <div className="flex items-center">
+            <input
+              name="isTravelFeeFixed"
+              className="mr-5 ml-3"
+              checked={isTravelFeeFixed}
+              onChange={() => {
+                dispatch({ field: "isTravelFeeFixed", value: !isTravelFeeFixed });
+              }}
+              placeholder="Total Valuation Cost"
+              type="checkbox"
             />
-          )}
-          {jobType === "local" && (
-            <React.Fragment>
-              <h2>Rates</h2>
-              <Input
-                name="hourlyRate"
-                value={hourlyRate}
-                onChange={onChange}
-                placeholder="Hourly"
-                type="number"
-                Icon={() => <span className="select-none text-bold">$/hr</span>}
-                step="5"
-              />
-              <div className="flex items-center">
-                <input
-                  name="isTravelFeeFixed"
-                  className="mr-5 ml-3"
-                  checked={isTravelFeeFixed}
-                  onChange={() => {
-                    dispatch({ field: "isTravelFeeFixed", value: !isTravelFeeFixed });
-                  }}
-                  placeholder="Total Valuation Cost"
-                  type="checkbox"
-                />
-                <label htmlFor="isTravelFeeFixed">Fixed?</label>
+            <label htmlFor="isTravelFeeFixed">Fixed?</label>
+          </div>
+          {isTravelFeeFixed ? (
+            <div className="flex-col">
+              <div className="flex justify-between">
+                <label htmlFor="travelTime" className=" px-2 w-full">
+                  Travel Time
+                </label>
               </div>
-              {isTravelFeeFixed ? (
-                <div className="flex-col">
-                  <div className="flex justify-between">
-                    <label htmlFor="travelTime" className=" px-2 w-full">
-                      Travel Time
-                    </label>
-                  </div>
-                  {/* <div className="flex-row">
+              {/* <div className="flex-row">
                     <label htmlFor="startTime" className=" px-2">
                     Fee
                     </label>
@@ -145,85 +142,59 @@ export const Rates = () => {
                     Icon={LocalShipping}
                     />
                   </div> */}
-                  {/* <div className="flex-row"> */}
+              {/* <div className="flex-row"> */}
 
-                  <TravelTime name="travelTime" onChange={onChange} travelTime={travelTime} hourlyRate={hourlyRate} />
-                  {/* </div> */}
-                </div>
-              ) : (
-                <div className="flex">
-                  <div className="flex-row">
-                    <label htmlFor="startTime" className=" px-2">
-                      Start
-                    </label>
-                    <Input
-                      name="startTime"
-                      value={startTime}
-                      onChange={onChange}
-                      placeholder="Start"
-                      Icon={AccessTime}
-                    />
-                  </div>
-                  <div className="flex-row">
-                    <label htmlFor="endTime" className=" px-2">
-                      End
-                    </label>
-                    <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
-                  </div>
-                </div>
-              )}
-              {/* <h2>Time</h2> */}
-              <div className="flex">
-                <div className="flex-row">
-                  <label htmlFor="arriveTime" className=" px-2">
-                    Arrive
-                  </label>
-                  <Input
-                    name="arriveTime"
-                    value={arriveTime}
-                    onChange={onChange}
-                    placeholder="Arrive"
-                    Icon={AccessTime}
-                  />
-                </div>
-                <div className="flex-row">
-                  <label htmlFor="departTime" className=" px-2">
-                    Depart
-                  </label>
-                  <Input
-                    name="departTime"
-                    value={departTime}
-                    onChange={onChange}
-                    placeholder="Depart"
-                    Icon={AccessTime}
-                  />
-                </div>
+              <TravelTime name="travelTime" onChange={onChange} travelTime={travelTime} hourlyRate={hourlyRate} />
+              {/* </div> */}
+            </div>
+          ) : (
+            <div className="flex">
+              <div className="flex-row">
+                <label htmlFor="startTime" className=" px-2">
+                  Start
+                </label>
+                <Input name="startTime" value={startTime} onChange={onChange} placeholder="Start" Icon={AccessTime} />
               </div>
               <div className="flex-row">
-                <label htmlFor="breakTime" className=" px-2">
-                  Breaks
+                <label htmlFor="endTime" className=" px-2">
+                  End
                 </label>
-                <Input name="breakTime" value={breakTime} onChange={onChange} placeholder="Breaks" Icon={AccessTime} />
+                <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
               </div>
-              <h2>Totals</h2>
-              <Input
-                name="totalHours"
-                value={totalHours}
-                onChange={onChange}
-                placeholder="Total Hours"
-                Icon={AccessTime}
-              />
-              {/* <h2>Total hours</h2> */}
-              {/* {arriveTime} to {departTime} ={" "} */}
-              {/* {timeToDecimal(departTime) - timeToDecimal(arriveTime) - timeToDecimal(breakTime)} */}
-              {/* <h2 className="text-4xl mt-10">
+            </div>
+          )}
+          {/* <h2>Time</h2> */}
+          <div className="flex">
+            <div className="flex-row">
+              <label htmlFor="arriveTime" className=" px-2">
+                Arrive
+              </label>
+              <Input name="arriveTime" value={arriveTime} onChange={onChange} placeholder="Arrive" Icon={AccessTime} />
+            </div>
+            <div className="flex-row">
+              <label htmlFor="departTime" className=" px-2">
+                Depart
+              </label>
+              <Input name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={AccessTime} />
+            </div>
+          </div>
+          <div className="flex-row">
+            <label htmlFor="breakTime" className=" px-2">
+              Breaks
+            </label>
+            <Input name="breakTime" value={breakTime} onChange={onChange} placeholder="Breaks" Icon={AccessTime} />
+          </div>
+          <h2>Totals</h2>
+          <Input name="totalHours" value={totalHours} onChange={onChange} placeholder="Total Hours" Icon={AccessTime} />
+          {/* <h2>Total hours</h2> */}
+          {/* {arriveTime} to {departTime} ={" "} */}
+          {/* {timeToDecimal(departTime) - timeToDecimal(arriveTime) - timeToDecimal(breakTime)} */}
+          {/* <h2 className="text-4xl mt-10">
                 Total sum is $ {Number(totalHours) * Number(hourlyRate) + Number(travelFee)}
               </h2> */}
-            </React.Fragment>
-          )}
-        </form>
-      </div>
-    </div>
+        </React.Fragment>
+      )}
+    </form>
   );
 };
 
@@ -293,5 +264,47 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
       <label htmlFor="mileageRate">Mileage Rate ($/mile)</label>
       <Input name="mileageRate" value={mileageRate} onChange={onChange} placeholder="mileageRate" Icon={Money} />
     </div>
+  );
+};
+
+const JobType = ({ onClick, value: selectedValue }) => {
+  return (
+    <div className="flex justify-around">
+      <JobTypeButton value="local" placeholder="⏰ Local (Hourly)" onClick={onClick} selected={selectedValue} />
+      <JobTypeButton value="longDistance" placeholder="🚚 Long Distance" onClick={onClick} selected={selectedValue} />
+      <JobTypeButton value="flatRate" placeholder="💳 Flat Rate" onClick={onClick} selected={selectedValue} />
+      {/* <select
+        name="jobType"
+        onChange={onChange}
+        value={value}
+        className="m-2 w-1-2 mx-auto  py-2  text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900"
+      >
+        <option value="local">⏰ Local (Hourly)</option>
+        <option value="longDistance">🚚 Long Distance</option>
+        <option value="flatRate">💳 Flat Rate</option>
+      </select> */}
+    </div>
+  );
+};
+
+const JobTypeButton = ({ value, placeholder, onClick, selected }) => {
+  const isSelected = selected === value;
+  return (
+    <span
+      className={`px-4 py-2 m-1 rounded-lg cursor-pointer ${
+        isSelected ? "border-2 border-purple-500 text-purple-500 font-bold py-1 m-0" : ""
+      } `}
+      value={value}
+      onClick={() => {
+        onClick({
+          target: {
+            name: "jobType",
+            value,
+          },
+        });
+      }}
+    >
+      {placeholder}
+    </span>
   );
 };

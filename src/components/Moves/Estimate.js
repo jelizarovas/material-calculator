@@ -33,8 +33,8 @@ export const Estimate = () => {
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   return (
-    <div className="md:container md:mx-auto">
-      <div className="px-10 w-full sm:w-1/2 mx-auto lg:w-1/2 flex-row ">
+    <div className="">
+      <div className="">
         <form action="" method="post">
           {/* <h2>Estimate</h2> */}
           <Input

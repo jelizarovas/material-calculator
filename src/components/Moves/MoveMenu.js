@@ -1,34 +1,39 @@
 import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { NavLink, useRouteMatch } from "react-router-dom";
 
-export const MoveMenu = ({ showSideMenu }) => {
+export const MoveMenu = ({ showSideMenu, setshowSideMenu, navbarPinned }) => {
   const sideMenuStatus = showSideMenu ? "" : "hidden";
+
+  const onClick = () => {
+    if (!navbarPinned) setshowSideMenu(false);
+  };
   return (
-    <div className={`absolute p-2 z-10 bg-white ${sideMenuStatus}`}>
-      <ul className="flex flex-col  list-none lg:ml-auto">
-        <NavLink to="client" text="Client" />
-        <NavLink to="rates" text="rates" />
-        <NavLink to="inventory" text="inventory" />
-        <NavLink to="estimate" text="estimate" />
-        <NavLink to="materials" text="materials" />
-        <NavLink to="overview" text="overview" />
+    <div className={`  bg-white ${sideMenuStatus}   lg:rounded-b-lg w-full `}>
+      <ul className="flex flex-col  list-none lg:ml-auto m-4">
+        <MenuLink to="client" text="Client" onClick={onClick} />
+        <MenuLink to="rates" text="rates" onClick={onClick} />
+        <MenuLink to="inventory" text="inventory" onClick={onClick} />
+        <MenuLink to="estimate" text="estimate" onClick={onClick} />
+        <MenuLink to="materials" text="materials" onClick={onClick} />
+        <MenuLink to="overview" text="overview" onClick={onClick} />
       </ul>
     </div>
   );
 };
 
-const NavLink = ({ to, text }) => {
+const MenuLink = ({ to, text, onClick }) => {
   let { url } = useRouteMatch();
-
   return (
     <li className="px-2 nav-item">
-      <Link
-        className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug  hover:opacity-75 ml-2"
+      <NavLink
+        className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug  hover:opacity-75 ml-2 "
         to={`${url}/${to}`}
-        replace
+        activeClassName="text-red-500"
+        onClick={onClick}
+        // replace
       >
         {text}
-      </Link>
+      </NavLink>
     </li>
   );
 };

@@ -1,11 +1,6 @@
 import React from "react";
 
-export const SectionTitle = ({
-  title,
-  onPlusClick,
-  plus = true,
-  hidePlus = false,
-}) => {
+export const SectionTitle = ({ title, onPlusClick, plus = true, hidePlus = false }) => {
   //   const isFunction = function (obj) {
   //     return !!(obj && obj.constructor && obj.call && obj.apply);
   //   };
@@ -16,9 +11,9 @@ export const SectionTitle = ({
       {!hidePlus && (
         <span
           onClick={onPlusClick}
-          className="text-xl text-gray-600 cursor-pointer select-none font-thin hover:text-purple-500  px-3 py-1 rounded-lg  "
+          className="text-lg text-gray-600 cursor-pointer select-none font-thin hover:text-purple-500  px-3 py-1 rounded-lg  "
         >
-          {plus ? "+" : "—"}
+          {plus ? "+" : "×"}
         </span>
       )}
     </div>

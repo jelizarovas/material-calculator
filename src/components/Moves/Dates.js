@@ -16,10 +16,6 @@ export const Dates = () => {
     dispatch({ field: "dates", value: [...newArray] });
   };
 
-  const addDate = () => {
-    dispatch({ field: "dates", value: [...dates, ""] });
-  };
-
   const handleDelete = (index) => {
     if (dates.length > 1) {
       const newArray = dates;
@@ -30,16 +26,6 @@ export const Dates = () => {
 
   return (
     <div>
-      <div className="flex justify-between bg-gray-100 bg-opacity-50 mt-4">
-        <h2 className="text-lg text-gray-800 px-4 py-2 font-thin">Date{dates.length > 1 ? "s" : ""}</h2>
-
-        <span
-          onClick={addDate}
-          className="text-lg text-gray-800 cursor-pointer select-none font-thin  rounded-full py-1 px-4 m-1"
-        >
-          +
-        </span>
-      </div>
       {dates &&
         dates.map((d, i) => {
           return (
@@ -59,7 +45,7 @@ export const Dates = () => {
 
 const Day = ({ index = 1, value, handleChange, handleDelete, canDelete }) => {
   return (
-    <div className="flex items-center justify-between rounded-md bg-gray-200 m-1">
+    <div className="flex items-center justify-between rounded-md  m-1">
       <Input
         name={"date-" + (index + 1)}
         value={value}

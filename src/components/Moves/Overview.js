@@ -288,7 +288,7 @@ export const Overview = () => {
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   return (
-    <div>
+    <div className="w-full">
       <TextArea name="notes" value={notes} onChange={onChange} Icon={SpeakerNotes} placeholder="Notes" />
 
       <h2>Payment Type</h2>
@@ -305,12 +305,12 @@ export const Overview = () => {
         placeholder="Total Amount Paid"
       />
 
-      <div className="flex">
-        <SignatureBlock type="signature" name="Customer Signature" />
+      <div className="flex w-full">
+        <SignatureBlock type="signature" name="Customer Signature" width="300" />
         <SignatureBlock type="initials" name="Customer Initials" width="200" />
       </div>
       <div className="flex">
-        <SignatureBlock type="crewSignature" name="Signature of Carrier" />
+        <SignatureBlock type="crewSignature" name="Signature of Carrier" width="300" />
       </div>
 
       <br></br>

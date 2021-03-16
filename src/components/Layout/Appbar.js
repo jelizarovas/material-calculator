@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Menu, Clear, TurnedIn, TurnedInNot } from "@material-ui/icons";
 
-export function Navbar({ fixed }) {
+export function Appbar({ fixed }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [navbarPinned, setNavbarPinned] = React.useState(false);
 
@@ -24,17 +24,13 @@ export function Navbar({ fixed }) {
   };
 
   return (
-    <nav className="container mx-auto flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-purple-900 shadow-md border-b-1 border-black ">
+    <nav className="container mx-auto flex flex-wrap items-center justify-between px-2 py-1 navbar-expand-lg bg-purple-900 shadow-md border-b-2 border-purple-800 rounded-lg mt-1 ">
       {/* <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black "> */}
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           <Link to="/">
             <div className="flex text-white   cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent  outline-none focus:outline-none ">
-              <img
-                className="bg-white w-6 h-6 p-1"
-                src={`${process.env.PUBLIC_URL}/favicon.ico`}
-                alt=""
-              />
+              <img className="bg-white w-6 h-6 p-1" src={`${process.env.PUBLIC_URL}/favicon.ico`} alt="" />
               <span className="px-2 text-white">
                 <strong>SFM</strong>
               </span>
@@ -61,10 +57,7 @@ export function Navbar({ fixed }) {
           </div>
         </div>
         <div
-          className={
-            "lg:flex flex-grow items-center" +
-            (navbarOpen ? " flex" : " hidden")
-          }
+          className={"lg:flex flex-grow items-center" + (navbarOpen ? " flex" : " hidden")}
           id="example-navbar-danger"
         >
           <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">

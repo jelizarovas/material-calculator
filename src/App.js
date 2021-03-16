@@ -19,13 +19,13 @@ import { Ware } from "./components/Warehouse/Ware";
 import { Tools } from "./components/Tools/Tools";
 import { Tool } from "./components/Tools/Tool";
 
-import { Navbar } from "./components/Layout/Navbar";
+import { Appbar } from "./components/Layout/Appbar";
 
 function App() {
   return (
     <Router basename="/">
-      <Navbar />
-      <div className="container relative mx-auto bg-gray-100  pb-10 rounded-b-lg shadow-2xl">
+      <Appbar />
+      <div className="container relative mx-auto bg-gray-100 rounded-lg shadow-2xl mt-1  p-2">
         <Switch>
           <Redirect exact from="/" to="/dash" />
           <Redirect exact from="/materials" to="/t/materials" />

@@ -42,57 +42,53 @@ export const Client = () => {
   // TODO calculate distance as the crow flies
 
   return (
-    <div className="">
-      <div className=" w-full sm:w-3/4 xs:w-full mx-auto lg:w-1/2 flex-row ">
-        <form action="" method="post">
-          <SectionTitle title="Contact Info" hidePlus={true} />
-          <Input name="fullName" value={fullName} onChange={onChange} Icon={EmojiPeople} placeholder="Full Name" />
-          <Input
-            name="phoneNumber"
-            value={phoneNumber}
-            onChange={onChange}
-            Icon={Phone}
-            placeholder="Phone Number"
-            inputMode="numeric"
-            // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            type="tel"
-          />
-          <Input name="email" value={email} onChange={onChange} Icon={Email} placeholder="Email" type="email" />
-          <SectionTitle
-            title="Locations"
-            onPlusClick={() =>
-              dispatch({
-                field: "anyAdditionalStops",
-                value: !anyAdditionalStops,
-              })
-            }
-            plus={!anyAdditionalStops}
-          />
-          <Input
-            name="originAddress"
-            value={originAddress}
-            onChange={onChange}
-            Icon={Home}
-            placeholder="Starting Point (Origin)"
-          />
-          {anyAdditionalStops && (
-            <Input
-              name="additionalStops"
-              value={additionalStops}
-              onChange={onChange}
-              Icon={AddLocation}
-              placeholder="Other Stops"
-            />
-          )}
-          <Input
-            name="destinationAddress"
-            value={destinationAddress}
-            onChange={onChange}
-            Icon={LocalShipping}
-            placeholder="End Point (Destination)"
-          />
-        </form>
-      </div>
-    </div>
+    <form action="" method="post">
+      <SectionTitle title="Contact Info" hidePlus={true} />
+      <Input name="fullName" value={fullName} onChange={onChange} Icon={EmojiPeople} placeholder="Full Name" />
+      <Input
+        name="phoneNumber"
+        value={phoneNumber}
+        onChange={onChange}
+        Icon={Phone}
+        placeholder="Phone Number"
+        inputMode="numeric"
+        // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        type="tel"
+      />
+      <Input name="email" value={email} onChange={onChange} Icon={Email} placeholder="Email" type="email" />
+      <SectionTitle
+        title="Locations"
+        onPlusClick={() =>
+          dispatch({
+            field: "anyAdditionalStops",
+            value: !anyAdditionalStops,
+          })
+        }
+        plus={!anyAdditionalStops}
+      />
+      <Input
+        name="originAddress"
+        value={originAddress}
+        onChange={onChange}
+        Icon={Home}
+        placeholder="Starting Point (Origin)"
+      />
+      {anyAdditionalStops && (
+        <Input
+          name="additionalStops"
+          value={additionalStops}
+          onChange={onChange}
+          Icon={AddLocation}
+          placeholder="Other Stops"
+        />
+      )}
+      <Input
+        name="destinationAddress"
+        value={destinationAddress}
+        onChange={onChange}
+        Icon={LocalShipping}
+        placeholder="End Point (Destination)"
+      />
+    </form>
   );
 };
