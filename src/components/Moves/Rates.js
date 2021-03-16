@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "../Inputs/Input";
 import { Dates } from "./Dates";
-import { AccessTime, Money } from "@material-ui/icons/";
+import { AccessTime, Money, LocalShipping, CreditCard } from "@material-ui/icons/";
 import { SectionTitle } from "../Layout/SectionTitle";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
@@ -270,9 +270,27 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
 const JobType = ({ onClick, value: selectedValue }) => {
   return (
     <div className="flex justify-around">
-      <JobTypeButton value="local" placeholder="⏰ Local (Hourly)" onClick={onClick} selected={selectedValue} />
-      <JobTypeButton value="longDistance" placeholder="🚚 Long Distance" onClick={onClick} selected={selectedValue} />
-      <JobTypeButton value="flatRate" placeholder="💳 Flat Rate" onClick={onClick} selected={selectedValue} />
+      <JobTypeButton
+        value="local"
+        placeholder="Local (Hourly)"
+        onClick={onClick}
+        selected={selectedValue}
+        Icon={AccessTime}
+      />
+      <JobTypeButton
+        value="longDistance"
+        placeholder="Long Distance"
+        onClick={onClick}
+        selected={selectedValue}
+        Icon={LocalShipping}
+      />
+      <JobTypeButton
+        value="flatRate"
+        placeholder="Flat Rate"
+        onClick={onClick}
+        selected={selectedValue}
+        Icon={CreditCard}
+      />
       {/* <select
         name="jobType"
         onChange={onChange}
@@ -287,14 +305,13 @@ const JobType = ({ onClick, value: selectedValue }) => {
   );
 };
 
-const JobTypeButton = ({ value, placeholder, onClick, selected }) => {
+const JobTypeButton = ({ value, placeholder, onClick, selected, Icon }) => {
   const isSelected = selected === value;
   return (
-    <span
-      className={`px-4 py-2 m-1 rounded-lg cursor-pointer ${
-        isSelected ? "border-2 border-purple-500 text-purple-500 font-bold py-1 m-0" : ""
+    <div
+      className={`select-none w-1/3 flex flex-col md:flex-row items-center justify-center flex-wrap  text-xs sm:text-sm px-4 border-2 border-transparent  py-2 m-1 rounded-lg cursor-pointer ${
+        isSelected ? "border-2 border-purple-500 text-purple-900  " : ""
       } `}
-      value={value}
       onClick={() => {
         onClick({
           target: {
@@ -304,7 +321,8 @@ const JobTypeButton = ({ value, placeholder, onClick, selected }) => {
         });
       }}
     >
-      {placeholder}
-    </span>
+      <Icon fontSize="small" className="m-1" />
+      <span className="whitespace-nowrap ml-2 truncate "> {placeholder}</span>
+    </div>
   );
 };
