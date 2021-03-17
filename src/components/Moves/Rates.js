@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import { Input } from "../Inputs/Input";
 import { Dates } from "./Dates";
-import { AccessTime, Money, LocalShipping, CreditCard } from "@material-ui/icons/";
+import {
+  AccessTime,
+  SettingsEthernet,
+  LocalShippingOutlined,
+  LocalShippingTwoTone,
+  FitnessCenter,
+  LocalOffer,
+  LocalShipping,
+  CreditCard,
+  EventAvailable,
+  DateRange,
+} from "@material-ui/icons/";
 import { SectionTitle } from "../Layout/SectionTitle";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
-import { ChipsInput } from "../Inputs/ChipsInput";
+// import { ChipsInput } from "../Inputs/ChipsInput";
+import { ButtonSelect } from "../Inputs/ButtonSelect";
 
 const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
   const times = [
@@ -52,7 +64,7 @@ export const Rates = () => {
   const {
     isTravelFeeFixed,
     hourlyRate,
-    personnel,
+    // personnel,
     travelTime,
     totalHours,
     startTime,
@@ -68,6 +80,8 @@ export const Rates = () => {
     netWeight,
     mileageRate,
     dates,
+    dateType,
+    weightType,
   } = client;
 
   const addDate = () => {
@@ -75,15 +89,16 @@ export const Rates = () => {
   };
   return (
     <form method="post">
-      <SectionTitle title="Dates" onPlusClick={addDate} />
+      <SectionTitle title="Dates" onPlusClick={addDate} hidePlus={dateType !== "other"} />
 
-      <Dates />
-      <SectionTitle title="Crew" hidePlus={true} />
-      <ChipsInput name="personnel" chips={personnel} />
+      <DateType onClick={onChange} value={dateType} />
+      {dateType === "other" && <Dates />}
 
       <SectionTitle title="Job Type" hidePlus={true} />
       <JobType onClick={onChange} value={jobType} />
 
+      {/* <SectionTitle title="Crew" hidePlus={true} /> */}
+      {/* <ChipsInput name="personnel" chips={personnel} /> */}
       {/* <DropDown /> */}
 
       {jobType === "flatRate" && <FlatRate onChange={onChange} flatAmount={flatAmount} />}
@@ -95,6 +110,7 @@ export const Rates = () => {
           tareWeight={tareWeight}
           netWeight={netWeight}
           mileageRate={mileageRate}
+          weightType={weightType}
         />
       )}
       {jobType === "local" && (
@@ -249,80 +265,90 @@ const FlatRate = ({ flatAmount, onChange }) => {
   );
 };
 
-const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, mileageRate }) => {
+const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, mileageRate, weightType }) => {
   return (
     <div>
-      <h2>Long Distance</h2>
-      <label htmlFor="distance">Distance (Miles)</label>
-      <Input name="distance" value={distance} onChange={onChange} placeholder="distance" Icon={Money} />
-      <label htmlFor="grossWeight">Gross Weight (lbs.)</label>
-      <Input name="grossWeight" value={grossWeight} onChange={onChange} placeholder="grossWeight" Icon={Money} />
-      <label htmlFor="tareWeight">Tare Weight (lbs.)</label>
-      <Input name="tareWeight" value={tareWeight} onChange={onChange} placeholder="tareWeight" Icon={Money} />
-      <label htmlFor="netWeight">Net Weight (lbs.)</label>
-      <Input name="netWeight" value={netWeight} onChange={onChange} placeholder="netWeight" Icon={Money} />
-      <label htmlFor="mileageRate">Mileage Rate ($/mile)</label>
-      <Input name="mileageRate" value={mileageRate} onChange={onChange} placeholder="mileageRate" Icon={Money} />
+      <div className="flex">
+        <div className="flex flex-col justify-center">
+          <label htmlFor="distance" className="text-xs text-center">
+            Distance (Miles)
+          </label>
+
+          <Input name="distance" value={distance} onChange={onChange} placeholder="Distance" Icon={SettingsEthernet} />
+        </div>
+        <div className="flex flex-col justify-center">
+          <label htmlFor="mileageRate" className="text-xs text-center">
+            Mileage Rate ($/mile)
+          </label>
+          <Input
+            name="mileageRate"
+            value={mileageRate}
+            onChange={onChange}
+            placeholder="mileageRate"
+            Icon={LocalOffer}
+          />
+        </div>
+      </div>
+      <WeightType onClick={onChange} value={weightType} />
+      {weightType === "weightTicket" && (
+        <div className="flex">
+          <div className="flex flex-col justify-center">
+            <label htmlFor="grossWeight" className="text-xs text-center">
+              Gross Weight (lbs.)
+            </label>
+            <Input
+              name="grossWeight"
+              value={grossWeight}
+              onChange={onChange}
+              placeholder="grossWeight"
+              Icon={LocalShippingTwoTone}
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <label htmlFor="tareWeight" className="text-xs text-center">
+              Tare Weight (lbs.)
+            </label>
+            <Input
+              name="tareWeight"
+              value={tareWeight}
+              onChange={onChange}
+              placeholder="tareWeight"
+              Icon={LocalShippingOutlined}
+            />
+          </div>
+        </div>
+      )}
+      <label htmlFor="netWeight" className="text-xs text-center">
+        Net Weight (lbs.)
+      </label>
+      <Input name="netWeight" value={netWeight} onChange={onChange} placeholder="netWeight" Icon={FitnessCenter} />
     </div>
   );
 };
 
-const JobType = ({ onClick, value: selectedValue }) => {
-  return (
-    <div className="flex justify-around">
-      <JobTypeButton
-        value="local"
-        placeholder="Local (Hourly)"
-        onClick={onClick}
-        selected={selectedValue}
-        Icon={AccessTime}
-      />
-      <JobTypeButton
-        value="longDistance"
-        placeholder="Long Distance"
-        onClick={onClick}
-        selected={selectedValue}
-        Icon={LocalShipping}
-      />
-      <JobTypeButton
-        value="flatRate"
-        placeholder="Flat Rate"
-        onClick={onClick}
-        selected={selectedValue}
-        Icon={CreditCard}
-      />
-      {/* <select
-        name="jobType"
-        onChange={onChange}
-        value={value}
-        className="m-2 w-1-2 mx-auto  py-2  text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900"
-      >
-        <option value="local">⏰ Local (Hourly)</option>
-        <option value="longDistance">🚚 Long Distance</option>
-        <option value="flatRate">💳 Flat Rate</option>
-      </select> */}
-    </div>
-  );
+const JobType = (props) => {
+  const jobTypes = [
+    { value: "local", placeholder: "Local (Hourly)", Icon: AccessTime },
+    { value: "flatRate", placeholder: "Flat Rate", Icon: CreditCard },
+    { value: "longDistance", placeholder: "Long Distance", Icon: LocalShipping },
+  ];
+
+  return <ButtonSelect name="jobType" buttons={jobTypes} {...props} />;
 };
 
-const JobTypeButton = ({ value, placeholder, onClick, selected, Icon }) => {
-  const isSelected = selected === value;
-  return (
-    <div
-      className={`select-none w-1/3 flex flex-col md:flex-row items-center justify-center flex-wrap  text-xs sm:text-sm px-4 border-2 border-transparent  py-2 m-1 rounded-lg cursor-pointer ${
-        isSelected ? "border-2 border-purple-500 text-purple-900  " : ""
-      } `}
-      onClick={() => {
-        onClick({
-          target: {
-            name: "jobType",
-            value,
-          },
-        });
-      }}
-    >
-      <Icon fontSize="small" className="m-1" />
-      <span className="whitespace-nowrap ml-2 truncate "> {placeholder}</span>
-    </div>
-  );
+const DateType = (props) => {
+  const dateTypes = [
+    { value: "today", placeholder: "Today", Icon: EventAvailable },
+    { value: "other", placeholder: "Multi-Day/Other", Icon: DateRange, isDisabled: true },
+    // { value: "other", placeholder: "Other", Icon: EventNote },
+  ];
+  return <ButtonSelect name="dateType" buttons={dateTypes} {...props} />;
+};
+
+const WeightType = (props) => {
+  const dateTypes = [
+    { value: "cubicWeight", placeholder: "Cubic Weight", Icon: EventAvailable },
+    { value: "weightTicket", placeholder: "Weight Ticket", Icon: DateRange },
+  ];
+  return <ButtonSelect name="weightType" buttons={dateTypes} {...props} />;
 };

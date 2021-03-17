@@ -15,7 +15,7 @@ export const MoveBottomBar = ({ showSideMenu, setshowSideMenu }) => {
 
   let history = useHistory();
 
-  const steps = ["client", "rates", "inventory", "estimate", "materials", "overview"];
+  const steps = ["client", "rates", "estimate", "materials", "overview"];
   const currentIndex = steps.indexOf(newp[newp.length - 1]);
 
   const nextStep = () => {

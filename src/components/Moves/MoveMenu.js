@@ -12,7 +12,7 @@ export const MoveMenu = ({ showSideMenu, setshowSideMenu, navbarPinned }) => {
       <ul className="flex flex-col  list-none lg:ml-auto m-4">
         <MenuLink to="client" text="Client" onClick={onClick} />
         <MenuLink to="rates" text="rates" onClick={onClick} />
-        <MenuLink to="inventory" text="inventory" onClick={onClick} />
+        {/* <MenuLink to="inventory" text="inventory" onClick={onClick} /> */}
         <MenuLink to="estimate" text="estimate" onClick={onClick} />
         <MenuLink to="materials" text="materials" onClick={onClick} />
         <MenuLink to="overview" text="overview" onClick={onClick} />
