@@ -12,6 +12,9 @@ import {
   CreditCard,
   EventAvailable,
   DateRange,
+  LocalOfferTwoTone,
+  SettingsOverscan,
+  Receipt,
 } from "@material-ui/icons/";
 import { SectionTitle } from "../Layout/SectionTitle";
 
@@ -19,6 +22,7 @@ import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
 // import { ChipsInput } from "../Inputs/ChipsInput";
 import { ButtonSelect } from "../Inputs/ButtonSelect";
+import { NoInput } from "../Inputs/NoInput";
 
 const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
   const times = [
@@ -64,6 +68,7 @@ export const Rates = () => {
   const {
     isTravelFeeFixed,
     hourlyRate,
+    totalTransportation,
     // personnel,
     travelTime,
     totalHours,
@@ -210,6 +215,7 @@ export const Rates = () => {
               </h2> */}
         </React.Fragment>
       )}
+      <NoInput value={totalTransportation} Icon={LocalOfferTwoTone} unit="$" label="Total Transportation" />
     </form>
   );
 };
@@ -269,14 +275,14 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
   return (
     <div>
       <div className="flex">
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center   w-1/2">
           <label htmlFor="distance" className="text-xs text-center">
             Distance (Miles)
           </label>
 
           <Input name="distance" value={distance} onChange={onChange} placeholder="Distance" Icon={SettingsEthernet} />
         </div>
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center   w-1/2">
           <label htmlFor="mileageRate" className="text-xs text-center">
             Mileage Rate ($/mile)
           </label>
@@ -284,44 +290,54 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
             name="mileageRate"
             value={mileageRate}
             onChange={onChange}
-            placeholder="mileageRate"
+            placeholder="Mileage Rate"
             Icon={LocalOffer}
           />
         </div>
       </div>
       <WeightType onClick={onChange} value={weightType} />
       {weightType === "weightTicket" && (
-        <div className="flex">
-          <div className="flex flex-col justify-center">
-            <label htmlFor="grossWeight" className="text-xs text-center">
-              Gross Weight (lbs.)
-            </label>
-            <Input
-              name="grossWeight"
-              value={grossWeight}
-              onChange={onChange}
-              placeholder="grossWeight"
-              Icon={LocalShippingTwoTone}
-            />
+        <React.Fragment>
+          <div className="flex">
+            <div className="flex flex-col justify-center  w-1/2">
+              {/* <label htmlFor="grossWeight" className="text-xs text-center">
+                Gross Weight (lbs.)
+              </label> */}
+              <Input
+                name="grossWeight"
+                value={grossWeight}
+                onChange={onChange}
+                placeholder="Gross Weight"
+                Icon={LocalShippingTwoTone}
+              />
+            </div>
+            <div className="flex flex-col justify-center   w-1/2">
+              {/* <label htmlFor="tareWeight" className="text-xs text-center">
+                Tare Weight (lbs.)
+              </label> */}
+              <Input
+                name="tareWeight"
+                value={tareWeight}
+                onChange={onChange}
+                placeholder="Tare Weight"
+                Icon={LocalShippingOutlined}
+              />
+            </div>
           </div>
-          <div className="flex flex-col justify-center">
-            <label htmlFor="tareWeight" className="text-xs text-center">
-              Tare Weight (lbs.)
-            </label>
-            <Input
-              name="tareWeight"
-              value={tareWeight}
-              onChange={onChange}
-              placeholder="tareWeight"
-              Icon={LocalShippingOutlined}
-            />
-          </div>
-        </div>
+          <NoInput
+            value={(Number(grossWeight) - Number(tareWeight)).toString()}
+            Icon={FitnessCenter}
+            unit="lbs."
+            label="Net Weight"
+          />
+        </React.Fragment>
       )}
-      <label htmlFor="netWeight" className="text-xs text-center">
-        Net Weight (lbs.)
-      </label>
-      <Input name="netWeight" value={netWeight} onChange={onChange} placeholder="netWeight" Icon={FitnessCenter} />
+      {weightType === "cubicWeight" && (
+        // <label htmlFor="netWeight" className="text-xs text-center">
+        //   Net Weight (lbs.)
+        // </label>
+        <Input name="netWeight" value={netWeight} onChange={onChange} placeholder="netWeight" Icon={FitnessCenter} />
+      )}
     </div>
   );
 };
@@ -347,8 +363,8 @@ const DateType = (props) => {
 
 const WeightType = (props) => {
   const dateTypes = [
-    { value: "cubicWeight", placeholder: "Cubic Weight", Icon: EventAvailable },
-    { value: "weightTicket", placeholder: "Weight Ticket", Icon: DateRange },
+    { value: "cubicWeight", placeholder: "Cubic Weight", Icon: SettingsOverscan },
+    { value: "weightTicket", placeholder: "Weight Ticket", Icon: Receipt },
   ];
   return <ButtonSelect name="weightType" buttons={dateTypes} {...props} />;
 };
