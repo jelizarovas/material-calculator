@@ -15,6 +15,12 @@ import {
   LocalOfferTwoTone,
   SettingsOverscan,
   Receipt,
+  Timelapse,
+  HourglassEmpty,
+  Restore,
+  Update,
+  Timer,
+  AlarmOn,
 } from "@material-ui/icons/";
 import { SectionTitle } from "../Layout/SectionTitle";
 
@@ -23,6 +29,7 @@ import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 // import { ChipsInput } from "../Inputs/ChipsInput";
 import { ButtonSelect } from "../Inputs/ButtonSelect";
 import { NoInput } from "../Inputs/NoInput";
+import { TimeInput } from "../Inputs/TimeInput";
 
 const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
   const times = [
@@ -174,13 +181,13 @@ export const Rates = () => {
                 <label htmlFor="startTime" className=" px-2">
                   Start
                 </label>
-                <Input name="startTime" value={startTime} onChange={onChange} placeholder="Start" Icon={AccessTime} />
+                <Input name="startTime" value={startTime} onChange={onChange} placeholder="Start" Icon={Timer} />
               </div>
               <div className="flex-row">
                 <label htmlFor="endTime" className=" px-2">
                   End
                 </label>
-                <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AccessTime} />
+                <Input name="endTime" value={endTime} onChange={onChange} placeholder="End" Icon={AlarmOn} />
               </div>
             </div>
           )}
@@ -190,23 +197,38 @@ export const Rates = () => {
               <label htmlFor="arriveTime" className=" px-2">
                 Arrive
               </label>
-              <Input name="arriveTime" value={arriveTime} onChange={onChange} placeholder="Arrive" Icon={AccessTime} />
+              <TimeInput name="arriveTime" value={arriveTime} onChange={onChange} placeholder="Arrive" Icon={Restore} />
             </div>
             <div className="flex-row">
               <label htmlFor="departTime" className=" px-2">
                 Depart
               </label>
-              <Input name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={AccessTime} />
+              <TimeInput name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={Update} />
+            </div>
+          </div>
+          <div className="flex">
+            <div className="flex-row">
+              <label htmlFor="arriveTime" className=" px-2">
+                Arrive
+              </label>
+              <Input name="arriveTime" value={arriveTime} onChange={onChange} placeholder="Arrive" Icon={Restore} />
+            </div>
+            <div className="flex-row">
+              <label htmlFor="departTime" className=" px-2">
+                Depart
+              </label>
+              <Input name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={Update} />
             </div>
           </div>
           <div className="flex-row">
             <label htmlFor="breakTime" className=" px-2">
               Breaks
             </label>
-            <Input name="breakTime" value={breakTime} onChange={onChange} placeholder="Breaks" Icon={AccessTime} />
+            <Input name="breakTime" value={breakTime} onChange={onChange} placeholder="Breaks" Icon={HourglassEmpty} />
           </div>
           <h2>Totals</h2>
-          <Input name="totalHours" value={totalHours} onChange={onChange} placeholder="Total Hours" Icon={AccessTime} />
+          <NoInput value={totalHours.toString()} Icon={Timelapse} type="time" unit="Hrs" label="Total Time" />
+          {/* <Input name="totalHours" value={totalHours} onChange={onChange} placeholder="Total Hours" Icon={AccessTime} /> */}
           {/* <h2>Total hours</h2> */}
           {/* {arriveTime} to {departTime} ={" "} */}
           {/* {timeToDecimal(departTime) - timeToDecimal(arriveTime) - timeToDecimal(breakTime)} */}
@@ -277,14 +299,21 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
       <div className="flex">
         <div className="flex flex-col justify-center   w-1/2">
           <label htmlFor="distance" className="text-xs text-center">
-            Distance (Miles)
+            Distance
           </label>
 
-          <Input name="distance" value={distance} onChange={onChange} placeholder="Distance" Icon={SettingsEthernet} />
+          <Input
+            units="miles"
+            name="distance"
+            value={distance}
+            onChange={onChange}
+            placeholder="Distance"
+            Icon={SettingsEthernet}
+          />
         </div>
         <div className="flex flex-col justify-center   w-1/2">
           <label htmlFor="mileageRate" className="text-xs text-center">
-            Mileage Rate ($/mile)
+            Mileage Rate
           </label>
           <Input
             name="mileageRate"
@@ -292,6 +321,7 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
             onChange={onChange}
             placeholder="Mileage Rate"
             Icon={LocalOffer}
+            units="$/lbs."
           />
         </div>
       </div>
@@ -309,6 +339,7 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
                 onChange={onChange}
                 placeholder="Gross Weight"
                 Icon={LocalShippingTwoTone}
+                units="lbs."
               />
             </div>
             <div className="flex flex-col justify-center   w-1/2">
@@ -321,6 +352,7 @@ const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, 
                 onChange={onChange}
                 placeholder="Tare Weight"
                 Icon={LocalShippingOutlined}
+                units="lbs."
               />
             </div>
           </div>

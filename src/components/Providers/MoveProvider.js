@@ -133,7 +133,11 @@ const MoveProvider = ({ children }) => {
     breakTime,
     subtotal,
     materials,
+    isTravelFeeFixed,
+    travelFee,
     // adjustment,
+    netWeight,
+    mileageRate,
     totalMovingCharges,
     totalAmountPaid,
     flatIsMaterialsIncluded,
@@ -146,6 +150,7 @@ const MoveProvider = ({ children }) => {
     totalOtherFees,
   } = state;
 
+  /*########## TOTAL MATERIALS ##########*/
   useEffect(() => {
     dispatch({
       field: "totalMaterials",
@@ -156,6 +161,7 @@ const MoveProvider = ({ children }) => {
     });
   }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
 
+  /*########## TOTAL VALUATION ##########*/
   useEffect(() => {
     dispatch({
       field: "totalValuation",
@@ -163,6 +169,7 @@ const MoveProvider = ({ children }) => {
     });
   }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
 
+  /*########## VALUATION COSTS ##########*/
   useEffect(() => {
     // if (shipmentValue < estimatedWeight * 5) {
     //   dispatch({
@@ -180,6 +187,7 @@ const MoveProvider = ({ children }) => {
     });
   }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
 
+  /*########## SHIPMENT VALUE ##########*/
   useEffect(() => {
     // if (shipmentValue < estimatedWeight * 5) {
     dispatch({
@@ -189,19 +197,21 @@ const MoveProvider = ({ children }) => {
     // }
   }, [estimatedWeight, dispatch]);
 
+  /*########## TOTAL HOURS ##########*/
   useEffect(() => {
-    let dt = timeToDecimal(departTime);
-    const at = timeToDecimal(arriveTime);
-    const bt = timeToDecimal(breakTime);
+    const begin = timeToDecimal(isTravelFeeFixed ? arriveTime : startTime);
+    let finish = timeToDecimal(isTravelFeeFixed ? departTime : endTime);
+    const breaks = timeToDecimal(breakTime);
 
-    if (dt < at) dt += 12;
+    if (begin > finish) finish += 12;
 
     dispatch({
       field: "totalHours",
-      value: convertToHHMM(dt - at - bt),
+      value: convertToHHMM(finish - begin - breaks),
     });
-  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, dispatch]);
+  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, isTravelFeeFixed, dispatch]);
 
+  /*########## TRAVEL FEE ##########*/
   useEffect(() => {
     dispatch({
       field: "travelFee",
@@ -209,15 +219,29 @@ const MoveProvider = ({ children }) => {
     });
   }, [travelTime, hourlyRate, dispatch]);
 
+  /*########## TOTAL TRANSPORTATION ##########*/
   useEffect(() => {
-    if (jobType === "flatRate") {
-      dispatch({
-        field: "totalTransportation",
-        value: Number(flatAmount).toString(),
-      });
-    }
-  }, [jobType, flatAmount, dispatch]);
+    let value;
+    const field = "totalTransportation";
 
+    switch (jobType) {
+      case "flatRate":
+        value = Number(flatAmount).toString();
+        break;
+      case "local":
+        let tFee = isTravelFeeFixed ? Number(travelFee) : 0;
+        value = Number(timeToDecimal(totalHours)) * Number(hourlyRate) + tFee;
+        break;
+      case "longDistance":
+        value = Number(netWeight) * Number(mileageRate).toString();
+        break;
+      default:
+        break;
+    }
+    dispatch({ field, value });
+  }, [jobType, flatAmount, totalHours, hourlyRate, netWeight, mileageRate, travelFee, isTravelFeeFixed, dispatch]);
+
+  /*########## SUBTOTAL ##########*/
   useEffect(() => {
     dispatch({
       field: "subtotal",
@@ -243,7 +267,7 @@ const MoveProvider = ({ children }) => {
 
   //TODO totalOtherFees
 
-  //TODO adjustment
+  /*########## ADJUSTMENT & TOTAL MOVINGCHARGES ##########*/
   useEffect(() => {
     let adjustment = 0;
 
@@ -272,6 +296,7 @@ const MoveProvider = ({ children }) => {
     return () => {};
   }, [paymentOption, subtotal]);
 
+  /*########## REMAINING BALANCE ##########*/
   useEffect(() => {
     const remainingBalanceNumber = Number(totalMovingCharges) - Number(totalAmountPaid);
 

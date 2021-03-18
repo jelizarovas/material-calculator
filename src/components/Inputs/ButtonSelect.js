@@ -22,8 +22,8 @@ const Button = ({ value, placeholder, onClick, selected, Icon, isDisabled = fals
   const isSelected = selected === value;
   return (
     <div
-      className={`focus:outline-none truncate w-1/3 sm:w-2/7 flex flex-col md:flex-row items-center justify-center flex-wrap  text-xs sm:text-sm px-0 border-2 border-transparent   rounded-lg cursor-pointer ${
-        isSelected ? "border-purple-500 text-purple-900  " : ""
+      className={`focus:outline-none truncate w-1/3 sm:w-2/7 flex flex-col md:flex-row items-center justify-center flex-wrap  text-xs sm:text-sm px-0 border border-transparent   rounded-lg cursor-pointer ${
+        isSelected ? " shadow-md bg-white text-purple-900  " : ""
       } `}
       onClick={() => !isDisabled && onClick(value)}
     >

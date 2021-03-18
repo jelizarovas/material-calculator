@@ -15,6 +15,7 @@ export const Input = (props) => {
     onChange,
     readOnly = false,
     clear = true,
+    units = "",
   } = props;
 
   const [deletedValue, setDeletedValue] = useState("");
@@ -66,6 +67,9 @@ export const Input = (props) => {
         readOnly={readOnly}
         inputMode={inputMode}
       />
+      <span className="absolute text-xs inset-y-0 right-10 flex items-center px-2 cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100">
+        {units}
+      </span>
 
       {clear && (value.length > 0 || (type === "number" && value > 0)) ? (
         <span
