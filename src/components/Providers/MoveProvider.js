@@ -47,6 +47,7 @@ const moveReducer = (state, { field, value, type, payload }) => {
     };
   } else {
     const materials = state.materials;
+    const miscFees = state.miscFees;
     switch (type) {
       case "changeCount":
         let idExists = false;
@@ -77,6 +78,16 @@ const moveReducer = (state, { field, value, type, payload }) => {
           ...state,
           materials: [],
         };
+
+      case "miscFeeChange":
+        return {
+          ...state,
+          miscFees: miscFees.map((fee) => {
+            if (payload.name === fee.name) fee.amount = payload.amount;
+            return fee;
+          }),
+        };
+
       default:
         return state;
     }

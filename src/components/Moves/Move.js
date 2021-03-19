@@ -8,6 +8,7 @@ import { Inventory } from "./Inventory";
 import { Estimate } from "./Estimate";
 import { Overview } from "./Overview";
 import { MoveProvider, useMove, useMoveDispatch } from "../Providers/MoveProvider";
+import { MiscFees } from "./MiscFees";
 
 export const MoveWProvider = () => {
   const [showSideMenu, setshowSideMenu] = useState(false);
@@ -26,6 +27,7 @@ export const MoveWProvider = () => {
 
           <Route path={`${path}/materials`}>
             <Materials state={client} dispatch={dispatch} />
+            <MiscFees state={client} dispatch={dispatch} />
           </Route>
           <Route path={`${path}/client`}>
             <Client />

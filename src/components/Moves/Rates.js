@@ -197,7 +197,14 @@ export const Rates = () => {
               <label htmlFor="arriveTime" className=" px-2">
                 Arrive
               </label>
-              <TimeInput name="arriveTime" value={arriveTime} onChange={onChange} placeholder="Arrive" Icon={Restore} />
+              <TimeInput
+                name="arriveTime"
+                value={arriveTime}
+                field="arriveTime"
+                onChange={onChange}
+                placeholder="Arrive"
+                Icon={Restore}
+              />
             </div>
             <div className="flex-row">
               <label htmlFor="departTime" className=" px-2">

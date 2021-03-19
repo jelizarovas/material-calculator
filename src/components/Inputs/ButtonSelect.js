@@ -6,11 +6,11 @@ import React from "react";
 //     { value: "longDistance", placeholder: "Long Distance", Icon: LocalShipping },
 //   ];
 
-export const ButtonSelect = ({ onClick, name, value, buttons }) => {
+export const ButtonSelect = ({ onClick, name, value, buttons, defaultValue }) => {
   const handleChange = (value) => onClick({ target: { name, value } });
 
   return (
-    <div className="flex justify-around flex-wrap m-1 mb-4 select-none">
+    <div className="flex justify-around flex-wrap mx-2 mb-4 select-none border-b-2 border-purple-500">
       {buttons.map((button, index) => (
         <Button key={index} onClick={handleChange} selected={value} {...button} />
       ))}
@@ -22,8 +22,8 @@ const Button = ({ value, placeholder, onClick, selected, Icon, isDisabled = fals
   const isSelected = selected === value;
   return (
     <div
-      className={`focus:outline-none truncate w-1/3 sm:w-2/7 flex flex-col md:flex-row items-center justify-center flex-wrap  text-xs sm:text-sm px-0 border border-transparent   rounded-lg cursor-pointer ${
-        isSelected ? " shadow-md bg-white text-purple-900  " : ""
+      className={`rounded-t-lg focus:outline-none truncate w-1/3 sm:w-2/7 flex flex-col md:flex-row items-center justify-center flex-wrap  text-xs sm:text-sm px-0 border border-transparent    cursor-pointer  ${
+        isSelected ? " shadow-md text-white bg-purple-500  " : ""
       } `}
       onClick={() => !isDisabled && onClick(value)}
     >
