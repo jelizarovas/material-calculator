@@ -13,7 +13,7 @@ import { defaultMiscFees } from "../../utils/defaultMiscFees";
 import { SectionTitle } from "../Layout/SectionTitle";
 
 export const MiscFees = ({ state, dispatch }) => {
-  const [showOnlySelected, setShowOnlySelected] = React.useState(true);
+  const [showOnlySelected, setShowOnlySelected] = React.useState(false);
   const { totalMiscFees = 0, miscFees } = state;
 
   const [fees, setFees] = React.useState(defaultMiscFees);
@@ -23,13 +23,25 @@ export const MiscFees = ({ state, dispatch }) => {
   feeRefs.current = fees.map((f, i) => (feeRefs.current[i] = React.createRef()));
 
   const addFee = () => {
-    setFees([...fees, { name: "", amount: "0", isCustom: true, id: nanoid(6) }]);
+    const newFee = { id: nanoid(6), name: "custom", selected: true, value: "0", isCustom: true };
+    setFees([...fees, newFee]);
+    dispatch({
+      type: "miscFeeChange",
+      payload: newFee,
+    });
   };
 
   const removeCustomFee = (id) => setFees(fees.filter((f) => f.id !== id));
 
   const handleChange = ({ id, field, value }) => {
-    // dispatch({ type: "miscFeeChange", payload: { name: e.target.name, amount: e.target.value } });
+    console.log({ id, field, value, l: miscFees.filter((f) => id === f.id) });
+    miscFees.filter((f) => id === f.id).length === 1
+      ? dispatch({ type: "miscFeeChange", payload: { id, field, value } })
+      : dispatch({
+          type: "miscFeeChange",
+          payload: { ...defaultMiscFees.find((f) => f.id === id), [field]: value },
+        });
+
     setFees(
       fees.map((f, i) => {
         if (id === f.id) {
@@ -40,17 +52,15 @@ export const MiscFees = ({ state, dispatch }) => {
     );
   };
 
-  const selectedCount = fees.filter(({ selected }) => selected).length;
-  const customCount = fees.filter(({ isCustom }) => isCustom).length;
-
-  const totalToShow = selectedCount + customCount;
+  const haveToShow = fees.filter(({ selected, isCustom }) => selected || isCustom).length;
   const wannaSee = 4;
-  let needToShow = wannaSee - totalToShow;
+  let needToShow = wannaSee - haveToShow;
 
   return (
     <div>
       <SectionTitle title="Misc Fees" hidePlus={true} />
-      selected count: {totalToShow}
+      {/* <pre className="max-w-md text-xs bg-white">{miscFees && JSON.stringify(miscFees, 0, 2)}</pre> */}
+
       <div className="mt-2">
         {fees
           .filter((f, i) => {
@@ -91,6 +101,8 @@ export const MiscFees = ({ state, dispatch }) => {
 };
 
 const Fee = (props) => {
+  const [init, setInit] = React.useState(false);
+
   const {
     name,
     defaultAmount = 0,
@@ -104,6 +116,17 @@ const Fee = (props) => {
     id,
     removeCustomFee,
   } = props;
+
+  const customRef = React.useRef();
+
+  React.useEffect(() => {
+    // if (isCustom && !init) {
+    //   setInit(true);
+    //   customRef.current.focus();
+    //   console.log("usef");
+    //   console.log(init);
+    // }
+  }, []);
 
   const toggleSelected = (e) => {
     if (e.target.name !== "nameInput") handleChange({ id, field: "selected", value: !selected });
@@ -121,20 +144,26 @@ const Fee = (props) => {
             {Icon ? (
               <Icon />
             ) : (
-              <span className="bg-gray-800 text-white px-2 py-1 rounded-md">{(name && name[0]) || "C"}</span>
+              <span className="bg-gray-800 text-white px-2 py-1 text-xs uppercase rounded-md">
+                {(name && name[0]) || "C"}
+              </span>
             )}
           </span>
           <span className=" px-2 truncate ">
             {isCustom ? (
               <input
                 name="nameInput"
+                ref={customRef}
                 value={name}
+                onFocus={(e) => e.target.select()}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") inputref.current.focus();
+                }}
                 onChange={(e) => handleChange({ id, field: "name", value: e.target.value })}
-                autoFocus
                 className="`w-full  p-1 bg-transparent  text-md border-b-2 focus:border-green-700 hover:border-green-700 hover:bg-white cursor-pointer             "
               />
             ) : (
-              `${name}, (${id})`
+              `${name}`
             )}
           </span>
         </div>

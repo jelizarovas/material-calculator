@@ -49,7 +49,7 @@ const moveReducer = (state, { field, value, type, payload }) => {
     const materials = state.materials;
     const miscFees = state.miscFees;
     switch (type) {
-      case "changeCount":
+      case "changeCount": {
         let idExists = false;
         if (materials.length > 0) {
           for (let i = 0; i < materials.length; i++) {
@@ -73,6 +73,7 @@ const moveReducer = (state, { field, value, type, payload }) => {
             materials: [...materials, payload],
           };
         }
+      }
       case "clearCount":
         return {
           ...state,
@@ -80,13 +81,28 @@ const moveReducer = (state, { field, value, type, payload }) => {
         };
 
       case "miscFeeChange":
-        return {
-          ...state,
-          miscFees: miscFees.map((fee) => {
-            if (payload.name === fee.name) fee.amount = payload.amount;
-            return fee;
-          }),
-        };
+        let idExists = false;
+        if (miscFees.length > 0) {
+          for (let i = 0; i < miscFees.length; i++) {
+            const { id } = miscFees[i];
+            if (id === payload.id) idExists = true;
+          }
+        }
+
+        if (idExists) {
+          return {
+            ...state,
+            miscFees: miscFees.map((fee) => {
+              if (payload.id && payload.id === fee.id) fee[payload.field] = payload.value;
+              return fee;
+            }),
+          };
+        } else {
+          return {
+            ...state,
+            miscFees: [...miscFees, payload],
+          };
+        }
 
       default:
         return state;

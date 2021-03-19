@@ -57,62 +57,9 @@ export const defaultMove = {
 
   totalTransportation: "708.75",
 
-  materials: [
-    // {
-    //   name: "Small (1.5 cu)",
-    //   units: "5",
-    //   rate: "2.00",
-    //   total: "10.00",
-    // },
-    {
-      id: "q3lYEM",
-      name: "Small Box",
-      volume: 1.5,
-      w: "16 3/8",
-      d: "12 5/8",
-      h: "12 5/8",
-      units: 0,
-      img: "img/small.png",
-      history: {},
-      rate: 3,
-      total: 0,
-    },
-  ],
+  materials: [],
   totalMaterials: "5",
-  miscFees: [
-    {
-      name: "Piano",
-      amount: "125",
-    },
-    {
-      name: "Removal (Dump/Donate)",
-      amount: "85",
-    },
-    {
-      name: "Hoist",
-      amount: "350",
-    },
-    {
-      name: "Ferry",
-      amount: "185",
-    },
-    {
-      name: "Storage",
-      amount: "100",
-    },
-    {
-      name: "Bulky",
-      amount: "1",
-    },
-    {
-      name: "Hot tub",
-      amount: "2",
-    },
-    {
-      name: "Custom #3",
-      amount: "3",
-    },
-  ],
+  miscFees: [],
   totalOtherFees: "0",
 
   subtotal: "713.75",
