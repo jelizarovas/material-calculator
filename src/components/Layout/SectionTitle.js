@@ -1,6 +1,6 @@
 import React from "react";
 
-export const SectionTitle = ({ title, onPlusClick, plus = true, hidePlus = false }) => {
+export const SectionTitle = ({ title, onPlusClick, plus = true, hidePlus = false, Icon = undefined }) => {
   //   const isFunction = function (obj) {
   //     return !!(obj && obj.constructor && obj.call && obj.apply);
   //   };
@@ -13,7 +13,7 @@ export const SectionTitle = ({ title, onPlusClick, plus = true, hidePlus = false
           onClick={onPlusClick}
           className="text-lg text-gray-600 cursor-pointer select-none font-thin hover:text-purple-500  px-3 py-1 rounded-lg  "
         >
-          {plus ? "+" : "×"}
+          {Icon ? <Icon className="p-1 color" /> : plus ? "+" : "×"}
         </span>
       )}
     </div>

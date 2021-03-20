@@ -1,5 +1,6 @@
 import {
   ArrowDropDown,
+  ArrowRight,
   CheckBoxOutlineBlank,
   CheckBoxTwoTone,
   Clear,
@@ -13,80 +14,85 @@ import { defaultMiscFees } from "../../utils/defaultMiscFees";
 import { SectionTitle } from "../Layout/SectionTitle";
 
 export const MiscFees = ({ state, dispatch }) => {
-  const [showOnlySelected, setShowOnlySelected] = React.useState(false);
   const { totalMiscFees = 0, miscFees } = state;
 
-  const [fees, setFees] = React.useState(defaultMiscFees);
-
+  const [showOnlySelected, setShowOnlySelected] = React.useState(false);
+  const [justAdded, setJustAdded] = React.useState(false);
   const feeRefs = React.useRef([]);
 
-  feeRefs.current = fees.map((f, i) => (feeRefs.current[i] = React.createRef()));
+  const [fees, setFees] = React.useState(mergeDefaultWProvider(defaultMiscFees, miscFees));
+  const haveToShow = fees.filter(({ selected, isCustom }) => selected || isCustom).length;
+  const wannaSee = 4;
+  let needToShow = wannaSee - haveToShow;
 
-  const addFee = () => {
+  const feesToRender = fees.filter((f, i) => {
+    if (needToShow > 0 && !f.selected && !f.isCustom) {
+      needToShow--;
+      return true;
+    }
+    return f.selected || f.isCustom;
+  });
+
+  feeRefs.current = (showOnlySelected ? feesToRender : fees).map((f, i) => (feeRefs.current[i] = React.createRef()));
+
+  React.useEffect(() => {
+    if (justAdded) {
+      feeRefs.current[
+        feeRefs.current.length - 1
+      ]?.current?.parentNode?.parentNode?.parentNode?.firstChild?.lastChild?.firstChild?.focus();
+      setJustAdded(false);
+    }
+    return () => {};
+  }, [justAdded, setJustAdded]);
+
+  const addCustomFee = () => {
     const newFee = { id: nanoid(6), name: "custom", selected: true, value: "0", isCustom: true };
     setFees([...fees, newFee]);
     dispatch({
       type: "miscFeeChange",
       payload: newFee,
     });
+    setJustAdded(true);
   };
 
-  const removeCustomFee = (id) => setFees(fees.filter((f) => f.id !== id));
-
-  const handleChange = ({ id, field, value }) => {
-    console.log({ id, field, value, l: miscFees.filter((f) => id === f.id) });
-    miscFees.filter((f) => id === f.id).length === 1
-      ? dispatch({ type: "miscFeeChange", payload: { id, field, value } })
-      : dispatch({
-          type: "miscFeeChange",
-          payload: { ...defaultMiscFees.find((f) => f.id === id), [field]: value },
-        });
-
-    setFees(
-      fees.map((f, i) => {
-        if (id === f.id) {
-          f[field] = value;
-        }
-        return f;
-      })
-    );
+  const removeCustomFee = (id) => {
+    dispatch({ type: "miscFeeCustomRemove", payload: { id } });
+    setFees(fees.filter((f) => f.id !== id));
   };
 
-  const haveToShow = fees.filter(({ selected, isCustom }) => selected || isCustom).length;
-  const wannaSee = 4;
-  let needToShow = wannaSee - haveToShow;
+  const clearMiscFees = () => {
+    dispatch({ type: "clearMiscFees" });
+    setFees(defaultMiscFees);
+  };
+  // { id, field, value, field2, value2 }
+  const handleChange = (payload = {}) => {
+    const { id, field, value, field2 = null, value2 = null } = payload;
+    if (!miscFees.find((f) => f.id === id)) {
+      const { Icon, Guide, ...m } = { Icon: {}, Guide: {}, ...defaultMiscFees.find((f) => f.id === id) };
+      payload = { ...m, [field]: value, [field2]: value2, value: m.defaultAmount };
+    }
+    dispatch({ type: "miscFeeChange", payload });
+    setFees(fees.map((f) => (id === f.id ? { ...f, [field]: value, [field2]: value2 } : f)));
+  };
 
   return (
     <div>
-      <SectionTitle title="Misc Fees" hidePlus={true} />
-      {/* <pre className="max-w-md text-xs bg-white">{miscFees && JSON.stringify(miscFees, 0, 2)}</pre> */}
-
+      <SectionTitle title="Misc Fees" onPlusClick={clearMiscFees} hidePlus={miscFees.length === 0} Icon={Clear} />
       <div className="mt-2">
-        {fees
-          .filter((f, i) => {
-            if (showOnlySelected) {
-              if (needToShow > 0 && !f.selected && !f.isCustom) {
-                needToShow--;
-                return true;
-              }
-              return f.selected || f.isCustom;
-            }
-            return true;
-          })
-          .map((fee, i) => {
-            return (
-              <Fee
-                key={i}
-                handleChange={handleChange}
-                inputref={feeRefs.current[i]}
-                removeCustomFee={removeCustomFee}
-                {...fee}
-              />
-            );
-          })}
+        {(showOnlySelected ? feesToRender : fees).map((fee, i) => {
+          return (
+            <Fee
+              key={i}
+              handleChange={handleChange}
+              inputref={feeRefs.current[i]}
+              removeCustomFee={removeCustomFee}
+              {...fee}
+            />
+          );
+        })}
       </div>
       <div className="flex mt-1 uppercase text-xs">
-        <NewFee onClick={addFee} />
+        <NewFee onClick={addCustomFee} />
         <div
           className="flex w-1/2 items-center bg-white  rounded-md py-1 ml-10 px-2 justify-around cursor-pointer"
           onClick={() => setShowOnlySelected(!showOnlySelected)}
@@ -101,7 +107,9 @@ export const MiscFees = ({ state, dispatch }) => {
 };
 
 const Fee = (props) => {
-  const [init, setInit] = React.useState(false);
+  const [showGuide, setShowGuide] = React.useState(false);
+
+  const toggleShowGuide = () => setShowGuide(!showGuide);
 
   const {
     name,
@@ -111,94 +119,101 @@ const Fee = (props) => {
     inputref,
     selected = false,
     Icon = undefined,
+    Guide = undefined,
     pre,
     isCustom = false,
     id,
     removeCustomFee,
+    ...rest
   } = props;
 
-  const customRef = React.useRef();
+  const setFromGuide = (value) => {
+    handleChange({ id, field: "value", value, field2: "selected", value2: true });
+  };
 
-  React.useEffect(() => {
-    // if (isCustom && !init) {
-    //   setInit(true);
-    //   customRef.current.focus();
-    //   console.log("usef");
-    //   console.log(init);
-    // }
-  }, []);
-
-  const toggleSelected = (e) => {
-    if (e.target.name !== "nameInput") handleChange({ id, field: "selected", value: !selected });
+  const toggleSelected = (e = null) => {
+    if (e?.target?.name !== "nameInput") handleChange({ id, field: "selected", value: !selected });
   };
   return (
-    <div data-id={`fee-${id}`} className="flex flex-col text-gray-800 text-sm cursor-pointer">
-      <div
-        className={`flex  justify-between items-center  rounded-md border-b ${
-          selected === true ? " bg-green-50" : " bg-white"
-        }`}
-      >
-        <div className="flex flex-grow p-2 w-3/5" onClick={toggleSelected}>
-          <span>{selected ? <CheckBoxTwoTone className="text-green-800" /> : <CheckBoxOutlineBlank />}</span>
-          <span className="px-2">
-            {Icon ? (
-              <Icon />
-            ) : (
-              <span className="bg-gray-800 text-white px-2 py-1 text-xs uppercase rounded-md">
-                {(name && name[0]) || "C"}
-              </span>
-            )}
-          </span>
-          <span className=" px-2 truncate ">
-            {isCustom ? (
-              <input
-                name="nameInput"
-                ref={customRef}
-                value={name}
-                onFocus={(e) => e.target.select()}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") inputref.current.focus();
-                }}
-                onChange={(e) => handleChange({ id, field: "name", value: e.target.value })}
-                className="`w-full  p-1 bg-transparent  text-md border-b-2 focus:border-green-700 hover:border-green-700 hover:bg-white cursor-pointer             "
-              />
-            ) : (
-              `${name}`
-            )}
-          </span>
-        </div>
-        <div>
-          <div className="pr-3 relative">
-            {selected && <span className="absolute top-1 select-none text-gray-500">$</span>}
-            <input
-              name="amountInput"
-              value={`${value}`}
-              type="number"
-              ref={inputref}
-              min="0"
-              onChange={(e) => handleChange({ id, field: "value", value: e.target.value })}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") e.target.blur();
-              }}
-              onFocus={(e) => e.target.select()}
-              className={`w-20 text-right p-1 bg-transparent  text-md border-b-2 focus:border-green-700 hover:border-green-700 hover:bg-white cursor-pointer ${
-                selected || isCustom ? "" : "hidden"
-              }`}
-            />
-            <span
-              name="usualPrice"
-              onClick={toggleSelected}
-              className={`font-thin text-xs px-2 nowrap w-2/5 ${selected || isCustom ? "hidden" : ""}`}
-            >{`${pre ? pre : "usually "} $${defaultAmount}`}</span>
+    <>
+      <div data-id={`fee-${id}`} className="flex flex-col text-gray-800 text-sm cursor-pointer" {...rest}>
+        <div
+          className={`flex  justify-between items-center  rounded-md border-b ${
+            selected === true ? " bg-green-50" : " bg-white"
+          }`}
+        >
+          <div className="flex flex-grow p-2 w-3/5" onClick={toggleSelected}>
+            <span>{selected ? <CheckBoxTwoTone className="text-green-800" /> : <CheckBoxOutlineBlank />}</span>
+            <span className="px-2">
+              {Icon ? (
+                <Icon />
+              ) : (
+                <span className="bg-gray-800 text-white px-2 py-1 text-xs uppercase rounded-md">
+                  {(name && name[0]) || "C"}
+                </span>
+              )}
+            </span>
+            <span className=" px-2 truncate ">
+              {isCustom ? (
+                <input
+                  name="nameInput"
+                  value={name}
+                  onFocus={(e) => e.target.select()}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") inputref.current.focus();
+                  }}
+                  onChange={(e) => handleChange({ id, field: "name", value: e.target.value })}
+                  className="`w-full  p-1 bg-transparent  text-md border-b-2 focus:border-green-700 hover:border-green-700  cursor-pointer             "
+                />
+              ) : (
+                `${name}`
+              )}
+            </span>
           </div>
-        </div>
+          <div>
+            <div className="pr-3 relative">
+              {selected && <span className="absolute top-1 select-none text-gray-500">$</span>}
+              <input
+                name="amountInput"
+                value={`${value}`}
+                type="number"
+                ref={inputref}
+                min="0"
+                onChange={(e) => handleChange({ id, field: "value", value: e.target.value })}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") e.target.blur();
+                }}
+                onFocus={(e) => e.target.select()}
+                className={`w-20 text-right p-1 bg-transparent  text-md border-b-2 focus:border-green-700 hover:border-green-700  cursor-pointer ${
+                  selected || isCustom ? "" : "hidden"
+                }`}
+              />
+              <span
+                name="usualPrice"
+                onClick={toggleSelected}
+                className={`font-thin text-xs px-2 nowrap w-2/5 ${selected || isCustom ? "hidden" : ""}`}
+              >{`${pre ? pre : "usually "} $${defaultAmount}`}</span>
+            </div>
+          </div>
 
-        <span className="px-2  opacity-20 focus:opacity-100 hover:opacity-100">
-          {/* {id} */}
-          {isCustom ? <Clear className="p-1" onClick={() => removeCustomFee(id)} /> : <ArrowDropDown />}
-        </span>
+          <span className="px-2  opacity-20 focus:opacity-100 hover:opacity-100">
+            {/* {id} */}
+            {isCustom ? (
+              <Clear className="p-1" onClick={() => removeCustomFee(id)} />
+            ) : Guide ? (
+              showGuide ? (
+                <ArrowDropDown onClick={toggleShowGuide} />
+              ) : (
+                <ArrowRight onClick={toggleShowGuide} />
+              )
+            ) : (
+              <div className="w-6"></div>
+            )}
+          </span>
+        </div>
       </div>
-    </div>
+      {showGuide && Guide && <Guide setValue={setFromGuide} />}
+    </>
   );
 };
 
@@ -217,3 +232,17 @@ const NewFee = ({ onClick }) => {
 };
 
 //   onKeyPress={({ charCode, code, key, keyCode, which }) => setX({ charCode, code, key, keyCode, which })}
+
+//MERGES DEFAULT STATE WITH PROVIDER STATE
+const mergeDefaultWProvider = (base, state) => {
+  const newMerge = base.map((b) => {
+    const match = state?.find((s) => s.id === b.id);
+    if (match) {
+      const { Icon, Guide, ...s } = { Icon: {}, Guide: {}, ...match };
+      return { ...b, ...s };
+    } else {
+      return b;
+    }
+  });
+  return [...newMerge, ...state.filter((s) => s.isCustom)];
+};

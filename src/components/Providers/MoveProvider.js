@@ -46,6 +46,7 @@ const moveReducer = (state, { field, value, type, payload }) => {
       [field]: value,
     };
   } else {
+    //@TODO merge miscFees & materials so no duplicate cases
     const materials = state.materials;
     const miscFees = state.miscFees;
     switch (type) {
@@ -93,7 +94,10 @@ const moveReducer = (state, { field, value, type, payload }) => {
           return {
             ...state,
             miscFees: miscFees.map((fee) => {
-              if (payload.id && payload.id === fee.id) fee[payload.field] = payload.value;
+              if (payload.id && payload.id === fee.id) {
+                fee[payload.field] = payload.value;
+                if (payload.field2) fee[payload.field2] = payload.value2;
+              }
               return fee;
             }),
           };
@@ -103,6 +107,16 @@ const moveReducer = (state, { field, value, type, payload }) => {
             miscFees: [...miscFees, payload],
           };
         }
+      case "miscFeeCustomRemove":
+        return {
+          ...state,
+          miscFees: miscFees.filter((f) => f.id !== payload.id),
+        };
+      case "clearMiscFees":
+        return {
+          ...state,
+          miscFees: [],
+        };
 
       default:
         return state;
@@ -160,6 +174,7 @@ const MoveProvider = ({ children }) => {
     breakTime,
     subtotal,
     materials,
+    miscFees,
     isTravelFeeFixed,
     travelFee,
     // adjustment,
@@ -187,6 +202,13 @@ const MoveProvider = ({ children }) => {
           : materials.reduce((sum, { units, rate }) => sum + Number(units) * Number(rate), 0),
     });
   }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
+  /*########## TOTAL MISC FEES ##########*/
+  useEffect(() => {
+    dispatch({
+      field: "totalMiscFees",
+      value: miscFees.reduce((sum, { value, selected }) => sum + Number(selected ? value : 0), 0),
+    });
+  }, [miscFees, flatIsMaterialsIncluded, dispatch]);
 
   /*########## TOTAL VALUATION ##########*/
   useEffect(() => {

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 
 export const TimeInput = (props) => {
-  const { value, Icon, onChange, field } = props;
+  const { value, Icon /* onChange, field*/ } = props;
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [hour, setHour] = useState(value.split(":")[0] || "00");

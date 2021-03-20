@@ -27,7 +27,7 @@ function App() {
       <Appbar />
       <div className="container relative mx-auto bg-gray-100 rounded-lg shadow-2xl mt-1  p-2">
         <Switch>
-          <Redirect exact from="/" to="/dash" />
+          <Redirect exact from="/" to="/m/R2tpMl/client" />
           <Redirect exact from="/materials" to="/t/materials" />
           <Redirect exact from="/bol" to="/t/coordinates" />
           <Redirect exact from="/bingo" to="/t/loadchart" />

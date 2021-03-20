@@ -106,15 +106,15 @@ async function fillForm(client) {
     default:
       break;
   }
-  form.getTextField("Total Transportation").setText(client.totalTransportation);
+  form.getTextField("Total Transportation").setText(client.totalTransportation.toString());
 
   form.getTextField("TOTAL PACKING  MATERIAL").setText(client.totalMaterials.toString());
-  form.getTextField("TOTAL OTHER").setText(client.totalOtherFees);
-  form.getTextField("SUBTOTAL 1234").setText(client.subtotal);
-  form.getTextField("Adjustment").setText(client.adjustment);
-  form.getTextField("TOTAL MOVING CHARGES").setText(client.totalMovingCharges);
-  form.getTextField("TOTAL AMOUNT PAID").setText(client.totalAmountPaid);
-  form.getTextField("TIPS  BALANCE DUE").setText(client.remainingBalance);
+  form.getTextField("TOTAL OTHER").setText(client.totalOtherFees.toString());
+  form.getTextField("SUBTOTAL 1234").setText(client.subtotal.toString());
+  form.getTextField("Adjustment").setText(client.adjustment.toString());
+  form.getTextField("TOTAL MOVING CHARGES").setText(client.totalMovingCharges.toString());
+  form.getTextField("TOTAL AMOUNT PAID").setText(client.totalAmountPaid.toString());
+  form.getTextField("TIPS  BALANCE DUE").setText(client.remainingBalance.toString());
 
   const materials = client.materials.filter((m) => m.units > 0);
   materials.forEach((item, index) => {
@@ -127,13 +127,13 @@ async function fillForm(client) {
       form.getTextField(`TOTAL C${i}`).setText(item.total.toString());
     }
   });
-  const miscFees = client.miscFees.filter((m) => m.amount > 0);
+  const miscFees = client.miscFees.filter((m) => m.value > 0 && m.selected);
   miscFees.forEach((item, index) => {
     const i = index + 1;
 
     if (0 < i && i < 9) {
       form.getTextField(`M${i}`).setText(truncateString(item.name, 9));
-      form.getTextField(`AMOUNT M${i}`).setText(item.amount);
+      form.getTextField(`AMOUNT M${i}`).setText(item.value);
     }
   });
 
