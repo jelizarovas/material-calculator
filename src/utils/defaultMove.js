@@ -58,7 +58,7 @@ export const defaultMove = {
   totalTransportation: "708.75",
 
   materials: [],
-  totalMaterials: "5",
+  totalMaterials: "0",
   miscFees: [],
   totalOtherFees: "0",
 

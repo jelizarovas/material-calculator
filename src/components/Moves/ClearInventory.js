@@ -1,19 +1,9 @@
 import React from "react";
-import { vibrate } from "../../utils/vibrate";
 
-const ClearInventory = ({ dispatch }) => {
+export const ClearInventory = ({ handleClear }) => {
   return (
-    <button
-      type="reset"
-      className="px-2 py-1 hover:bg-red-700 rounded-sm text-white text-xs "
-      onClick={() => {
-        dispatch({ type: "clearCount" });
-        vibrate(500);
-      }}
-    >
+    <button type="reset" className="px-2 py-1 hover:bg-red-700 rounded-sm text-white text-xs " onClick={handleClear}>
       <span alt="Clear">× clear</span>
     </button>
   );
 };
-
-export default ClearInventory;

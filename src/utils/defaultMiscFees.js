@@ -1,5 +1,5 @@
 import {
-  DeleteForever,
+  DeleteSweep,
   DirectionsBoat,
   DirectionsRun,
   HotTub,
@@ -24,7 +24,7 @@ const Piano = ({ setValue } = {}) => {
           className="text-xs bg-blue-800 rounded-md text-white p-2 m-2"
           onClick={() => setValue && setValue(value)}
         >
-          Set value to $125
+          Set value to ${value}
         </button>
       </div>
     </div>
@@ -44,7 +44,7 @@ export const defaultMiscFees = [
     name: "Removal (Dump/Donate)",
     defaultAmount: "50",
     pre: "starts at",
-    Icon: DeleteForever,
+    Icon: DeleteSweep,
   },
   {
     id: "KD83m2",

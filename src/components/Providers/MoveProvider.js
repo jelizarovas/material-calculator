@@ -39,7 +39,7 @@ const useMoveDispatch = () => {
   return context;
 };
 
-const moveReducer = (state, { field, value, type, payload }) => {
+const moveReducer = (state, { field, value, type, payload, id = null }) => {
   if (!type) {
     return {
       ...state,
@@ -50,35 +50,23 @@ const moveReducer = (state, { field, value, type, payload }) => {
     const materials = state.materials;
     const miscFees = state.miscFees;
     switch (type) {
-      case "changeCount": {
-        let idExists = false;
-        if (materials.length > 0) {
-          for (let i = 0; i < materials.length; i++) {
-            const { id } = materials[i];
-            if (id === payload.id) idExists = true;
-          }
-        }
-        if (idExists) {
-          if (payload.units === 0) return { ...state, materials: materials.filter((m) => m.id !== payload.id) };
-          return {
-            ...state,
-            materials: materials.map((d) => {
-              if (d.id === payload.id) d.units = payload.units;
-              if (d.id === payload.id) d.total = payload.total;
-              return d;
-            }),
-          };
-        } else {
-          return {
-            ...state,
-            materials: [...materials, payload],
-          };
-        }
+      case "changeMaterial": {
+        return {
+          ...state,
+          materials: materials.find((m) => m.id === id)
+            ? materials.map((m) => (id === m.id ? { ...m, ...payload } : m))
+            : [...materials, { id, ...payload }],
+        };
       }
-      case "clearCount":
+      case "clearMaterials":
         return {
           ...state,
           materials: [],
+        };
+      case "removeMaterial":
+        return {
+          ...state,
+          materials: materials.filter((m) => m.id !== id),
         };
 
       case "miscFeeChange":

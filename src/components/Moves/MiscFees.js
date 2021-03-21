@@ -11,29 +11,27 @@ import {
 import { nanoid } from "nanoid";
 import React from "react";
 import { defaultMiscFees } from "../../utils/defaultMiscFees";
+import { mergeDefaultWProvider } from "../../utils/mergeDefaultWProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
 
 export const MiscFees = ({ state, dispatch }) => {
   const { totalMiscFees = 0, miscFees } = state;
 
-  const [showOnlySelected, setShowOnlySelected] = React.useState(false);
+  const [showOnlySelected, setShowOnlySelected] = React.useState(true);
   const [justAdded, setJustAdded] = React.useState(false);
   const feeRefs = React.useRef([]);
 
   const [fees, setFees] = React.useState(mergeDefaultWProvider(defaultMiscFees, miscFees));
-  const haveToShow = fees.filter(({ selected, isCustom }) => selected || isCustom).length;
-  const wannaSee = 4;
-  let needToShow = wannaSee - haveToShow;
-
-  const feesToRender = fees.filter((f, i) => {
-    if (needToShow > 0 && !f.selected && !f.isCustom) {
-      needToShow--;
+  let remainder = 4 - fees.filter(({ selected, isCustom }) => selected || isCustom).length;
+  const feesFilter = fees.filter((f, i) => {
+    if (remainder > 0 && !f.selected && !f.isCustom) {
+      remainder--;
       return true;
     }
     return f.selected || f.isCustom;
   });
 
-  feeRefs.current = (showOnlySelected ? feesToRender : fees).map((f, i) => (feeRefs.current[i] = React.createRef()));
+  feeRefs.current = (showOnlySelected ? feesFilter : fees).map((f, i) => (feeRefs.current[i] = React.createRef()));
 
   React.useEffect(() => {
     if (justAdded) {
@@ -42,7 +40,6 @@ export const MiscFees = ({ state, dispatch }) => {
       ]?.current?.parentNode?.parentNode?.parentNode?.firstChild?.lastChild?.firstChild?.focus();
       setJustAdded(false);
     }
-    return () => {};
   }, [justAdded, setJustAdded]);
 
   const addCustomFee = () => {
@@ -64,7 +61,6 @@ export const MiscFees = ({ state, dispatch }) => {
     dispatch({ type: "clearMiscFees" });
     setFees(defaultMiscFees);
   };
-  // { id, field, value, field2, value2 }
   const handleChange = (payload = {}) => {
     const { id, field, value, field2 = null, value2 = null } = payload;
     if (!miscFees.find((f) => f.id === id)) {
@@ -79,10 +75,11 @@ export const MiscFees = ({ state, dispatch }) => {
     <div>
       <SectionTitle title="Misc Fees" onPlusClick={clearMiscFees} hidePlus={miscFees.length === 0} Icon={Clear} />
       <div className="mt-2">
-        {(showOnlySelected ? feesToRender : fees).map((fee, i) => {
+        {(showOnlySelected ? feesFilter : fees).map((fee, i) => {
           return (
             <Fee
               key={i}
+              isOdd={i % 2}
               handleChange={handleChange}
               inputref={feeRefs.current[i]}
               removeCustomFee={removeCustomFee}
@@ -124,6 +121,7 @@ const Fee = (props) => {
     isCustom = false,
     id,
     removeCustomFee,
+    isOdd = false,
     ...rest
   } = props;
 
@@ -139,7 +137,9 @@ const Fee = (props) => {
       <div data-id={`fee-${id}`} className="flex flex-col text-gray-800 text-sm cursor-pointer" {...rest}>
         <div
           className={`flex  justify-between items-center  rounded-md border-b ${
-            selected === true ? " bg-green-50" : " bg-white"
+            selected === true
+              ? " bg-green-50 hover:bg-green-100"
+              : ` ${isOdd ? "bg-white" : "bg-gray-50"} hover:bg-purple-100`
           }`}
         >
           <div className="flex flex-grow p-2 w-3/5" onClick={toggleSelected}>
@@ -175,7 +175,7 @@ const Fee = (props) => {
               {selected && <span className="absolute top-1 select-none text-gray-500">$</span>}
               <input
                 name="amountInput"
-                value={`${value}`}
+                value={value}
                 type="number"
                 ref={inputref}
                 min="0"
@@ -226,23 +226,9 @@ const NewFee = ({ onClick }) => {
       <span className="px-6">
         <LibraryAddTwoTone />
       </span>
-      <span className=" p-2  uppercase">Add Fee</span>
+      <span className=" p-2  uppercase">Custom Fee</span>
     </div>
   );
 };
 
 //   onKeyPress={({ charCode, code, key, keyCode, which }) => setX({ charCode, code, key, keyCode, which })}
-
-//MERGES DEFAULT STATE WITH PROVIDER STATE
-const mergeDefaultWProvider = (base, state) => {
-  const newMerge = base.map((b) => {
-    const match = state?.find((s) => s.id === b.id);
-    if (match) {
-      const { Icon, Guide, ...s } = { Icon: {}, Guide: {}, ...match };
-      return { ...b, ...s };
-    } else {
-      return b;
-    }
-  });
-  return [...newMerge, ...state.filter((s) => s.isCustom)];
-};
