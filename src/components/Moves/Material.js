@@ -1,5 +1,7 @@
 import { Delete } from "@material-ui/icons";
 import React /*, { useState }*/ from "react";
+import useLongPress from "../../utils/useLongPress";
+import { vibrate } from "../../utils/vibrate";
 import CountButton from "../Inputs/CountButton";
 
 export const Material = (props) => {
@@ -9,13 +11,13 @@ export const Material = (props) => {
     isOdd = false,
     id,
     name,
-    volume,
+    // volume,
     img,
     rate,
     units,
     total,
     isCustom,
-    subtext,
+    // subtext,
     /*w, d, h, description,*/
   } = props;
 
@@ -30,13 +32,27 @@ export const Material = (props) => {
     handleChange(id, { [e.target.name]: e.target.value });
   };
 
+  const onLongPress = () => {
+    if (units > 0) {
+      changeCount(0);
+      vibrate([100, 50, 100]);
+    }
+  };
+
+  const defaultOptions = {
+    shouldPreventDefault: true,
+    delay: 1000,
+  };
+
+  const longPressEvent = useLongPress(onLongPress, () => {}, defaultOptions);
+
   return (
     <div
-      className={` ${!isOdd ? "" : "bg-yellow-50"} flex justify-between items-center hover:bg-purple-100 border-b ${
+      className={` ${!isOdd ? "" : "bg-gray-50"} flex justify-between items-center hover:bg-purple-100 border-b ${
         units > 0 ? "bg-green-50" : ""
       }`}
     >
-      <div className="flex items-center w-1/2  align-middle px-2">
+      <div className="flex items-center w-1/3 sm:w-1/4  align-middle px-1 md:px-2">
         <div className="pr-3">
           {isCustom ? (
             <Delete onClick={() => handleRemove(id)} className="p-1 hover:text-red-400 cursor-pointer" />
@@ -44,10 +60,12 @@ export const Material = (props) => {
             <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
           )}
         </div>
-        <div className="flex-col w-full">
+        <div className="flex-col w-full flex-1  truncate">
           {!isCustom ? (
             <>
-              <div className="flex-1 text-sm">{name} </div>
+              <span className="select-none text-sm truncte" {...longPressEvent}>
+                {name}
+              </span>
               {/* <div className="text-xs align-middle hidden hover:inline-flex">
                 <span>{volume ? `${volume} c.u. ft.` : subtext} </span>
               </div> */}
@@ -69,7 +87,7 @@ export const Material = (props) => {
 
       <CountButton count={units} changeCount={changeCount} />
 
-      <div className="text-right text-xs px-3 flex items-center flex-nowrap justify-center w-1/4">
+      <div className="text-right text-xs px-3 flex items-center flex-nowrap flex-shrink-0 justify-center w-1/3 sm:w-1/4">
         <span className={units > 0 ? "text-gray-800" : "text-gray-400"}>{units > 0 ? "× " : "$"}</span>
         <input
           className={`p-1 w-9 bg-transparent  text-xs text-center  border-b focus:border-green-700 hover:border-green-700  cursor-pointer`}
@@ -85,7 +103,9 @@ export const Material = (props) => {
             }
           }}
         />
-        <span className={units > 0 ? "text-gray-800" : "text-gray-400"}>{units > 0 ? ` = $ ${total}` : "/ unit"}</span>
+        <span className={`truncate ${units > 0 ? "text-gray-800" : "text-gray-400"} `}>
+          {units > 0 ? ` = $ ${total}` : "/ unit"}
+        </span>
         {/* <span
           className={`${showChangeRate ? "hidden" : ""}`}
           onClick={() => {

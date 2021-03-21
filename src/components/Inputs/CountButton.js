@@ -1,5 +1,4 @@
 import React from "react";
-import useLongPress from "../../utils/useLongPress";
 import clsx from "clsx";
 import { vibrate } from "../../utils/vibrate";
 
@@ -19,23 +18,11 @@ const CountButton = ({ count, changeCount }) => {
     return changeCount(val);
   };
 
-  const onLongPress = () => {
-    changeCount(0);
-    vibrate([100, 50, 100]);
-  };
-
-  const defaultOptions = {
-    shouldPreventDefault: true,
-    delay: 1000,
-  };
-
-  const longPressEvent = useLongPress(onLongPress, decrement, defaultOptions);
-
   return (
-    <div className="flex flex-row w-28 h-8 mx-auto  rounded-md relative bg-gray-100 bg-opacity-50 my-1 ">
+    <div className="flex flex-row w-28 h-8 mx-auto  rounded-md relative bg-purple-200 bg-opacity-50 my-1 ">
       <button
-        {...longPressEvent}
-        className=" text-2xl font-thin  text-gray-600 hover:text-red-700 hover:bg-red-200 w-20 rounded-l cursor-pointer"
+        onClick={decrement}
+        className=" text-2xl font-thin select-none  text-gray-600 hover:text-red-700 hover:bg-red-200 w-20 rounded-l cursor-pointer"
       >
         −
       </button>
@@ -44,8 +31,8 @@ const CountButton = ({ count, changeCount }) => {
         type="number"
         name="custom-input-number"
         className={clsx(
-          " bg-gray-100 bg-opacity-50  text-center w-12  font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700",
-          count > 0 && "bg-yellow-300"
+          " bg-white bg-opacity-60  text-center w-12  font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700",
+          count > 0 && "bg-yellow-200"
         )}
         onChange={onChange}
         onKeyPress={(e) => {

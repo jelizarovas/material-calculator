@@ -52,33 +52,38 @@ export const Materials = ({ state, dispatch }) => {
             return <Material key={m.id} isOdd={i % 2} handleRemove={handleRemove} handleChange={handleChange} {...m} />;
           })}
         </div>
-        <div name="footer" className="text-gray-500 hover:text-gray-800 text-xs flex justify-between   rounded-b-lg">
-          <div
-            onClick={handleAdd}
-            className="w-1/4 flex justify-center items-center shadow-sm bg-white p-2 py-2 rounded-b-md cursor-pointer hover:text-green-800 hover:bg-green-50 hover:shadow-md"
-          >
-            <AddCircle className="p-1 mx-2" /> Add Custom
-          </div>
-          <div
-            className="shadow-sm w-1/4 text-xs flex justify-evenly   bg-white  p-2 py-2 rounded-b-md cursor-pointer"
-            onClick={() => setShowMore(!showMore)}
-          >
-            {showMore ? (
-              <span>
-                Show Less <ArrowDropUp />
-              </span>
-            ) : (
-              <span>
-                Show More <ArrowDropDown />
-              </span>
-            )}
-          </div>
-          <div className="w-1/4 shadow-sm flex justify-end bg-white p-2 py-2 rounded-b-md">
-            <span>Total: </span>
-            <span className="px-4">{"  $" + totalMaterials}</span>
-          </div>
-        </div>
+        <Footer showMore={showMore} setShowMore={setShowMore} total={totalMaterials} handleAdd={handleAdd} />
       </div>
     </>
+  );
+};
+
+const Footer = ({ showMore, setShowMore, total, handleAdd }) => {
+  return (
+    <div name="footer" className="text-gray-500  text-xs flex justify-between   rounded-b-lg">
+      <div
+        onClick={handleAdd}
+        className="select-none truncate w-1/3 md:w-1/4 flex justify-center items-center shadow-sm bg-white p-2 py-2 rounded-b-md cursor-pointer hover:text-green-800   mr-1"
+      >
+        <AddCircle className="p-1 mx-2 " /> Add Custom
+      </div>
+      <div
+        className="truncate shadow-sm w-1/3 md:w-1/4 text-xs flex justify-evenly hover:text-gray-800   bg-white  p-2 py-2 rounded-b-md cursor-pointer "
+        onClick={() => setShowMore(!showMore)}
+      >
+        {showMore ? (
+          <span className="truncate">
+            Show Less <ArrowDropUp />
+          </span>
+        ) : (
+          <span>
+            Show More <ArrowDropDown />
+          </span>
+        )}
+      </div>
+      <div className="truncate w-1/3 md:w-1/4 shadow-sm flex justify-center bg-white p-2 py-2 rounded-b-md ml-1">
+        Total: <span className="px-2">${total}</span>
+      </div>
+    </div>
   );
 };
