@@ -6,6 +6,7 @@ export const Material = (props) => {
   const {
     handleChange,
     handleRemove,
+    isOdd = false,
     id,
     name,
     volume,
@@ -30,48 +31,45 @@ export const Material = (props) => {
   };
 
   return (
-    <tr className="hover:bg-purple-200 focus:outline-none focus:ring-2">
-      <td>
-        <div className="flex items-center  align-middle">
-          <div className="p-1">
-            {isCustom ? (
-              <Delete onClick={() => handleRemove(id)} className="p-1 hover:text-red-400 cursor-pointer" />
-            ) : (
-              <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
-            )}
-          </div>
-          <div className="flex-col">
-            {!isCustom ? (
-              <>
-                <div className="flex-1 text-sm">{name} </div>
-                <div className="text-xs align-middle">
-                  <span>{volume ? `${volume} c.u. ft.` : subtext} </span>
-                </div>
-              </>
-            ) : (
-              <input
-                name="name"
-                value={name}
-                onChange={changeInput}
-                onFocus={(e) => e.target.select()}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") e.target.blur();
-                }}
-                className="`  p-1 bg-transparent  text-xs border-b-2 focus:border-green-700 hover:border-green-700  cursor-pointer             "
-              />
-            )}
-          </div>
+    <div
+      className={` ${!isOdd ? "" : "bg-yellow-50"} flex justify-between items-center hover:bg-purple-100 border-b ${
+        units > 0 ? "bg-green-50" : ""
+      }`}
+    >
+      <div className="flex items-center w-1/2  align-middle px-2">
+        <div className="pr-3">
+          {isCustom ? (
+            <Delete onClick={() => handleRemove(id)} className="p-1 hover:text-red-400 cursor-pointer" />
+          ) : (
+            <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
+          )}
         </div>
-      </td>
+        <div className="flex-col w-full">
+          {!isCustom ? (
+            <>
+              <div className="flex-1 text-sm">{name} </div>
+              {/* <div className="text-xs align-middle hidden hover:inline-flex">
+                <span>{volume ? `${volume} c.u. ft.` : subtext} </span>
+              </div> */}
+            </>
+          ) : (
+            <input
+              name="name"
+              value={name}
+              onChange={changeInput}
+              onFocus={(e) => e.target.select()}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") e.target.blur();
+              }}
+              className="p-1 bg-transparent w-full  text-xs border-b-2 focus:border-green-700 hover:border-green-700  cursor-pointer"
+            />
+          )}
+        </div>
+      </div>
 
-      <td>
-        <CountButton count={units} changeCount={changeCount} />
-      </td>
-      <td
-        className="text-right text-xs px-3"
-        // onClick={toggleShowChangeRate}
-        // onBlur={() => setShowChangeRate(false)}
-      >
+      <CountButton count={units} changeCount={changeCount} />
+
+      <div className="text-right text-xs px-3 flex items-center flex-nowrap justify-center w-1/4">
         <span className={units > 0 ? "text-gray-800" : "text-gray-400"}>{units > 0 ? "× " : "$"}</span>
         <input
           className={`p-1 w-9 bg-transparent  text-xs text-center  border-b focus:border-green-700 hover:border-green-700  cursor-pointer`}
@@ -97,8 +95,8 @@ export const Material = (props) => {
         >
           {units > 0 ? ` × $ ${rate} = $ ${total}` : `$ ${rate} / unit`}
         </span> */}
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 

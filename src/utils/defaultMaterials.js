@@ -58,32 +58,16 @@ export const defaultMaterials = [
     rate: 5,
   },
   {
-    id: "XjYPgM",
-    name: "Wardrobe (Buy)",
-    volume: 13,
-    w: "24",
-    d: "24",
-    h: "40",
-
+    id: "jj4ghI",
+    name: "TV Box",
     units: 0,
-    img: "img/wardrobe.png",
-    history: {},
-    rate: 15,
-  },
-  {
-    id: "Aic8ie",
-    name: "Flat Wardrobe",
-    volume: 13,
+    img: "img/tv.png",
     // @TODO ISSUE #18
-    w: "24",
-    d: "24",
-    h: "40",
 
-    units: 0,
-    img: "img/laydown.png",
     history: {},
-    rate: 5,
+    rate: 25,
   },
+
   {
     id: "fjCPOT",
     name: "Mirror Pack (Small)",
@@ -110,6 +94,33 @@ export const defaultMaterials = [
     img: "img/lmirror.png",
     history: {},
     rate: 10,
+  },
+  {
+    id: "Aic8ie",
+    name: "Flat Wardrobe",
+    volume: 13,
+    // @TODO ISSUE #18
+    w: "24",
+    d: "24",
+    h: "40",
+
+    units: 0,
+    img: "img/laydown.png",
+    history: {},
+    rate: 5,
+  },
+  {
+    id: "XjYPgM",
+    name: "Wardrobe (Buy)",
+    volume: 13,
+    w: "24",
+    d: "24",
+    h: "40",
+
+    units: 0,
+    img: "img/wardrobe.png",
+    history: {},
+    rate: 15,
   },
   {
     id: "dW96Oj",
@@ -150,15 +161,5 @@ export const defaultMaterials = [
     img: "img/blanket.png",
     history: {},
     rate: 10,
-  },
-  {
-    id: "jj4ghI",
-    name: "TV Box",
-    units: 0,
-    img: "img/tv.png",
-    // @TODO ISSUE #18
-
-    history: {},
-    rate: 25,
   },
 ];
