@@ -1,23 +1,15 @@
-import {
-  ArrowDropDown,
-  ArrowRight,
-  CheckBoxOutlineBlank,
-  CheckBoxTwoTone,
-  Clear,
-  ExpandLess,
-  ExpandMore,
-  LibraryAddTwoTone,
-} from "@material-ui/icons";
+import { ArrowDropDown, ArrowRight, CheckBoxOutlineBlank, CheckBoxTwoTone, Delete } from "@material-ui/icons";
 import { nanoid } from "nanoid";
 import React from "react";
 import { defaultMiscFees } from "../../utils/defaultMiscFees";
 import { mergeDefaultWProvider } from "../../utils/mergeDefaultWProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
+import { TableFooter } from "../Layout/TableFooter";
 
 export const MiscFees = ({ state, dispatch }) => {
   const { totalMiscFees = 0, miscFees } = state;
 
-  const [showOnlySelected, setShowOnlySelected] = React.useState(true);
+  const [showMore, setShowOnlySelected] = React.useState(true);
   const [justAdded, setJustAdded] = React.useState(false);
   const feeRefs = React.useRef([]);
 
@@ -31,7 +23,7 @@ export const MiscFees = ({ state, dispatch }) => {
     return f.selected || f.isCustom;
   });
 
-  feeRefs.current = (showOnlySelected ? feesFilter : fees).map((f, i) => (feeRefs.current[i] = React.createRef()));
+  feeRefs.current = (showMore ? fees : feesFilter).map((f, i) => (feeRefs.current[i] = React.createRef()));
 
   React.useEffect(() => {
     if (justAdded) {
@@ -72,10 +64,10 @@ export const MiscFees = ({ state, dispatch }) => {
   };
 
   return (
-    <div>
-      <SectionTitle title="Misc Fees" onPlusClick={clearMiscFees} hidePlus={miscFees.length === 0} Icon={Clear} />
-      <div className="mt-2">
-        {(showOnlySelected ? feesFilter : fees).map((fee, i) => {
+    <>
+      <SectionTitle title="Misc Fees" onClick={clearMiscFees} hidePlus={miscFees.length === 0} Icon={Delete} />
+      <div className="mt-2 bg-white rounded-t-md">
+        {(showMore ? fees : feesFilter).map((fee, i) => {
           return (
             <Fee
               key={i}
@@ -88,18 +80,13 @@ export const MiscFees = ({ state, dispatch }) => {
           );
         })}
       </div>
-      <div className="flex mt-1 uppercase text-xs">
-        <NewFee onClick={addCustomFee} />
-        <div
-          className="flex w-1/2 items-center bg-white  rounded-md py-1 ml-10 px-2 justify-around cursor-pointer"
-          onClick={() => setShowOnlySelected(!showOnlySelected)}
-        >
-          <span className="">{!showOnlySelected ? <ExpandLess /> : <ExpandMore />}</span>
-          <span>Total: </span>
-          <span>$ {totalMiscFees}</span>
-        </div>
-      </div>
-    </div>
+      <TableFooter
+        showMore={showMore}
+        setShowMore={setShowOnlySelected}
+        total={totalMiscFees}
+        handleAdd={addCustomFee}
+      />
+    </>
   );
 };
 
@@ -136,7 +123,7 @@ const Fee = (props) => {
     <>
       <div data-id={`fee-${id}`} className="flex flex-col text-gray-800 text-sm cursor-pointer" {...rest}>
         <div
-          className={`flex  justify-between items-center  rounded-md border-b ${
+          className={`flex  justify-between items-center   border-b ${
             selected === true
               ? " bg-green-50 hover:bg-green-100"
               : ` ${isOdd ? "bg-white" : "bg-gray-50"} hover:bg-purple-100`
@@ -199,7 +186,7 @@ const Fee = (props) => {
           <span className="px-2  opacity-20 focus:opacity-100 hover:opacity-100">
             {/* {id} */}
             {isCustom ? (
-              <Clear className="p-1" onClick={() => removeCustomFee(id)} />
+              <Delete className="p-1" onClick={() => removeCustomFee(id)} />
             ) : Guide ? (
               showGuide ? (
                 <ArrowDropDown onClick={toggleShowGuide} />
@@ -214,20 +201,6 @@ const Fee = (props) => {
       </div>
       {showGuide && Guide && <Guide setValue={setFromGuide} />}
     </>
-  );
-};
-
-const NewFee = ({ onClick }) => {
-  return (
-    <div
-      onClick={onClick}
-      className="shadow-sm select-none w-1/2 text-gray-600 flex items-center bg-white  rounded-md py-1 hover:text-green-700 cursor-pointer"
-    >
-      <span className="px-6">
-        <LibraryAddTwoTone />
-      </span>
-      <span className=" p-2  uppercase">Custom Fee</span>
-    </div>
   );
 };
 

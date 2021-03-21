@@ -19,36 +19,39 @@ export const MoveWProvider = () => {
   let { path, url } = useRouteMatch();
 
   return (
-    <div className="flex flex-col items-stretch w-full sm:w-3/4 mx-auto lg:w-1/2 pb-10">
+    <>
       <MoveBottomBar showSideMenu={showSideMenu} setshowSideMenu={setshowSideMenu} />
-      <div className="flex-grow">
-        <Switch>
-          <Route exact path={`${path}`} render={() => <Redirect to={`${url}/client`} />} />
+      <div className="flex flex-col items-stretch w-full sm:w-3/4 mx-auto lg:w-1/2 pb-10">
+        <div className="flex-grow">
+          <Switch>
+            <Route exact path={`${path}`} render={() => <Redirect to={`${url}/client`} />} />
 
-          <Route path={`${path}/materials`}>
-            <Materials state={client} dispatch={dispatch} />
-            <MiscFees state={client} dispatch={dispatch} />
-          </Route>
-          <Route path={`${path}/client`}>
-            <Client />
-          </Route>
+            <Route path={`${path}/materials`}>
+              <Materials state={client} dispatch={dispatch} />
+              <br></br>
+              <MiscFees state={client} dispatch={dispatch} />
+            </Route>
+            <Route path={`${path}/client`}>
+              <Client />
+            </Route>
 
-          <Route path={`${path}/rates`}>
-            <Rates />
-          </Route>
+            <Route path={`${path}/rates`}>
+              <Rates />
+            </Route>
 
-          <Route path={`${path}/inventory`}>
-            <Inventory />
-          </Route>
-          <Route path={`${path}/estimate`}>
-            <Estimate />
-          </Route>
-          <Route path={`${path}/overview`}>
-            <Overview />
-          </Route>
-        </Switch>
+            <Route path={`${path}/inventory`}>
+              <Inventory />
+            </Route>
+            <Route path={`${path}/estimate`}>
+              <Estimate />
+            </Route>
+            <Route path={`${path}/overview`}>
+              <Overview />
+            </Route>
+          </Switch>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

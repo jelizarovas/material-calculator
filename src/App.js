@@ -25,7 +25,7 @@ function App() {
   return (
     <Router basename="/">
       <Appbar />
-      <div className="container relative mx-auto bg-gray-100 rounded-lg shadow-2xl mt-1  p-2">
+      <div className="container relative mx-auto bg-gray-100 rounded-b-lg shadow-2xl   md:p-2">
         <Switch>
           <Redirect exact from="/" to="/m/R2tpMl/client" />
           <Redirect exact from="/materials" to="/t/materials" />

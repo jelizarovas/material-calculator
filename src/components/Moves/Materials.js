@@ -5,7 +5,8 @@ import { mergeDefaultWProvider } from "../../utils/mergeDefaultWProvider";
 import { vibrate } from "../../utils/vibrate";
 import { nanoid } from "nanoid";
 import { SectionTitle } from "../Layout/SectionTitle";
-import { AddCircle, ArrowDropDown, ArrowDropUp, Delete } from "@material-ui/icons";
+import { TableFooter } from "../Layout/TableFooter";
+import { Delete } from "@material-ui/icons";
 
 export const Materials = ({ state, dispatch }) => {
   const { totalMaterials, materials: materialsState } = state;
@@ -46,44 +47,14 @@ export const Materials = ({ state, dispatch }) => {
   return (
     <>
       <SectionTitle title="Materials Used" Icon={Delete} onClick={handleClear} />
-      <div className="flex flex-col mt-2 w-full xl:w-2/3 mx-auto rounded-md  ">
+      <div className="flex flex-col mt-2 w-full xl:w-2/3 mx-auto rounded-md shadow-sm  ">
         <div name="body" className="bg-white rounded-md">
           {(showMore ? materials : filteredMaterials).map((m, i) => {
             return <Material key={m.id} isOdd={i % 2} handleRemove={handleRemove} handleChange={handleChange} {...m} />;
           })}
         </div>
-        <Footer showMore={showMore} setShowMore={setShowMore} total={totalMaterials} handleAdd={handleAdd} />
       </div>
+      <TableFooter showMore={showMore} setShowMore={setShowMore} total={totalMaterials} handleAdd={handleAdd} />
     </>
-  );
-};
-
-const Footer = ({ showMore, setShowMore, total, handleAdd }) => {
-  return (
-    <div name="footer" className="text-gray-500  text-xs flex justify-between   rounded-b-lg">
-      <div
-        onClick={handleAdd}
-        className="select-none truncate w-1/3 md:w-1/4 flex justify-center items-center shadow-sm bg-white p-2 py-2 rounded-b-md cursor-pointer hover:text-green-800   mr-1"
-      >
-        <AddCircle className="p-1 mx-2 " /> Add Custom
-      </div>
-      <div
-        className="truncate shadow-sm w-1/3 md:w-1/4 text-xs flex justify-evenly hover:text-gray-800   bg-white  p-2 py-2 rounded-b-md cursor-pointer "
-        onClick={() => setShowMore(!showMore)}
-      >
-        {showMore ? (
-          <span className="truncate">
-            Show Less <ArrowDropUp />
-          </span>
-        ) : (
-          <span>
-            Show More <ArrowDropDown />
-          </span>
-        )}
-      </div>
-      <div className="truncate w-1/3 md:w-1/4 shadow-sm flex justify-center bg-white p-2 py-2 rounded-b-md ml-1">
-        Total: <span className="px-2">${total}</span>
-      </div>
-    </div>
   );
 };

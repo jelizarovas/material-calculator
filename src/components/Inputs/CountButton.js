@@ -55,7 +55,7 @@ const CountButton = ({ count, changeCount }) => {
       ></input>
       <button
         onClick={increment}
-        className=" text-2xl font-thin  text-gray-600 hover:text-green-700 hover:bg-green-200 w-20 rounded-r cursor-pointer"
+        className=" text-2xl font-thin select-none  text-gray-600 hover:text-green-700 hover:bg-green-200 w-20 rounded-r cursor-pointer"
       >
         +
       </button>

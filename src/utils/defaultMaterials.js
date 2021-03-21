@@ -46,7 +46,8 @@ export const defaultMaterials = [
   },
   {
     id: "Zb53TO",
-    name: "Wardrobe (Rent)",
+    name: `Wardrobe (Rent)`,
+    rent: true,
     volume: 13,
     w: "24",
     d: "24",
@@ -70,7 +71,7 @@ export const defaultMaterials = [
 
   {
     id: "fjCPOT",
-    name: "Mirror Pack (Small)",
+    name: "Small Mirror Pak",
     volume: 13,
     w: "37 5/16",
     d: "4 3/8",
@@ -83,7 +84,7 @@ export const defaultMaterials = [
   },
   {
     id: "UmttCz",
-    name: "Mirror Pack (Large)",
+    name: "Large Mirror Pak",
     // @TODO ISSUE #18
     volume: 13,
     w: "24",

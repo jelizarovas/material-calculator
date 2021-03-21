@@ -1,7 +1,6 @@
 import { Delete } from "@material-ui/icons";
 import React /*, { useState }*/ from "react";
-import useLongPress from "../../utils/useLongPress";
-import { vibrate } from "../../utils/vibrate";
+
 import CountButton from "../Inputs/CountButton";
 
 export const Material = (props) => {
@@ -32,27 +31,13 @@ export const Material = (props) => {
     handleChange(id, { [e.target.name]: e.target.value });
   };
 
-  const onLongPress = () => {
-    if (units > 0) {
-      changeCount(0);
-      vibrate([100, 50, 100]);
-    }
-  };
-
-  const defaultOptions = {
-    shouldPreventDefault: true,
-    delay: 1000,
-  };
-
-  const longPressEvent = useLongPress(onLongPress, () => {}, defaultOptions);
-
   return (
     <div
-      className={` ${!isOdd ? "" : "bg-gray-50"} flex justify-between items-center hover:bg-purple-100 border-b ${
-        units > 0 ? "bg-green-50" : ""
+      className={` ${!isOdd ? "" : "bg-gray-50"} flex relative justify-between items-center  border-b ${
+        units > 0 ? "bg-green-50 hover:bg-green-100" : "hover:bg-purple-100"
       }`}
     >
-      <div className="flex items-center w-1/3 sm:w-1/4  align-middle px-1 md:px-2">
+      <div className="flex items-center w-1/3 sm:w-1/2   align-middle  pl-2">
         <div className="pr-3">
           {isCustom ? (
             <Delete onClick={() => handleRemove(id)} className="p-1 hover:text-red-400 cursor-pointer" />
@@ -60,12 +45,11 @@ export const Material = (props) => {
             <img className="max-h-5 w-5" src={process.env.PUBLIC_URL + "/" + img} alt="" />
           )}
         </div>
-        <div className="flex-col w-full flex-1  truncate">
+        <div className="flex-col w-full flex-1   truncate">
           {!isCustom ? (
             <>
-              <span className="select-none text-sm truncte" {...longPressEvent}>
-                {name}
-              </span>
+              <span className="select-none text-sm truncte">{name}</span>
+
               {/* <div className="text-xs align-middle hidden hover:inline-flex">
                 <span>{volume ? `${volume} c.u. ft.` : subtext} </span>
               </div> */}
@@ -84,8 +68,9 @@ export const Material = (props) => {
           )}
         </div>
       </div>
-
-      <CountButton count={units} changeCount={changeCount} />
+      <div className="w-1/4">
+        <CountButton count={units} changeCount={changeCount} />
+      </div>
 
       <div className="text-right text-xs px-3 flex items-center flex-nowrap flex-shrink-0 justify-center w-1/3 sm:w-1/4">
         <span className={units > 0 ? "text-gray-800" : "text-gray-400"}>{units > 0 ? "× " : "$"}</span>

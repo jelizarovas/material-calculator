@@ -24,7 +24,7 @@ export function Appbar({ fixed }) {
   };
 
   return (
-    <nav className="container mx-auto flex flex-wrap items-center justify-between px-2 py-1 navbar-expand-lg bg-purple-900 shadow-md border-b-2 border-purple-800 rounded-lg mt-1 ">
+    <nav className="container mx-auto flex flex-wrap items-center justify-between px-2 py-1 navbar-expand-lg bg-purple-900 shadow-md border-b-2 border-purple-800 ">
       {/* <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-black "> */}
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">

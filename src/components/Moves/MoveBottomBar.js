@@ -37,7 +37,13 @@ export const MoveBottomBar = ({ showSideMenu, setshowSideMenu }) => {
   const isLastStep = currentIndex === steps.length - 1;
 
   return (
-    <div className={isMobile ? "fixed bg-white z-10 bottom-0  w-full" : " bg-white rounded-lg w-full mt-0 shadow-xs"}>
+    <div
+      className={
+        isMobile
+          ? "fixed bg-white z-10 bottom-0 left-0  w-full border-t"
+          : " bg-white rounded-lg w-full mt-0 shadow-xs "
+      }
+    >
       {isMobile && (
         <MoveMenu showSideMenu={showSideMenu} setshowSideMenu={setshowSideMenu} navbarPinned={navbarPinned} />
       )}
