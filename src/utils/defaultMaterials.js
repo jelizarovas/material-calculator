@@ -60,11 +60,15 @@ export const defaultMaterials = [
   },
   {
     id: "jj4ghI",
-    name: "TV Box",
+    name: "TV Box S",
     units: 0,
     img: "img/tv.png",
-    // @TODO ISSUE #18
-
+    //     small 46 x 6 x30
+    // large 56 x 6 x 36
+    // xl 64 x 6 x40
+    w: "46",
+    d: "6",
+    h: "30",
     history: {},
     rate: 25,
   },
@@ -85,11 +89,10 @@ export const defaultMaterials = [
   {
     id: "UmttCz",
     name: "Large Mirror Pak",
-    // @TODO ISSUE #18
     volume: 13,
-    w: "24",
-    d: "24",
-    h: "40",
+    w: "48",
+    d: "4 1/2",
+    h: "33",
 
     units: 0,
     img: "img/lmirror.png",
@@ -100,10 +103,9 @@ export const defaultMaterials = [
     id: "Aic8ie",
     name: "Flat Wardrobe",
     volume: 13,
-    // @TODO ISSUE #18
-    w: "24",
-    d: "24",
-    h: "40",
+    w: "35",
+    d: "20",
+    h: "9",
 
     units: 0,
     img: "img/laydown.png",
