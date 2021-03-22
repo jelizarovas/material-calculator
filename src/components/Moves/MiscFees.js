@@ -66,7 +66,7 @@ export const MiscFees = ({ state, dispatch }) => {
   return (
     <>
       <SectionTitle title="Misc Fees" onClick={clearMiscFees} hidePlus={miscFees.length === 0} Icon={Delete} />
-      <div className="mt-2 bg-white rounded-t-md">
+      <div className="mt-2 bg-white rounded-t-md w-full xl:w-2/3 mx-auto">
         {(showMore ? fees : feesFilter).map((fee, i) => {
           return (
             <Fee
@@ -184,7 +184,6 @@ const Fee = (props) => {
           </div>
 
           <span className="px-2  opacity-20 focus:opacity-100 hover:opacity-100">
-            {/* {id} */}
             {isCustom ? (
               <Delete className="p-1" onClick={() => removeCustomFee(id)} />
             ) : Guide ? (
@@ -203,5 +202,3 @@ const Fee = (props) => {
     </>
   );
 };
-
-//   onKeyPress={({ charCode, code, key, keyCode, which }) => setX({ charCode, code, key, keyCode, which })}

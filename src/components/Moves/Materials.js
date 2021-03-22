@@ -9,6 +9,7 @@ import { TableFooter } from "../Layout/TableFooter";
 import { Delete } from "@material-ui/icons";
 
 export const Materials = ({ state, dispatch }) => {
+  const group = "materials";
   const { totalMaterials, materials: materialsState } = state;
   const [showMore, setShowMore] = React.useState(true);
   const [materials, setMaterials] = React.useState(mergeDefaultWProvider(defaultMaterials, materialsState));
@@ -24,22 +25,22 @@ export const Materials = ({ state, dispatch }) => {
 
   const handleChange = (id, data = {}) => {
     if (!materialsState.find((m) => m.id === id)) data = { ...defaultMaterials.find((m) => m.id === id), ...data };
-    dispatch({ type: "changeMaterial", id, payload: data });
+    dispatch({ group, type: "groupUpdate", id, payload: data });
     setMaterials(materials.map((m) => (id === m.id ? { ...m, ...data } : m)));
   };
   const handleAdd = (name, rate) => {
     const id = nanoid(6);
     const data = { name: `Custom - ${id}`, units: 0, rate: 0, total: 0, isCustom: true };
-    dispatch({ type: "changeMaterial", id, payload: data });
+    dispatch({ group, type: "groupUpdate", id, payload: data });
     setMaterials([...materials, { id, ...data }]);
   };
   const handleRemove = (id) => {
-    dispatch({ type: "removeMaterial", id });
+    dispatch({ group, type: "groupRemove", id });
     setMaterials(materials.filter((m) => m.id !== id));
   };
 
   const handleClear = () => {
-    dispatch({ type: "clearMaterials" });
+    dispatch({ group, type: "groupClear" });
     setMaterials(defaultMaterials);
     vibrate(500);
   };

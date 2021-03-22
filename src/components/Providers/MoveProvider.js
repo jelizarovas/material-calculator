@@ -39,7 +39,7 @@ const useMoveDispatch = () => {
   return context;
 };
 
-const moveReducer = (state, { field, value, type, payload, id = null }) => {
+const moveReducer = (state, { field, value, type, group: groupName, payload, id = null }) => {
   if (!type) {
     return {
       ...state,
@@ -47,28 +47,29 @@ const moveReducer = (state, { field, value, type, payload, id = null }) => {
     };
   } else {
     //@TODO merge miscFees & materials so no duplicate cases
-    const materials = state.materials;
     const miscFees = state.miscFees;
+    const group = state[groupName];
     switch (type) {
-      case "changeMaterial": {
+      case "groupUpdate": {
         return {
           ...state,
-          materials: materials.find((m) => m.id === id)
-            ? materials.map((m) => (id === m.id ? { ...m, ...payload } : m))
-            : [...materials, { id, ...payload }],
+          [groupName]: group.find((g) => g.id === id)
+            ? group.map((g) => (id === g.id ? { ...g, ...payload } : g))
+            : [...group, { id, ...payload }],
         };
       }
-      case "clearMaterials":
+      case "groupClear": {
         return {
           ...state,
-          materials: [],
+          [groupName]: [],
         };
-      case "removeMaterial":
+      }
+      case "groupRemove": {
         return {
           ...state,
-          materials: materials.filter((m) => m.id !== id),
+          [groupName]: group.filter((g) => g.id !== id),
         };
-
+      }
       case "miscFeeChange":
         let idExists = false;
         if (miscFees.length > 0) {
