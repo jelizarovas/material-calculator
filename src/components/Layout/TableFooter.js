@@ -1,8 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { AddCircle, ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
 
-export const TableFooter = (props) => {
-  const { showMore, setShowMore, total, handleAdd } = props;
+export const TableFooter = memo(({ showMore, setShowMore, total, handleAdd }) => {
   return (
     <div className="text-gray-500  text-xs flex justify-between w-full xl:w-2/3 mx-auto   rounded-b-lg">
       <div
@@ -30,4 +29,4 @@ export const TableFooter = (props) => {
       </div>
     </div>
   );
-};
+});

@@ -3,6 +3,7 @@ import { Input } from "../Inputs/Input";
 import { CalendarToday, EventBusy, Today, Add, Remove } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
+import { decrementDate, getFormattedDate, incrementDate } from "../../utils/helperFunctions";
 
 export const Dates = () => {
   const dispatch = useMoveDispatch();
@@ -74,22 +75,3 @@ const Day = ({ index = 1, value, handleChange, handleDelete, canDelete }) => {
     </div>
   );
 };
-
-function getFormattedDate(date) {
-  let year = date.getFullYear();
-  let month = (1 + date.getMonth()).toString().padStart(2, "0");
-  let day = date.getDate().toString().padStart(2, "0");
-
-  return month + "/" + day + "/" + year;
-}
-
-function incrementDate(dateString) {
-  const date = dateString ? new Date(dateString) : new Date();
-  date.setDate(date.getDate() + 1);
-  return getFormattedDate(date);
-}
-function decrementDate(dateString) {
-  const date = dateString ? new Date(dateString) : new Date();
-  date.setDate(date.getDate() - 1);
-  return getFormattedDate(date);
-}

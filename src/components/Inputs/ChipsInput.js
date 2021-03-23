@@ -5,7 +5,6 @@ import { useMoveDispatch } from "../Providers/MoveProvider";
 export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLength = 20, max }) => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
-  // const [eventx, seteventx] = useState("");
 
   const dispatch = useMoveDispatch();
 
@@ -33,10 +32,6 @@ export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLen
   const onKeyPress = (e) => {};
 
   const handleKeyDown = (ev) => {
-    // seteventx(ev.keyCode);
-    // if (ev.keyCode === 13) {
-    //   ev.preventDefault();
-    // }
     if (ev.key === "Backspace" && value === "" && chips.length > 0) {
       const tempState = chips;
       tempState.pop();
@@ -78,28 +73,25 @@ export const ChipsInput = ({ name, chips, placeholder = "Add a mover...", maxLen
   let inputPlaceholder = !max || chips.length < max ? placeholder : "";
 
   return (
-    <React.Fragment>
-      {/* <pre className="max-w-md text-xs bg-white">{eventx && JSON.stringify(eventx, 0, 2)}</pre> */}
-      <div className={"relative bg-white p-0 m-2 rounded-md focus-within:bg-white pb-0"}>
-        <Chips chips={chips} />
-        <input
-          onKeyPress={onKeyPress}
-          className={"p-2 bg-transparent focus:outline-none "}
-          value={value}
-          placeholder={inputPlaceholder}
-          onKeyDown={handleKeyDown}
-          onChange={(e) => setValue(e.target.value)}
-          onPaste={handlePaste}
-        />
-        {error && (
-          <span
-            className="w-full text-red-500 text-xs cursor-pointer absolute left-4 bottom-0"
-            onClick={() => setError("")}
-          >
-            {error}
-          </span>
-        )}
-      </div>
-    </React.Fragment>
+    <div className={"relative bg-white p-0 m-2 rounded-md focus-within:bg-white pb-0"}>
+      <Chips chips={chips} />
+      <input
+        onKeyPress={onKeyPress}
+        className={"p-2 bg-transparent focus:outline-none "}
+        value={value}
+        placeholder={inputPlaceholder}
+        onKeyDown={handleKeyDown}
+        onChange={(e) => setValue(e.target.value)}
+        onPaste={handlePaste}
+      />
+      {error && (
+        <span
+          className="w-full text-red-500 text-xs cursor-pointer absolute left-4 bottom-0"
+          onClick={() => setError("")}
+        >
+          {error}
+        </span>
+      )}
+    </div>
   );
 };

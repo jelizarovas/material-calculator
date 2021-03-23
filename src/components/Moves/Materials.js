@@ -1,61 +1,34 @@
-import React from "react";
+import { useState } from "react";
 import { Material } from "./Material";
 import { defaultMaterials } from "../../utils/defaultMaterials";
-import { mergeDefaultWProvider } from "../../utils/mergeDefaultWProvider";
-import { vibrate } from "../../utils/vibrate";
-import { nanoid } from "nanoid";
+import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
+
 import { SectionTitle } from "../Layout/SectionTitle";
 import { TableFooter } from "../Layout/TableFooter";
 import { Delete } from "@material-ui/icons";
+import { useGroup } from "../../utils/useGroup";
+import { filterGroup } from "../../utils/helperFunctions";
 
-export const Materials = ({ state, dispatch }) => {
-  const group = "materials";
-  const { totalMaterials, materials: materialsState } = state;
-  const [showMore, setShowMore] = React.useState(true);
-  const [materials, setMaterials] = React.useState(mergeDefaultWProvider(defaultMaterials, materialsState));
+export const Materials = ({ groupName = "materials" }) => {
+  const move = useMove();
+  const dispatch = useMoveDispatch();
 
-  let remainder = 8 - materials.filter(({ units, isCustom }) => units > 0 || isCustom).length;
-  const filteredMaterials = materials.filter((m, i) => {
-    if (remainder > 0 && m.units === 0 && !m.isCustom) {
-      remainder--;
-      return true;
-    }
-    return m.units > 0 || m.isCustom;
-  });
-
-  const handleChange = (id, data = {}) => {
-    if (!materialsState.find((m) => m.id === id)) data = { ...defaultMaterials.find((m) => m.id === id), ...data };
-    dispatch({ group, type: "groupUpdate", id, payload: data });
-    setMaterials(materials.map((m) => (id === m.id ? { ...m, ...data } : m)));
-  };
-  const handleAdd = (name, rate) => {
-    const id = nanoid(6);
-    const data = { name: `Custom - ${id}`, units: 0, rate: 0, total: 0, isCustom: true };
-    dispatch({ group, type: "groupUpdate", id, payload: data });
-    setMaterials([...materials, { id, ...data }]);
-  };
-  const handleRemove = (id) => {
-    dispatch({ group, type: "groupRemove", id });
-    setMaterials(materials.filter((m) => m.id !== id));
-  };
-
-  const handleClear = () => {
-    dispatch({ group, type: "groupClear" });
-    setMaterials(defaultMaterials);
-    vibrate(500);
-  };
-
+  const { totalMaterials, materials: materialsState } = move;
+  const [materials, , update, add, remove, clear] = useGroup(groupName, defaultMaterials, materialsState, dispatch, [
+    "units",
+    "rate",
+    "total",
+  ]);
+  const [showMore, setShowMore] = useState(true);
   return (
     <>
-      <SectionTitle title="Materials Used" Icon={Delete} onClick={handleClear} />
-      <div className="flex flex-col mt-2 w-full xl:w-2/3 mx-auto rounded-md shadow-sm  ">
-        <div name="body" className="bg-white rounded-md">
-          {(showMore ? materials : filteredMaterials).map((m, i) => {
-            return <Material key={m.id} isOdd={i % 2} handleRemove={handleRemove} handleChange={handleChange} {...m} />;
-          })}
-        </div>
+      <SectionTitle title="Materials Used" Icon={Delete} onClick={clear} />
+      <div className="flex flex-col mt-2 w-full xl:w-2/3 mx-auto shadow-sm bg-white rounded-md">
+        {(showMore ? materials : filterGroup(materials, 8, "units", (v) => v > 0)).map((m, i) => {
+          return <Material key={m.id} handleRemove={remove} handleChange={update} {...m} />;
+        })}
       </div>
-      <TableFooter showMore={showMore} setShowMore={setShowMore} total={totalMaterials} handleAdd={handleAdd} />
+      <TableFooter showMore={showMore} setShowMore={setShowMore} total={totalMaterials} handleAdd={add} />
     </>
   );
 };

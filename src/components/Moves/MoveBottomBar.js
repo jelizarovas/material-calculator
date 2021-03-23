@@ -5,7 +5,9 @@ import { MoveMenu } from "./MoveMenu";
 
 import { isMobile } from "react-device-detect";
 
-export const MoveBottomBar = ({ showSideMenu, setshowSideMenu }) => {
+export const MoveBottomBar = () => {
+  const [showSideMenu, setshowSideMenu] = React.useState(false);
+
   const [navbarPinned, setNavbarPinned] = React.useState(false);
 
   let { pathname } = useLocation();

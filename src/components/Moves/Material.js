@@ -1,39 +1,34 @@
 import { Delete } from "@material-ui/icons";
-import React /*, { useState }*/ from "react";
+import React, { memo, useCallback } from "react";
 
 import CountButton from "../Inputs/CountButton";
 
-export const Material = (props) => {
-  const {
-    handleChange,
-    handleRemove,
-    isOdd = false,
-    id,
-    name,
-    // volume,
-    img,
-    rate,
-    units,
-    total,
-    isCustom,
-    // subtext,
-    /*w, d, h, description,*/
-  } = props;
+export const Material = memo((props) => {
+  const { handleChange, handleRemove, id, name, img, rate = 0, units = 0, total = 0, isCustom = false } = props;
 
-  const changeCount = (units) => {
-    handleChange(id, { units, total: Number(units) * Number(rate) });
-  };
+  const changeCount = useCallback(
+    (units) => {
+      handleChange(id, { units, total: Number(units) * Number(rate) });
+    },
+    [id, handleChange, rate]
+  );
 
-  const changeRate = (e) => {
-    handleChange(id, { rate: e.target.value, total: Number(units) * Number(e.target.value) });
-  };
-  const changeInput = (e) => {
-    handleChange(id, { [e.target.name]: e.target.value });
-  };
+  const changeRate = useCallback(
+    (e) => {
+      handleChange(id, { rate: e.target.value, total: Number(units) * Number(e.target.value) });
+    },
+    [id, handleChange, units]
+  );
+  const changeInput = useCallback(
+    (e) => {
+      handleChange(id, { [e.target.name]: e.target.value });
+    },
+    [id, handleChange]
+  );
 
   return (
     <div
-      className={` ${!isOdd ? "" : "bg-gray-50"} flex relative justify-between items-center  border-b ${
+      className={`odd:bg-gray-50 flex relative justify-between items-center  border-b ${
         units > 0 ? "bg-green-50 hover:bg-green-100" : "hover:bg-purple-100"
       }`}
     >
@@ -47,13 +42,7 @@ export const Material = (props) => {
         </div>
         <div className="flex-col w-full flex-1   truncate">
           {!isCustom ? (
-            <>
-              <span className="select-none text-sm truncte">{name}</span>
-
-              {/* <div className="text-xs align-middle hidden hover:inline-flex">
-                <span>{volume ? `${volume} c.u. ft.` : subtext} </span>
-              </div> */}
-            </>
+            <span className="select-none text-sm truncte">{name}</span>
           ) : (
             <input
               name="name"
@@ -79,7 +68,6 @@ export const Material = (props) => {
           name="rate"
           value={rate}
           type="number"
-          // ref={ref}
           onChange={changeRate}
           onFocus={(e) => e.target.select()}
           onKeyPress={(e) => {
@@ -91,59 +79,7 @@ export const Material = (props) => {
         <span className={`truncate ${units > 0 ? "text-gray-800" : "text-gray-400"} `}>
           {units > 0 ? ` = $ ${total}` : "/ unit"}
         </span>
-        {/* <span
-          className={`${showChangeRate ? "hidden" : ""}`}
-          onClick={() => {
-            setShowChangeRate(true);
-            ref.current && ref.current.focus();
-          }}
-        >
-          {units > 0 ? ` × $ ${rate} = $ ${total}` : `$ ${rate} / unit`}
-        </span> */}
       </div>
     </div>
   );
-};
-
-// const RateInput = (props) => {
-//   const ref = React.useRef();
-//   React.useEffect(() => {
-//     ref.current && ref.current.focus();
-//   }, []);
-
-//   return <input {...props} ref={ref} />;
-// };
-
-// console.log(material);
-
-// const [tooltip, setTooltip] = useState(false);
-
-// const onClick = () => {
-//   setTooltip((t) => !t);
-// };
-
-// const SvgInfo = () => {
-//   return (
-//     <svg
-//       className="fill-current w-4 h-4 inline text-gray-500"
-//       xmlns="http://www.w3.org/2000/svg"
-//       viewBox="0 0 20 20"
-//       fill="currentColor"
-//       onClick={onClick}
-//     >
-//       <path
-//         fillRule="evenodd"
-//         d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-//         clipRule="evenodd"
-//       />
-//     </svg>
-//   );
-// };
-
-/* <div className={tooltip ? "" : "hidden"}>
-                <div>
-                {w && d && h ? `W: ${w}", D: ${d}", H: ${h}" ` : description}
-                </div>{" "}
-              </div> */
-
-/*  */
+});

@@ -1,5 +1,6 @@
 import React, { useContext, useReducer, createContext, useEffect } from "react";
 import { defaultMove } from "../../utils/defaultMove";
+import { money_round, convertToHHMM, timeToDecimal } from "../../utils/helperFunctions";
 // import { useKeyPress } from "../../utils/useKeyPress";
 // const small = useKeyPress("q");
 // console.log(small);
@@ -39,21 +40,19 @@ const useMoveDispatch = () => {
   return context;
 };
 
-const moveReducer = (state, { field, value, type, group: groupName, payload, id = null }) => {
+const moveReducer = (state, { field, value, type, groupName, payload, id = null }) => {
   if (!type) {
     return {
       ...state,
       [field]: value,
     };
   } else {
-    //@TODO merge miscFees & materials so no duplicate cases
-    const miscFees = state.miscFees;
     const group = state[groupName];
     switch (type) {
       case "groupUpdate": {
         return {
           ...state,
-          [groupName]: group.find((g) => g.id === id)
+          [groupName]: group?.find((g) => g.id === id)
             ? group.map((g) => (id === g.id ? { ...g, ...payload } : g))
             : [...group, { id, ...payload }],
         };
@@ -70,43 +69,6 @@ const moveReducer = (state, { field, value, type, group: groupName, payload, id 
           [groupName]: group.filter((g) => g.id !== id),
         };
       }
-      case "miscFeeChange":
-        let idExists = false;
-        if (miscFees.length > 0) {
-          for (let i = 0; i < miscFees.length; i++) {
-            const { id } = miscFees[i];
-            if (id === payload.id) idExists = true;
-          }
-        }
-
-        if (idExists) {
-          return {
-            ...state,
-            miscFees: miscFees.map((fee) => {
-              if (payload.id && payload.id === fee.id) {
-                fee[payload.field] = payload.value;
-                if (payload.field2) fee[payload.field2] = payload.value2;
-              }
-              return fee;
-            }),
-          };
-        } else {
-          return {
-            ...state,
-            miscFees: [...miscFees, payload],
-          };
-        }
-      case "miscFeeCustomRemove":
-        return {
-          ...state,
-          miscFees: miscFees.filter((f) => f.id !== payload.id),
-        };
-      case "clearMiscFees":
-        return {
-          ...state,
-          miscFees: [],
-        };
-
       default:
         return state;
     }
@@ -188,14 +150,14 @@ const MoveProvider = ({ children }) => {
       value:
         jobType === "flatRate" && flatIsMaterialsIncluded === true
           ? 0
-          : materials.reduce((sum, { units, rate }) => sum + Number(units) * Number(rate), 0),
+          : materials.reduce((sum, { units = 0, rate = 0 }) => sum + Number(units) * Number(rate), 0),
     });
   }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
   /*########## TOTAL MISC FEES ##########*/
   useEffect(() => {
     dispatch({
       field: "totalMiscFees",
-      value: miscFees.reduce((sum, { value, selected }) => sum + Number(selected ? value : 0), 0),
+      value: miscFees.reduce((sum, { value = 0, selected = false }) => sum + (selected ? Number(value) : 0), 0),
     });
   }, [miscFees, flatIsMaterialsIncluded, dispatch]);
 
@@ -355,27 +317,3 @@ const MoveProvider = ({ children }) => {
 };
 
 export { MoveProvider, useMove, useMoveDispatch };
-
-function timeToDecimal(t) {
-  var arr = t.split(":");
-  var dec = parseInt((arr[1] / 6) * 10, 10);
-
-  return parseFloat(parseInt(arr[0], 10) + "." + (dec < 10 ? "0" : "") + dec);
-}
-
-function convertToHHMM(info) {
-  var hrs = parseInt(Number(info));
-  var min = Math.round((Number(info) - hrs) * 60);
-  return hrs + ":" + (min < 10 ? "0" : "") + min;
-}
-
-// function time_convert(num)
-//  {
-//   var hours = Math.floor(num / 60);
-//   var minutes = (num *60)  % 60;
-//   return hours + ":" + minutes;
-// }
-
-function money_round(num) {
-  return Math.ceil(num * 100) / 100;
-}

@@ -1,5 +1,6 @@
 import { LinkOff } from "@material-ui/icons";
 import React from "react";
+import { money_round } from "../../utils/helperFunctions";
 
 export const NoInput = ({ value, label, Icon, unit = "", type = "number" }) => {
   return (
@@ -29,7 +30,3 @@ export const NoInput = ({ value, label, Icon, unit = "", type = "number" }) => {
     </div>
   );
 };
-
-function money_round(num) {
-  return Math.ceil(num);
-}

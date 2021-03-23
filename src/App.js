@@ -21,10 +21,48 @@ import { Tool } from "./components/Tools/Tool";
 
 import { Appbar } from "./components/Layout/Appbar";
 
+// import firebase from "firebase/app";
+// import "firebase/firestore";
+// import "firebase/auth";
+
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { useCollectionData } from "react-firebase-hooks/firestore";
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyB1WHQPb434r37qVAQYoC53f5_cyaxMWmg",
+//   authDomain: "sfm-tools-448ab.firebaseapp.com",
+//   projectId: "sfm-tools-448ab",
+//   storageBucket: "sfm-tools-448ab.appspot.com",
+//   messagingSenderId: "980029527425",
+//   appId: "1:980029527425:web:52b20aa5a85cca58b20480",
+// };
+
+// if (!firebase.apps.length) {
+//   firebase.initializeApp({});
+// } else {
+//   firebase.app(); // if already initialized, use that one
+// }
+
+// firebase.initializeApp(firebaseConfig);
+
+// const auth = firebase.auth();
+// const firestore = firebase.firestore();
+
 function App() {
+  // const [user] = useAuthState(auth);
+
   return (
     <Router basename="/">
       <Appbar />
+      <div className="p-5 bg-white">
+        {/* {user ? (
+          <div>
+            yes user <SignOut />
+          </div>
+        ) : (
+          <SignIn />
+        )} */}
+      </div>
       <div className="container relative mx-auto bg-gray-100 rounded-b-lg shadow-2xl   md:p-2">
         <Switch>
           <Redirect exact from="/" to="/m/R2tpMl/client" />
@@ -55,3 +93,29 @@ function App() {
   );
 }
 export default App;
+
+// function SignIn() {
+//   const signInWithGoogle = () => {
+//     const provider = new firebase.auth.GoogleAuthProvider();
+//     auth.signInWithPopup(provider);
+//   };
+
+//   return (
+//     <>
+//       <button className="sign-in" onClick={signInWithGoogle}>
+//         Sign in with Google
+//       </button>
+//       <p>Do not violate the community guidelines or you will be banned for life!</p>
+//     </>
+//   );
+// }
+
+// function SignOut() {
+//   return (
+//     auth.currentUser && (
+//       <button className="sign-out" onClick={() => auth.signOut()}>
+//         Sign Out
+//       </button>
+//     )
+//   );
+// }

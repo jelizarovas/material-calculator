@@ -7,58 +7,57 @@ import { Rates } from "./Rates";
 import { Inventory } from "./Inventory";
 import { Estimate } from "./Estimate";
 import { Overview } from "./Overview";
-import { MoveProvider, useMove, useMoveDispatch } from "../Providers/MoveProvider";
+import { MoveProvider } from "../Providers/MoveProvider";
 import { MiscFees } from "./MiscFees";
 
-export const MoveWProvider = () => {
-  const [showSideMenu, setshowSideMenu] = useState(false);
-  // let { moveId } = useParams();
-  const client = useMove();
-  const dispatch = useMoveDispatch();
+const urls = ({ path, url }) => ({
+  current: path,
+  redirect: `${url}/client`,
 
-  let { path, url } = useRouteMatch();
+  ...Object.fromEntries(
+    ["materials", "client", "rates", "estimates", "inventory", "overview"].map((u) => [u, `${path}/${u}`])
+  ),
+});
+
+export const Move = () => {
+  const [links] = useState(urls(useRouteMatch()));
+  // let { moveId } = useParams();
 
   return (
     <>
-      <MoveBottomBar showSideMenu={showSideMenu} setshowSideMenu={setshowSideMenu} />
+      <MoveBottomBar />
       <div className="flex flex-col items-stretch w-full sm:w-3/4 mx-auto lg:w-1/2 pb-10">
         <div className="flex-grow">
-          <Switch>
-            <Route exact path={`${path}`} render={() => <Redirect to={`${url}/client`} />} />
+          <MoveProvider>
+            <Switch>
+              <Route exact path={links.current} render={() => <Redirect to={links.redirect} />} />
 
-            <Route path={`${path}/materials`}>
-              <Materials state={client} dispatch={dispatch} />
-              <br></br>
-              <MiscFees state={client} dispatch={dispatch} />
-            </Route>
-            <Route path={`${path}/client`}>
-              <Client />
-            </Route>
+              <Route path={links.materials}>
+                <Materials />
+                <br></br>
+                <MiscFees />
+              </Route>
+              <Route path={links.client}>
+                <Client />
+              </Route>
 
-            <Route path={`${path}/rates`}>
-              <Rates />
-            </Route>
+              <Route path={links.rates}>
+                <Rates />
+              </Route>
 
-            <Route path={`${path}/inventory`}>
-              <Inventory />
-            </Route>
-            <Route path={`${path}/estimate`}>
-              <Estimate />
-            </Route>
-            <Route path={`${path}/overview`}>
-              <Overview />
-            </Route>
-          </Switch>
+              <Route path={links.inventory}>
+                <Inventory />
+              </Route>
+              <Route path={links.estimate}>
+                <Estimate />
+              </Route>
+              <Route path={links.overview}>
+                <Overview />
+              </Route>
+            </Switch>
+          </MoveProvider>
         </div>
       </div>
     </>
-  );
-};
-
-export const Move = () => {
-  return (
-    <MoveProvider>
-      <MoveWProvider />
-    </MoveProvider>
   );
 };

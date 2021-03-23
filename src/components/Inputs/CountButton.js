@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import clsx from "clsx";
 import { vibrate } from "../../utils/vibrate";
 
@@ -63,4 +63,4 @@ const CountButton = ({ count, changeCount }) => {
   );
 };
 
-export default CountButton;
+export default memo(CountButton);

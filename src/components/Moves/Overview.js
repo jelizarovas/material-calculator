@@ -7,6 +7,7 @@ import { TextArea } from "../Inputs/TextArea";
 import { SpeakerNotes } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
+import { truncateString } from "../../utils/helperFunctions";
 
 //get page dimentions https://github.com/Hopding/pdf-lib/issues/62#issuecomment-453847201
 // Returns an object of shape: { width: number, height: number }
@@ -372,16 +373,6 @@ const SignatureBlock = ({ type, name, width = 500, height = 200 }) => {
     </div>
   );
 };
-
-function truncateString(str, num) {
-  // If the length of str is less than or equal to num
-  // just return str--don't truncate it.
-  if (str.length <= num) {
-    return str;
-  }
-  // Return str truncated with '...' concatenated to the end of str.
-  return str.slice(0, num) + "...";
-}
 
 const PaymentType = ({ onChange, value }) => {
   const paymentOptions = [
