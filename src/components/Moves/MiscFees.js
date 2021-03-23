@@ -19,16 +19,6 @@ export const MiscFees = ({ groupName = "miscFees" }) => {
   const [justAdded, setJustAdded] = React.useState(false);
   const feeRefs = React.useRef([]);
 
-  // const [fees, setFees] = React.useState(mergeDefaultWProvider(, ));
-  // let remainder = 4 - fees.filter(({ selected, isCustom }) => selected || isCustom).length;
-  // const feesFilter = fees.filter((f, i) => {
-  //   if (remainder > 0 && !f.selected && !f.isCustom) {
-  //     remainder--;
-  //     return true;
-  //   }
-  //   return f.selected || f.isCustom;
-  // });
-
   const feesFilter = filterGroup(fees, 8, "selected", (v) => v);
 
   feeRefs.current = (showMore ? fees : feesFilter).map((f, i) => (feeRefs.current[i] = React.createRef()));
@@ -42,35 +32,6 @@ export const MiscFees = ({ groupName = "miscFees" }) => {
     }
   }, [justAdded, setJustAdded]);
 
-  // const addCustomFee = () => {
-  //   const newFee = { id: nanoid(6), name: "custom", selected: true, value: "0", isCustom: true };
-  //   setFees([...fees, newFee]);
-  //   dispatch({
-  //     type: "miscFeeChange",
-  //     payload: newFee,
-  //   });
-  //   setJustAdded(true);
-  // };
-
-  // const remove = (id) => {
-  //   dispatch({ type: "miscFeeCustomRemove", payload: { id } });
-  //   setFees(fees.filter((f) => f.id !== id));
-  // };
-
-  // const clearMiscFees = () => {
-  //   dispatch({ type: "clearMiscFees" });
-  //   setFees(defaultMiscFees);
-  // };
-  // const update = (payload = {}) => {
-  //   const { id, field, value, field2 = null, value2 = null } = payload;
-  //   if (!miscFees.find((f) => f.id === id)) {
-  //     const { Icon, Guide, ...m } = { Icon: {}, Guide: {}, ...defaultMiscFees.find((f) => f.id === id) };
-  //     payload = { ...m, [field]: value, [field2]: value2, value: m.defaultAmount };
-  //   }
-  //   dispatch({ type: "miscFeeChange", payload });
-  //   setFees(fees.map((f) => (id === f.id ? { ...f, [field]: value, [field2]: value2 } : f)));
-  // };
-
   return (
     <>
       <SectionTitle title="Misc Fees" onClick={clear} hidePlus={miscFees.length === 0} Icon={Delete} />
@@ -79,31 +40,37 @@ export const MiscFees = ({ groupName = "miscFees" }) => {
           return <Fee key={i} update={update} inputref={feeRefs.current[i]} remove={remove} {...fee} />;
         })}
       </div>
-      <TableFooter showMore={showMore} setShowMore={setShowOnlySelected} total={totalMiscFees} handleAdd={add} />
+      <TableFooter
+        showMore={showMore}
+        setShowMore={setShowOnlySelected}
+        total={totalMiscFees}
+        handleAdd={() => {
+          add({ selected: true });
+          setJustAdded(true);
+        }}
+      />
     </>
   );
 };
 
-const Fee = (props) => {
+const Fee = ({
+  name = "",
+  defaultAmount = 0,
+  value = defaultAmount,
+  update,
+  inputref = null,
+  selected = false,
+  Icon = undefined,
+  Guide = undefined,
+  pre = "",
+  isCustom = false,
+  id,
+  remove,
+  ...rest
+}) => {
   const [showGuide, setShowGuide] = React.useState(false);
 
-  const toggleShowGuide = () => setShowGuide(!showGuide);
-
-  const {
-    name,
-    defaultAmount = 0,
-    value = defaultAmount,
-    update,
-    inputref,
-    selected = false,
-    Icon = undefined,
-    Guide = undefined,
-    pre,
-    isCustom = false,
-    id,
-    remove,
-    ...rest
-  } = props;
+  const toggleShowGuide = () => setShowGuide((s) => !s);
 
   const setFromGuide = (value) => {
     update(id, { value, selected: true });
