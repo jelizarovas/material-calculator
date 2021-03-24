@@ -54,15 +54,15 @@ function App() {
   return (
     <Router basename="/">
       <Appbar />
-      <div className="p-5 bg-white">
-        {/* {user ? (
+      {/* <div className="p-5 bg-white"> */}
+      {/* {user ? (
           <div>
             yes user <SignOut />
           </div>
         ) : (
           <SignIn />
         )} */}
-      </div>
+      {/* </div> */}
       <div className="container relative mx-auto bg-gray-100 rounded-b-lg shadow-2xl   md:p-2">
         <Switch>
           <Redirect exact from="/" to="/m/R2tpMl/client" />

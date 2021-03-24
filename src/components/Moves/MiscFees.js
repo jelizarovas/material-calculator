@@ -81,10 +81,14 @@ const Fee = ({
   };
   return (
     <>
-      <div data-id={`fee-${id}`} className="flex flex-col text-gray-800 text-sm cursor-pointer" {...rest}>
+      <div
+        data-id={`fee-${id}`}
+        className="flex flex-col text-gray-800 text-sm cursor-pointer bg-white odd:bg-gray-50"
+        {...rest}
+      >
         <div
           className={`flex  justify-between items-center    border-b ${
-            selected === true ? " bg-green-50 hover:bg-green-100" : `bg-white odd:bg-gray-50 hover:bg-purple-100`
+            selected === true ? " bg-green-50 hover:bg-green-100" : `  hover:bg-purple-100`
           }`}
         >
           <div className="flex flex-grow p-2 w-3/5" onClick={toggleSelected}>
