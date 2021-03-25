@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Materials } from "../Moves/Materials";
+import { MaterialsWProvider } from "../Moves/Materials";
+import { BillOfLading } from "./BillOfLading";
 import { MaterialsProvider, useMaterialsDispatch, useMaterials } from "../Providers/MaterialsProvider";
 
 export const ToosWProviders = () => {
@@ -8,13 +9,16 @@ export const ToosWProviders = () => {
   const materialsDispatch = useMaterialsDispatch();
 
   return (
-    <React.Fragment>
+    <div className="flex flex-col items-stretch w-full sm:w-3/4 mx-auto lg:w-1/2 pb-10">
       <Switch>
         <Route path={`/t/materials`}>
-          <Materials state={materials} dispatch={materialsDispatch} />
+          <MaterialsWProvider state={materials} dispatch={materialsDispatch} />
+        </Route>
+        <Route path={`/t/coordinates`}>
+          <BillOfLading />
         </Route>
       </Switch>
-    </React.Fragment>
+    </div>
   );
 };
 

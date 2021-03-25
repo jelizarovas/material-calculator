@@ -4,6 +4,8 @@ import useMousePosition from "../../utils/useMousePosition";
 
 export const BillOfLading = () => {
   const [page, setPage] = useState(1);
+  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+
   const canvasRef = useRef(null);
 
   const { x, y } = useMousePosition();
@@ -15,11 +17,21 @@ export const BillOfLading = () => {
     canvasRef,
   });
 
+  const getCoordinates = (e) => {
+    var rect = e.target.getBoundingClientRect();
+    var x = e.clientX - rect.left; //x position within the element.
+    var y = e.clientY - rect.top; //y position within the element.
+    setCoordinates({ x, y: -(y - 792) });
+    // console.log("Left? : " + x + " ; Top? : " + -(y - 792) + ".");
+  };
+
   return (
     <div>
-      <h1>{hasMovedCursor ? `Your cursor is at ${x}, ${-(y - 80 - 792)}.` : "Move your mouse around."}</h1>
+      <h1>
+        {hasMovedCursor ? `coordinate: x: ${coordinates.x}, y: ${coordinates.y}.` : "Click anywhere on document."}
+      </h1>
       {!pdfDocument && <span>Loading...</span>}
-      <canvas ref={canvasRef} />
+      <canvas ref={canvasRef} className="mx-auto" onClick={getCoordinates} />
       {Boolean(pdfDocument && pdfDocument.numPages) && (
         <nav>
           <ul className="pager">

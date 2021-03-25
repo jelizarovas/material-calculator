@@ -9,11 +9,8 @@ import { Delete } from "@material-ui/icons";
 import { useGroup } from "../../utils/useGroup";
 import { filterGroup } from "../../utils/helperFunctions";
 
-export const Materials = ({ groupName = "materials" }) => {
-  const move = useMove();
-  const dispatch = useMoveDispatch();
-
-  const { totalMaterials, materials: materialsState } = move;
+export const MaterialsWProvider = ({ groupName = "materials", state, dispatch }) => {
+  const { totalMaterials, materials: materialsState } = state;
   const [materials, , update, add, remove, clear] = useGroup(groupName, defaultMaterials, materialsState, dispatch, [
     "units",
     "rate",
@@ -31,4 +28,10 @@ export const Materials = ({ groupName = "materials" }) => {
       <TableFooter showMore={showMore} setShowMore={setShowMore} total={totalMaterials} handleAdd={add} />
     </>
   );
+};
+
+export const Materials = () => {
+  const dispatch = useMoveDispatch();
+  const move = useMove();
+  return <MaterialsWProvider state={move} dispatch={dispatch} />;
 };

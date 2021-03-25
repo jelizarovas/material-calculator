@@ -9,32 +9,6 @@ import { SpeakerNotes } from "@material-ui/icons/";
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { truncateString } from "../../utils/helperFunctions";
 
-//get page dimentions https://github.com/Hopding/pdf-lib/issues/62#issuecomment-453847201
-// Returns an object of shape: { width: number, height: number }
-// const getPageDimensions = (page) => {
-//     let mediaBox;
-
-//     // Check for MediaBox on the page itself
-//     const hasMediaBox = !!page.getMaybe('MediaBox');
-//     if (hasMediaBox) {
-//       mediaBox = page.index.lookup(page.get('MediaBox'));
-//     }
-
-//     // Check for MediaBox on each parent node
-//     page.Parent.ascend((parent) => {
-//       const parentHasMediaBox = !!parent.getMaybe('MediaBox');
-//       if (!mediaBox && parentHasMediaBox) {
-//         mediaBox = parent.index.lookup(parent.get('MediaBox'));
-//       }
-//     }, true);
-
-//     // This should never happen in valid PDF files
-//     if (!mediaBox) throw new Error('Page Tree is missing MediaBox');
-
-//     // Extract and return the width and height
-//     return { width: mediaBox.array[2].number, height: mediaBox.array[3].number };
-//   };
-
 async function fillForm(client) {
   //const pdf =  http://localhost:3000/material-calculator/pdf/bol.pdf
   const pdf = "pdf/bol-sfm.pdf";
@@ -45,234 +19,128 @@ async function fillForm(client) {
   const pdfDoc = await PDFDocument.load(formPdfBytes);
 
   const pages = pdfDoc.getPages();
-  const firstPage = pages[0];
-
-  const signatureUrl = client.signature;
-  const signatureBytes = await fetch(signatureUrl).then((res) => res.arrayBuffer());
-  const signatureImage = await pdfDoc.embedPng(signatureBytes);
-
-  const initialsUrl = client.initials;
-  const initialsBytes = await fetch(initialsUrl).then((res) => res.arrayBuffer());
-  const initialsImage = await pdfDoc.embedPng(initialsBytes);
-
-  const crewSignatureUrl = client.crewSignature;
-  const crewSignatureBytes = await fetch(crewSignatureUrl).then((res) => res.arrayBuffer());
-  const crewSignatureImage = await pdfDoc.embedPng(crewSignatureBytes);
-
   const form = pdfDoc.getForm();
 
-  form.getTextField("Name").setText("     " + client.fullName);
-  form.getTextField("EMAIL").setText("     " + client.email);
-  form.getTextField("PHONE 1").setText("     " + client.phoneNumber.toString());
-  form.getTextField("Origin").setText("     " + client.originAddress);
-  if (client.anyAdditionalStops) form.getTextField("Other Stops").setText("     " + client.additionalStops);
-  form.getTextField("Destination").setText("     " + client.destinationAddress);
-  form.getTextField("Notes").setText("     " + client.notes);
+  const setField = (pdfField, value, condition = false) => {
+    if (!pdfField || !value || condition) return;
+    if (Array.isArray(value)) value = value.join(", ");
+    return form.getTextField(pdfField).setText(value.toString());
+  };
 
-  form.getTextField("Shipment Value").setText(client.shipmentValue.toString());
-  form.getTextField("valuation with deductible").setText(client.valuationCostWithDeductible.toString());
-  form.getTextField("valuation no deductible").setText(client.valuationCost.toString());
-  form.getTextField("Selected Valuation").setText(client.totalValuation.toString());
+  const setSignature = async (signature, x, y, width = 25, height = 10) => {
+    if (!signature || !x || !y) return;
+    const bytes = await fetch(signature).then((res) => res.arrayBuffer());
+    const image = await pdfDoc.embedPng(bytes);
+    return pages[0].drawImage(image, { x, y, height, width });
+  };
 
-  form.getTextField("PERSONNEL").setText("     " + client.personnel.join(", "));
+  const setDateField = (date, x, y, size = 10) => {
+    if (!date || !x || !y) return;
+    return pages[0].drawText(date, { x, y, size });
+  };
 
-  switch (client.jobType) {
-    case "local":
-      if (client.isTravelFeeFixed) {
-        form.getTextField("Travel Fee").setText(client.travelFee);
-      } else {
-        form.getTextField("Hourly Time Start").setText(client.startTime);
-        form.getTextField("Hourly Time End").setText(client.endTime);
-      }
+  //A. CUSTOMER INFORMATION
+  setField("Name", client.fullName);
+  setField("EMAIL", client.email);
+  setField("PHONE", client.phoneNumber);
+  setField("Origin", client.originAddress);
+  if (client.anyAdditionalStops === true) setField("Other Stops", client.additionalStops);
+  setField("Destination", client.destinationAddress);
+  setField("Notes", client.notes);
 
-      form.getTextField("Hourly Time Arrive").setText(client.arriveTime);
-      form.getTextField("Hourly Time Depart").setText(client.departTime);
-      form.getTextField("Hourly Time Breaks").setText(client.breakTime);
-      form.getTextField("Hourly Time TOTAL").setText(client.totalHours);
-      form.getTextField("Hourly Rate").setText(client.hourlyRate);
-      break;
-    case "longDistance":
-      form.getTextField("Mileage Miles").setText(client.distance);
-      form.getTextField("Mileage Weight Gross").setText(client.grossWeight);
-      form.getTextField("Mileage Weight Tare").setText(client.tareWeight);
-      form.getTextField("Mileage Weight Net").setText(client.netWeight);
-      form.getTextField("Mileage Rate").setText(client.mileageRate);
-      break;
-    case "flatRate":
-      //FLAT RATE FIELDS
-      // flatIsMaterialsIncluded
-      //flatAmount
-      break;
-
-    default:
-      break;
-  }
-  form.getTextField("Total Transportation").setText(client.totalTransportation.toString());
-
-  form.getTextField("TOTAL PACKING  MATERIAL").setText(client.totalMaterials.toString());
-  form.getTextField("TOTAL OTHER").setText(client.totalOtherFees.toString());
-  form.getTextField("SUBTOTAL 1234").setText(client.subtotal.toString());
-  form.getTextField("Adjustment").setText(client.adjustment.toString());
-  form.getTextField("TOTAL MOVING CHARGES").setText(client.totalMovingCharges.toString());
-  form.getTextField("TOTAL AMOUNT PAID").setText(client.totalAmountPaid.toString());
-  form.getTextField("TIPS  BALANCE DUE").setText(client.remainingBalance.toString());
-
-  const materials = client.materials.filter((m) => m.units > 0);
-  materials.forEach((item, index) => {
-    const i = index + 1;
-
-    if (0 < i && i < 10) {
-      form.getTextField(`C${i}`).setText(item.name);
-      form.getTextField(`QTY C${i}`).setText(item.units.toString());
-      form.getTextField(`RATE C${i}`).setText(item.rate.toString());
-      form.getTextField(`TOTAL C${i}`).setText(item.total.toString());
-    }
-  });
-  const miscFees = client.miscFees.filter((m) => m.value > 0 && m.selected);
-  miscFees.forEach((item, index) => {
-    const i = index + 1;
-
-    if (0 < i && i < 9) {
-      form.getTextField(`M${i}`).setText(truncateString(item.name, 9));
-      form.getTextField(`AMOUNT M${i}`).setText(item.value);
-    }
-  });
-
-  // form.getTextField("QTY SMALL").setText(client.materials.small.units);
-  // form.getTextField("QTY MEDIUM").setText(client.materials.medium.units);
-  // form.getTextField("QTY LARGE").setText(client.materials.large.units);
-  // form.getTextField("QTY DISHPACK").setText(client.materials.dishpack.units);
-  // form.getTextField("QTY MIRROR PACK").setText(client.materials.mirrorPack.units);
-  // form.getTextField("QTY MATTRESS BAG").setText(client.materials.mattressBag.units);
-  // form.getTextField("QTY WARDROBE").setText(client.materials.wardrobe.units);
-  // form.getTextField("QTY Carpet Protection").setText(client.materials.carpetProtection.units);
-  // form.getTextField("QTY Custom").setText(client.materials.custom.units);
-  // form.getTextField("Custom").setText(client.materials.custom.text);
-
-  // form.getTextField("RATE SMALL").setText(client.materials.small.rate);
-  // form.getTextField("RATE MEDIUM").setText(client.materials.medium.rate);
-  // form.getTextField("RATE LARGE").setText(client.materials.large.rate);
-  // form.getTextField("RATE DISHPACK").setText(client.materials.dishpack.rate);
-  // form.getTextField("RATE MIRROR PACK").setText(client.materials.mirrorPack.rate);
-  // form.getTextField("RATE MATTRESS BAG").setText(client.materials.mattressBag.rate);
-  // form.getTextField("RATE WARDROBE").setText(client.materials.wardrobe.rate);
-  // form.getTextField("RATE Carpet Protection").setText(client.materials.carpetProtection.rate);
-  // form.getTextField("RATE Custom").setText(client.materials.custom.rate);
-
-  // form.getTextField("TOTAL ITEM 15 CU SMALL").setText(client.materials.small.total);
-  // form.getTextField("TOTAL ITEM 30 CU MEDIUM").setText(client.materials.medium.total);
-  // form.getTextField("TOTAL ITEM 45 CU LARGE").setText(client.materials.large.total);
-  // form.getTextField("TOTAL ITEM DISHPACK").setText(client.materials.dishpack.total);
-  // form.getTextField("TOTAL ITEM MIRROR PACK").setText(client.materials.mirrorPack.total);
-  // form.getTextField("TOTAL ITEM MATTRESS BAG").setText(client.materials.mattressBag.total);
-  // form.getTextField("TOTAL ITEM WARDROBE").setText(client.materials.wardrobe.total);
-  // form.getTextField("TOTAL ITEM Carpet Protection").setText(client.materials.carpetProtection.total);
-  // form.getTextField("TOTAL ITEM Custom").setText(client.materials.custom.total);
-
-  // form.getTextField("AMOUNT Piano").setText(client.otherFees.piano);
-  // form.getTextField("AMOUNT Removal").setText(client.otherFees.removal);
-  // form.getTextField("AMOUNT Hoist").setText(client.otherFees.hoist);
-  // form.getTextField("AMOUNT Ferry").setText(client.otherFees.ferry);
-  // form.getTextField("AMOUNT Storage").setText(client.otherFees.storage);
-  // form.getTextField("AMOUNT CUSTOM 1").setText(client.otherFees.custom1amount);
-  // form.getTextField("AMOUNT CUSTOM 2").setText(client.otherFees.custom2amount);
-  // form.getTextField("AMOUNT CUSTOM 3").setText(client.otherFees.custom3amount);
-  // form.getTextField("MISC CUSTOM 1").setText(client.otherFees.custom1text);
-  // form.getTextField("MISC CUSTOM 2").setText(client.otherFees.custom2text);
-  // form.getTextField("MISC CUSTOM 3").setText(client.otherFees.custom3text);
-
-  //ESTIMATE SIGNATURE
-  if (client.agreedToEstimate === true) {
-    firstPage.drawImage(signatureImage, {
-      x: 24,
-      y: 103 - 8,
-      height: 35,
-      width: 150,
-    });
-    firstPage.drawText(client.estimateAgreedDate || client.dates[0], {
-      x: 238,
-      y: 103,
-      size: 12,
-    });
-  }
-
-  //CREW LEAD SIGNATURE
-  if (client.crewLeadAssigned === true) {
-    firstPage.drawImage(crewSignatureImage, {
-      x: 24,
-      y: 73 - 8,
-      height: 35,
-      width: 150,
-    });
-    firstPage.drawText(client.dates[0], {
-      x: 238,
-      y: 73,
-      size: 12,
-    });
-  }
-
-  //JOB COMPLETE SIGNATURE
-  if (client.jobComplete === true) {
-    firstPage.drawImage(signatureImage, {
-      x: 320,
-      y: 40 - 8,
-      height: 35,
-      width: 150,
-    });
-    firstPage.drawText(client.dates[0], {
-      x: 530,
-      y: 40,
-      size: 12,
-    });
-  }
-
+  //B. ESTIMATE TYPE
   client.estimateIsBinding
-    ? //BINDING ESTIMATE INITIALS
-      firstPage.drawImage(initialsImage, {
-        x: 24,
-        y: 373,
-        height: 10,
-        width: 25,
-      })
-    : //NON BINDING ESTIMATE INITIALS
-      firstPage.drawImage(initialsImage, {
-        x: 24,
-        y: 462,
-        height: 10,
-        width: 25,
-      });
+    ? await setSignature(client.initials, 24, 462)
+    : await setSignature(client.initials, 24, 373);
 
-  switch (client.valuation) {
-    case "basic":
-      //BASIC VALUE PROTECTION INITIALS
-      firstPage.drawImage(initialsImage, {
-        x: 24,
-        y: 323,
-        height: 10,
-        width: 25,
-      });
-      break;
-    case "replacement":
-      //REPLACEMENT COST COVERAGE WITH NO DEDUCTIBLE
-      firstPage.drawImage(initialsImage, {
-        x: 24,
-        y: 222,
-        height: 10,
-        width: 25,
-      });
-      break;
-    case "replacementWithDeductible":
-      //REPLACEMENT COST COVERAGE WITH $300 DEDUCTIBLE
-      firstPage.drawImage(initialsImage, {
-        x: 24,
-        y: 275,
-        height: 10,
-        width: 25,
-      });
-      break;
+  //C. VALUATION
+  if (client.valuation === "basic") await setSignature(client.initials, 24, 323);
+  if (client.valuation === "replacementWithDeductible") await setSignature(client.initials, 24, 275);
+  setField("valuation with deductible", client.valuationCostWithDeductible);
+  if (client.valuation === "replacement") await setSignature(client.initials, 24, 222);
+  setField("valuation no deductible", client.valuationCost);
+  setField("Shipment Value", client.shipmentValue);
+  setField("Selected Valuation", client.totalValuation);
 
-    default:
-      break;
+  // AGREE TO CONTRACT - CREW & CUSTOMER SIGNATURES
+  if (client.agreedToEstimate) {
+    await setSignature(client.signature, 24, 95, 150, 35);
+    setDateField(client.estimateAgreedDate || client.dates[0], 238, 103);
+  }
+  if (client.crewLeadAssigned) {
+    await setSignature(client.crewSignature, 24, 65, 150, 35);
+    setDateField(client.dates[0], 238, 73);
+  }
+
+  //APPENDIX INITIALS
+  if (client.appendixExists) await setSignature(client.initials, 29, 39, 20, 8);
+
+  //D.TIME, MILES, MATERIALS, RATES
+  setField("PERSONNEL", client.personnel);
+
+  if (client.jobType === "local") {
+    if (client.isTravelFeeFixed) {
+      setField("Travel Fee", client.travelFee);
+    } else {
+      setField("Hourly Time Start", client.startTime);
+      setField("Hourly Time End", client.endTime);
+    }
+    setField("Hourly Time Arrive", client.arriveTime);
+    setField("Hourly Time Depart", client.departTime);
+    setField("Hourly Time Breaks", client.breakTime);
+    setField("Hourly Time TOTAL", client.totalHours);
+    setField("Hourly Rate", client.hourlyRate);
+  }
+  if (client.jobType === "longDistance") {
+    setField("Mileage Miles", client.distance);
+    if (client.weightType === "weightTicket") {
+      setField("Mileage Weight Gross", client.grossWeight);
+      setField("Mileage Weight Tare", client.tareWeight);
+    }
+    setField("Mileage Weight Net", client.netWeight);
+    setField("Mileage Rate", client.mileageRate);
+  }
+  setField("Total Transportation", client.totalTransportation);
+
+  //PACKING & MATERIAL
+  client?.materials
+    .filter((m) => m.units > 0)
+    .forEach((item, index) => {
+      const i = index + 1;
+      if (index < 9) {
+        //TODO remainder send to appendix
+        setField(`C${i}`, item.name);
+        setField(`QTY C${i}`, item.units);
+        setField(`RATE C${i}`, item.rate);
+        setField(`TOTAL C${i}`, item.total);
+      }
+    });
+  setField("TOTAL PACKING  MATERIAL", client.totalMaterials);
+
+  //MISC FEES
+  client?.miscFees
+    .filter((m) => m.value > 0 && m.selected)
+    .forEach((item, i) => {
+      if (i < 8) {
+        //TODO remainder send to appendix
+        setField(`M${i + 1}`, truncateString(item.name, 9));
+        setField(`AMOUNT M${i + 1}`, item.value);
+      }
+    });
+  setField("TOTAL OTHER", client.totalMiscFees);
+
+  //E. TOTAL CHARGES
+  setField("SUBTOTAL 1234", client.subtotal);
+  setField("AdjustmentText", client.adjustmentText);
+  setField("Adjustment", client.adjustment);
+  setField("TOTAL MOVING CHARGES", client.totalMovingCharges);
+  setField("TOTAL AMOUNT PAID", client.totalAmountPaid);
+  setField("BalanceDueText", client.balanceDueText);
+  setField("TIPS  BALANCE DUE", client.remainingBalance);
+
+  if (client.jobComplete) {
+    await setSignature(client.signature, 320, 32, 150, 35);
+    setDateField(client.dates[0], 530, 40);
   }
 
   form.flatten();

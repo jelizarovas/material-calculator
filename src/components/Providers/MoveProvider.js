@@ -49,6 +49,12 @@ const moveReducer = (state, { field, value, type, groupName, payload, id = null 
   } else {
     const group = state[groupName];
     switch (type) {
+      case "fieldsUpdate": {
+        return {
+          ...state,
+          ...payload,
+        };
+      }
       case "groupUpdate": {
         return {
           ...state,
@@ -128,6 +134,7 @@ const MoveProvider = ({ children }) => {
     miscFees,
     isTravelFeeFixed,
     travelFee,
+    totalValuation,
     // adjustment,
     netWeight,
     mileageRate,
@@ -140,7 +147,7 @@ const MoveProvider = ({ children }) => {
     jobType,
     flatAmount,
     totalMaterials,
-    totalOtherFees,
+    totalMiscFees,
   } = state;
 
   /*########## TOTAL MATERIALS ##########*/
@@ -149,10 +156,11 @@ const MoveProvider = ({ children }) => {
       field: "totalMaterials",
       value:
         jobType === "flatRate" && flatIsMaterialsIncluded === true
-          ? 0
+          ? "0"
           : materials.reduce((sum, { units = 0, rate = 0 }) => sum + Number(units) * Number(rate), 0),
     });
   }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
+
   /*########## TOTAL MISC FEES ##########*/
   useEffect(() => {
     dispatch({
@@ -178,12 +186,11 @@ const MoveProvider = ({ children }) => {
     //   });
     // }
     dispatch({
-      field: "valuationCost",
-      value: Math.ceil((shipmentValue / 100) * valuationRate * 100) / 100,
-    });
-    dispatch({
-      field: "valuationCostWithDeductible",
-      value: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
+      type: "fieldsUpdate",
+      payload: {
+        valuationCost: Math.ceil((shipmentValue / 100) * valuationRate * 100) / 100,
+        valuationCostWithDeductible: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
+      },
     });
   }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
 
@@ -224,20 +231,14 @@ const MoveProvider = ({ children }) => {
     let value;
     const field = "totalTransportation";
 
-    switch (jobType) {
-      case "flatRate":
-        value = Number(flatAmount).toString();
-        break;
-      case "local":
-        let tFee = isTravelFeeFixed ? Number(travelFee) : 0;
-        value = Number(timeToDecimal(totalHours)) * Number(hourlyRate) + tFee;
-        break;
-      case "longDistance":
-        value = Number(netWeight) * Number(mileageRate).toString();
-        break;
-      default:
-        break;
-    }
+    if (jobType === "flatRate") value = Number(flatAmount).toString();
+    if (jobType === "local")
+      value = (Number(timeToDecimal(totalHours)) * Number(hourlyRate) + isTravelFeeFixed
+        ? Number(travelFee)
+        : 0
+      ).toString();
+    if (jobType === "longDistance") value = (Number(netWeight) * Number(mileageRate)).toString();
+
     dispatch({ field, value });
   }, [jobType, flatAmount, totalHours, hourlyRate, netWeight, mileageRate, travelFee, isTravelFeeFixed, dispatch]);
 
@@ -247,25 +248,25 @@ const MoveProvider = ({ children }) => {
       field: "subtotal",
       value: (
         Number(totalTransportation) +
-        Number(totalOtherFees) +
+        Number(totalMiscFees) +
         Number(totalMaterials) +
-        Number(valuationCost)
+        Number(totalValuation)
       ).toString(),
     });
 
     return () => {};
   }, [
     totalTransportation,
-    totalOtherFees,
+    totalMiscFees,
     totalMaterials,
-    valuationCost,
+    totalValuation,
     // adjustment,
     // totalMovingCharges,
     // totalAmountPaid,
     // remainingBalance,
   ]);
 
-  //TODO totalOtherFees
+  //TODO totalMiscFees
 
   /*########## ADJUSTMENT & TOTAL MOVINGCHARGES ##########*/
   useEffect(() => {
@@ -285,14 +286,15 @@ const MoveProvider = ({ children }) => {
 
     const adjustmentNumber = Number(subtotal) * adjustment;
     const totalMovingChargesNumber = Number(subtotal) * (1 + Number(adjustment));
+
     dispatch({
-      field: "adjustment",
-      value: money_round(adjustmentNumber).toString(),
+      type: "fieldsUpdate",
+      payload: {
+        adjustment: money_round(adjustmentNumber).toString(),
+        totalMovingCharges: money_round(totalMovingChargesNumber).toString(),
+      },
     });
-    dispatch({
-      field: "totalMovingCharges",
-      value: money_round(totalMovingChargesNumber).toString(),
-    });
+
     return () => {};
   }, [paymentOption, subtotal]);
 

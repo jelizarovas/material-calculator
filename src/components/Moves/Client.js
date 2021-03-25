@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Input } from "../Inputs/Input";
-import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation } from "@material-ui/icons/";
+import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation, Remove, Add } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
@@ -58,13 +58,13 @@ export const Client = () => {
       <Input name="email" value={email} onChange={onChange} Icon={Email} placeholder="Email" type="email" />
       <SectionTitle
         title="Locations"
-        onPlusClick={() =>
+        onClick={() =>
           dispatch({
             field: "anyAdditionalStops",
             value: !anyAdditionalStops,
           })
         }
-        plus={!anyAdditionalStops}
+        Icon={anyAdditionalStops ? Remove : Add}
       />
       <Input
         name="originAddress"

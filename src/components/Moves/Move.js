@@ -27,36 +27,34 @@ export const Move = () => {
     <>
       <MoveBottomBar />
       <div className="flex flex-col items-stretch w-full sm:w-3/4 mx-auto lg:w-1/2 pb-10">
-        <div className="flex-grow">
-          <MoveProvider>
-            <Switch>
-              <Route exact path={links.current} render={() => <Redirect to={links.redirect} />} />
+        <MoveProvider>
+          <Switch>
+            <Route exact path={links.current} render={() => <Redirect to={links.redirect} />} />
 
-              <Route path={links.materials}>
-                <Materials />
-                <br></br>
-                <MiscFees />
-              </Route>
-              <Route path={links.client}>
-                <Client />
-              </Route>
+            <Route path={links.overview}>
+              <Overview />
+            </Route>
+            <Route path={links.materials}>
+              <Materials />
+              <br></br>
+              <MiscFees />
+            </Route>
+            <Route path={links.client}>
+              <Client />
+            </Route>
 
-              <Route path={links.rates}>
-                <Rates />
-              </Route>
+            <Route path={links.rates}>
+              <Rates />
+            </Route>
 
-              <Route path={links.inventory}>
-                <Inventory />
-              </Route>
-              <Route path={links.estimate}>
-                <Estimate />
-              </Route>
-              <Route path={links.overview}>
-                <Overview />
-              </Route>
-            </Switch>
-          </MoveProvider>
-        </div>
+            <Route path={links.inventory}>
+              <Inventory />
+            </Route>
+            <Route path={links.estimate}>
+              <Estimate />
+            </Route>
+          </Switch>
+        </MoveProvider>
       </div>
     </>
   );

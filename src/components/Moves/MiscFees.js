@@ -12,7 +12,6 @@ export const MiscFees = ({ groupName = "miscFees" }) => {
   const dispatch = useMoveDispatch();
 
   const { totalMiscFees = 0, miscFees } = move;
-
   const [fees, , update, add, remove, clear] = useGroup(groupName, defaultMiscFees, miscFees, dispatch);
 
   const [showMore, setShowOnlySelected] = React.useState(true);
@@ -56,7 +55,7 @@ export const MiscFees = ({ groupName = "miscFees" }) => {
 const Fee = ({
   name = "",
   defaultAmount = 0,
-  value = defaultAmount,
+  value = "",
   update,
   inputref = null,
   selected = false,
@@ -77,7 +76,7 @@ const Fee = ({
   };
 
   const toggleSelected = (e = null) => {
-    if (e?.target?.name !== "nameInput") update(id, { selected: !selected });
+    if (e?.target?.name !== "nameInput") update(id, { selected: !selected, value: value ? value : defaultAmount });
   };
   return (
     <>
