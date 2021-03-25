@@ -300,7 +300,15 @@ const FlatRate = ({ flatAmount, onChange }) => {
   );
 };
 
-const LongDistance = ({ onChange, distance, grossWeight, tareWeight, netWeight, mileageRate, weightType }) => {
+const LongDistance = ({
+  onChange,
+  distance,
+  grossWeight,
+  tareWeight,
+  netWeight,
+  mileageRate,
+  weightType = "weightTicket",
+}) => {
   return (
     <div>
       <div className="flex">

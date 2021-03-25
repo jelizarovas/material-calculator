@@ -1,4 +1,4 @@
-import React, { /*useState,*/ useRef } from "react";
+import React, { useState, useRef, memo } from "react";
 import { PDFDocument } from "pdf-lib";
 import download from "downloadjs";
 import SignatureCanvas from "react-signature-canvas";
@@ -6,8 +6,12 @@ import { Input } from "../Inputs/Input";
 import { TextArea } from "../Inputs/TextArea";
 import { SpeakerNotes } from "@material-ui/icons/";
 
+import { getFormattedDate } from "../../utils/helperFunctions";
+
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { truncateString } from "../../utils/helperFunctions";
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 async function fillForm(client) {
   //const pdf =  http://localhost:3000/material-calculator/pdf/bol.pdf
@@ -146,7 +150,11 @@ async function fillForm(client) {
   form.flatten();
   const pdfBytes = await pdfDoc.save();
 
-  download(pdfBytes, "new bol.pdf", "application/pdf");
+  // console.log({ pdfBytes });
+
+  return pdfBytes;
+
+  // ;
 }
 
 export const Overview = () => {
@@ -186,9 +194,57 @@ export const Overview = () => {
       <button className="bg-gray-700 p-2 m-2 text-white" onClick={() => fillForm(client)}>
         Get bill of lading
       </button>
+
+      <PreviewPDF client={client} />
     </div>
   );
 };
+
+const PreviewPDF = memo(({ client } = {}) => {
+  const [data, setData] = useState(null);
+
+  const [, /*numPages*/ setNumPages] = useState(null);
+  const [pageNumber /*setPageNumber*/] = useState(1);
+
+  const getPreview = async () => {
+    const newData = await fillForm(client);
+    return setData(newData);
+  };
+
+  const downloadNow = async () => {
+    download(await fillForm(client), `${client.fullName} BOL ${getFormattedDate(new Date())}.pdf`, "application/pdf");
+  };
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
+  return (
+    <div className="bg-red-500 w-full flex-col flex justify-around items-center relative min-h-screen ">
+      <div
+        className={data ? "" : "w-full h-full bg-black bg-opacity-75 absolute z-20 flex justify-center items-center"}
+      >
+        <button onClick={getPreview} className="bg-purple-600 p-4 rounded-lg text-white">
+          Preview
+        </button>
+        <button onClick={downloadNow} className="bg-gray-600 p-4 rounded-lg text-white ml-10">
+          Download
+        </button>
+      </div>
+
+      <Document
+        file={data ? { data } : process.env.PUBLIC_URL + "/pdf/bol-sfm.pdf"}
+        onLoadSuccess={onDocumentLoadSuccess}
+        renderMode="canvas"
+      >
+        <Page pageNumber={pageNumber} className="flex" />
+      </Document>
+      {/* <p>
+        Page {pageNumber} of {numPages}
+      </p> */}
+    </div>
+  );
+});
 
 const SignatureBlock = ({ type, name, width = 500, height = 200 }) => {
   // const [imageURL, setImageURL] = useState(null);
