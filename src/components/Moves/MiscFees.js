@@ -7,18 +7,18 @@ import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { useGroup } from "../../utils/useGroup";
 import { filterGroup } from "../../utils/helperFunctions";
 
-export const MiscFees = ({ groupName = "miscFees" }) => {
+export const MiscFees = ({ groupName = "miscFees", showMoreDefault = true }) => {
   const move = useMove();
   const dispatch = useMoveDispatch();
 
   const { totalMiscFees = 0, miscFees } = move;
   const [fees, , update, add, remove, clear] = useGroup(groupName, defaultMiscFees, miscFees, dispatch);
 
-  const [showMore, setShowOnlySelected] = React.useState(true);
+  const [showMore, setShowOnlySelected] = React.useState(showMoreDefault);
   const [justAdded, setJustAdded] = React.useState(false);
   const feeRefs = React.useRef([]);
 
-  const feesFilter = filterGroup(fees, 8, "selected", (v) => v);
+  const feesFilter = filterGroup(fees, 4, "selected", (v) => v);
 
   feeRefs.current = (showMore ? fees : feesFilter).map((f, i) => (feeRefs.current[i] = React.createRef()));
 
@@ -34,7 +34,7 @@ export const MiscFees = ({ groupName = "miscFees" }) => {
   return (
     <>
       <SectionTitle title="Misc Fees" onClick={clear} hidePlus={miscFees.length === 0} Icon={Delete} />
-      <div className="mt-2 bg-white rounded-t-md w-full xl:w-2/3 mx-auto">
+      <div className="mt-2 bg-white rounded-t-md w-full mx-auto">
         {(showMore ? fees : feesFilter).map((fee, i) => {
           return <Fee key={i} update={update} inputref={feeRefs.current[i]} remove={remove} {...fee} />;
         })}

@@ -1,11 +1,43 @@
 import React from "react";
 import { Input } from "../Inputs/Input";
-import { CalendarToday, EventBusy, Today, Add, Remove } from "@material-ui/icons/";
+import { CalendarToday, EventBusy, Today, Add, Remove, EventAvailable, DateRange } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { decrementDate, getFormattedDate, incrementDate } from "../../utils/helperFunctions";
+import { SectionTitle } from "../Layout/SectionTitle";
+import { ButtonSelect } from "../Inputs/ButtonSelect";
 
 export const Dates = () => {
+  const client = useMove();
+  const dispatch = useMoveDispatch();
+
+  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
+
+  const { dates, dateType } = client;
+
+  const addDate = () => {
+    dispatch({ field: "dates", value: [...dates, ""] });
+  };
+
+  return (
+    <>
+      <SectionTitle title="Dates" hidePlus={true} />
+      <DateType onClick={onChange} value={dateType} />
+      {dateType === "other" && <DatesList />}
+    </>
+  );
+};
+
+const DateType = (props) => {
+  const dateTypes = [
+    { value: "today", placeholder: "Today", Icon: EventAvailable },
+    { value: "other", placeholder: "Multi-Day/Other", Icon: DateRange, isDisabled: true },
+    // { value: "other", placeholder: "Other", Icon: EventNote },
+  ];
+  return <ButtonSelect name="dateType" buttons={dateTypes} {...props} />;
+};
+
+const DatesList = () => {
   const dispatch = useMoveDispatch();
   const client = useMove();
 
@@ -26,7 +58,7 @@ export const Dates = () => {
   };
 
   return (
-    <div>
+    <>
       {dates &&
         dates.map((d, i) => {
           return (
@@ -40,7 +72,7 @@ export const Dates = () => {
             />
           );
         })}
-    </div>
+    </>
   );
 };
 

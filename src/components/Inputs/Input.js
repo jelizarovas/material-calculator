@@ -16,6 +16,7 @@ export const Input = (props) => {
     readOnly = false,
     clear = true,
     units = "",
+    align = "left",
   } = props;
 
   const [deletedValue, setDeletedValue] = useState("");
@@ -58,7 +59,7 @@ export const Input = (props) => {
         ref={inputRef}
         type={type}
         name={name}
-        className=" w-full  py-2 pr-6 text-sm text-black bg-white rounded-md border-b-2 pl-12 focus:outline-none focus:bg-white focus:text-gray-900"
+        className={` w-full  py-2 pr-6 text-sm text-black bg-white rounded-md border-b-2 pl-12 focus:outline-none focus:bg-white focus:text-gray-900 text-${align}`}
         placeholder={placeholder}
         autoComplete="off"
         value={value}

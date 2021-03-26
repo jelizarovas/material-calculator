@@ -3,7 +3,7 @@ import { AddCircle, ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
 
 export const TableFooter = memo(({ showMore, setShowMore, total, handleAdd }) => {
   return (
-    <div className="text-gray-500  text-xs flex justify-between w-full xl:w-2/3 mx-auto   rounded-b-lg">
+    <div className="text-gray-500  text-xs flex justify-between w-full mx-auto   rounded-b-lg">
       <div
         onClick={() => handleAdd()}
         className="select-none truncate w-1/3 md:w-1/4 flex justify-center items-center shadow-sm bg-white p-2 py-2 rounded-b-md cursor-pointer hover:text-green-800   mr-1"

@@ -26,6 +26,9 @@ const MoveLink = ({ moveId, fullName, phone, email }) => {
       <td>
         <Link to={`/m/${moveId}`}>{phone}</Link>
       </td>
+      <td>
+        <Link to={`/m1/${moveId}`}>Single View</Link>
+      </td>
     </tr>
   );
 };
@@ -57,6 +60,7 @@ export const Moves = () => {
             <th>Name</th>
             <th>Phone</th>
             <th>Email</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

@@ -14,25 +14,6 @@ export const TimeInput = (props) => {
     setMinutes(value.split(":")[1] || "00");
   }, [value, setHour, setMinutes]);
 
-  //   useEffect(() => {
-  //     if (`${hour}:${minutes}` !== value)
-  //       onChange({
-  //         target: {
-  //           field,
-  //           value: `${hour}:${minutes}`,
-  //         },
-  //       });
-  //   }, [minutes, hour, onChange, field, value]);
-  // useEffect(() => {
-  //   if (`${hour}:${minutes}` !== value)
-  //     onChange({
-  //       target: {
-  //         field,
-  //         value: `${hour}:${minutes}`,
-  //       },
-  //     });
-  // }, [minutes, hour, onChange, field, value]);
-
   return (
     <div className="flex justify-center w-full relative " onClick={() => setShowDropdown(!showDropdown)}>
       <DropDown showDropdown={showDropdown} hour={hour} setHour={setHour} minutes={minutes} setMinutes={setMinutes} />
@@ -64,7 +45,11 @@ const DropDown = ({ showDropdown, setHour, setMinutes, hour, minutes }) => {
         <Scrollbars style={{ height: "100%", minHeight: "30vh", width: "66%" }} className="w-1/2">
           <ul className="mr-3">
             {hrs.map((hr, i) => (
-              <li onClick={() => setHour(hr)} className="text-right pb-1 pr-2 hover:bg-yellow-300 cursor-pointer">
+              <li
+                key={i}
+                onClick={() => setHour(hr)}
+                className="text-right pb-1 pr-2 hover:bg-yellow-300 cursor-pointer"
+              >
                 {hr}
               </li>
             ))}
@@ -72,7 +57,7 @@ const DropDown = ({ showDropdown, setHour, setMinutes, hour, minutes }) => {
         </Scrollbars>
         <ul className="w-3/7">
           {["00", "15", "30", "45"].map((min, i) => (
-            <li onClick={() => setMinutes(min)} className="p-4 hover:bg-yellow-300 cursor-pointer">
+            <li key={i} onClick={() => setMinutes(min)} className="p-4 hover:bg-yellow-300 cursor-pointer">
               {min}
             </li>
           ))}

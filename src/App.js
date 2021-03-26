@@ -3,6 +3,7 @@ import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom"
 
 import { Moves } from "./components/Moves/Moves";
 import { Move } from "./components/Moves/Move";
+import { MoveInOne } from "./components/Moves/MoveInOne";
 
 import { Estimates } from "./components/Estimates/Estimates";
 import { Estimate } from "./components/Estimates/Estimate";
@@ -63,7 +64,7 @@ function App() {
           <SignIn />
         )} */}
       {/* </div> */}
-      <div className="container relative mx-auto bg-gray-100 rounded-b-lg shadow-2xl   md:p-2">
+      <div className="container relative mx-auto bg-gray-100 rounded-b-lg shadow-2xl">
         <Switch>
           <Redirect exact from="/" to="/m/R2tpMl/client" />
           <Redirect exact from="/materials" to="/t/materials" />
@@ -89,6 +90,9 @@ function App() {
           <Route path="/t/:toolId" component={Tool} />
         </Switch>
       </div>
+      <Switch>
+        <Route path="/m1/:moveId" component={MoveInOne} />
+      </Switch>
     </Router>
   );
 }

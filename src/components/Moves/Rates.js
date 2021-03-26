@@ -10,8 +10,6 @@ import {
   LocalOffer,
   LocalShipping,
   CreditCard,
-  EventAvailable,
-  DateRange,
   LocalOfferTwoTone,
   SettingsOverscan,
   Receipt,
@@ -91,21 +89,12 @@ export const Rates = () => {
     tareWeight,
     netWeight,
     mileageRate,
-    dates,
-    dateType,
+
     weightType,
   } = client;
 
-  const addDate = () => {
-    dispatch({ field: "dates", value: [...dates, ""] });
-  };
   return (
     <form method="post">
-      <SectionTitle title="Dates" onPlusClick={addDate} hidePlus={dateType !== "other"} />
-
-      <DateType onClick={onChange} value={dateType} />
-      {dateType === "other" && <Dates />}
-
       <SectionTitle title="Job Type" hidePlus={true} />
       <JobType onClick={onChange} value={jobType} />
 
@@ -397,15 +386,6 @@ const JobType = (props) => {
   ];
 
   return <ButtonSelect name="jobType" buttons={jobTypes} {...props} />;
-};
-
-const DateType = (props) => {
-  const dateTypes = [
-    { value: "today", placeholder: "Today", Icon: EventAvailable },
-    { value: "other", placeholder: "Multi-Day/Other", Icon: DateRange, isDisabled: true },
-    // { value: "other", placeholder: "Other", Icon: EventNote },
-  ];
-  return <ButtonSelect name="dateType" buttons={dateTypes} {...props} />;
 };
 
 const WeightType = (props) => {
