@@ -42,8 +42,8 @@ export async function fillBOLForm(client) {
 
   //B. ESTIMATE TYPE
   client.estimateIsBinding
-    ? await setSignature(client.initials, 24, 462)
-    : await setSignature(client.initials, 24, 373);
+    ? await setSignature(client.initials, 24, 373)
+    : await setSignature(client.initials, 24, 462);
 
   //C. VALUATION
   if (client.valuation === "basic") await setSignature(client.initials, 24, 323);

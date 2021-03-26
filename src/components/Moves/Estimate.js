@@ -9,46 +9,46 @@ import {
   EventAvailable,
   Edit,
   Clear,
+  NetworkLocked,
+  NetworkCell,
+  Lock,
+  LockOpen,
 } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
+import { ButtonSelect } from "../Inputs/ButtonSelect";
+import { SignButton } from "./SignButton";
 
 export const Estimate = () => {
+  const [hasSigned, setHasSigned] = useState(false);
   const client = useMove();
   const dispatch = useMoveDispatch();
-  const { estimateIsBinding, agreedToEstimate, estimateAgreedDate } = client;
+  const { estimateIsBinding, agreedToEstimate, estimateAgreedDate, bindingEstimateExists = true } = client;
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
+
+  const buttons = [
+    {
+      value: false,
+      placeholder: "Non Binding",
+      Icon: LockOpen,
+    },
+    { value: true, placeholder: "Binding", Icon: Lock, isDisabled: true },
+  ];
 
   return (
     <>
       <SectionTitle title="Estimate" hidePlus={true} />
-      <div className="mt-4 text-gray-700">
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            onChange={onChange}
-            className="form-radio"
-            name="estimateIsBinding"
-            checked={estimateIsBinding === "false"}
-            value={false}
-          />
-          <span className="ml-2">Non-Binding</span>
-        </label>
-        <label className="inline-flex items-center ml-6">
-          <input
-            type="radio"
-            onChange={onChange}
-            className="form-radio"
-            name="estimateIsBinding"
-            checked={estimateIsBinding === "true"}
-            value={true}
-          />
-          <span className="ml-2">Binding</span>
-        </label>
-      </div>
-      <div>
+      <ButtonSelect
+        onClick={onChange}
+        name="estimateIsBinding"
+        value={estimateIsBinding}
+        buttons={buttons}
+        vertical={true}
+      />
+      <SignButton label="initial" />
+      {/* <div>
         <input
           name="agreedToEstimate"
           className="mr-5 ml-3"
@@ -72,7 +72,7 @@ export const Estimate = () => {
             placeholder="Agreed Date"
           />
         )}
-      </div>
+      </div> */}
     </>
   );
 };

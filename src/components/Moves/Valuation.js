@@ -4,6 +4,7 @@ import { FitnessCenter, AttachMoney, Star, StarHalf, StarOutline, Edit, Clear } 
 import { SectionTitle } from "../Layout/SectionTitle";
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { ButtonSelect } from "../Inputs/ButtonSelect";
+import { SignButton } from "./SignButton";
 
 export const Valuation = () => {
   const client = useMove();
@@ -12,7 +13,6 @@ export const Valuation = () => {
     valuation,
     valuationCost,
     valuationCostWithDeductible,
-    totalValuation,
     shipmentValue,
     estimatedWeight,
     valuationRate,
@@ -29,15 +29,15 @@ export const Valuation = () => {
     { value: "basic", placeholder: "Basic (Free)", Icon: StarOutline },
     {
       value: "replacementWithDeductible",
-      placeholder: `Replacement (w/$300 Ded) (${valuationCostWithDeductible})`,
+      placeholder: `Replacement (w/$300 Ded) ($${valuationCostWithDeductible})`,
       Icon: StarHalf,
     },
-    { value: "replacement", placeholder: `Full Replacement (${valuationCost})`, Icon: Star },
+    { value: "replacement", placeholder: `Full Replacement ($${valuationCost})`, Icon: Star },
   ];
 
   return (
     <>
-      <SectionTitle title="Valuation" onClick={toggleShowChangeRate} Icon={Edit} />
+      <SectionTitle title="Valuation" onClick={toggleShowChangeRate} Icon={showChangeRates ? Clear : Edit} />
       <div className="flex">
         <div className="w-1/2 text-center">
           <Input
@@ -73,9 +73,8 @@ export const Valuation = () => {
       {/*   Valuation can be charged at $0.66 <= v <= $1.40 */}
       {/*   Valuation w300ded can be charged at $0.55 <= v <= $1.15 */}
 
-      <div className="flex justify-center"></div>
       {showChangeRates && (
-        <div className="bg-white bg-opacity-50 p-5 rounded-md">
+        <div className="flex justify-around bg-white bg-opacity-50 p-5 rounded-md">
           <ValuationRates
             name="valuationRateWithDeductible"
             rate={valuationRateWithDeductible}
@@ -95,37 +94,8 @@ export const Valuation = () => {
         </div>
       )}
 
-      <ButtonSelect onClick={onChange} name="valuation" buttons={buttons} />
-
-      <Valuations
-        onChange={onChange}
-        valuation={valuation}
-        valuationCostWithDeductible={valuationCostWithDeductible}
-        valuationCost={valuationCost}
-      />
-      {/* <Input
-        name="totalValuation"
-        value={totalValuation}
-        onChange={() => {}}
-        Icon={() => {
-          switch (valuation) {
-            case "basic":
-              return <StarOutline />;
-            case "replacement":
-              return <Star />;
-            case "replacementWithDeductible":
-              return <StarHalf />;
-
-            default:
-              break;
-          }
-          return;
-        }}
-        placeholder="Total Valuation"
-        type="number"
-        readOnly={true}
-        clear={false}
-      /> */}
+      <ButtonSelect onClick={onChange} name="valuation" value={valuation} buttons={buttons} vertical={true} />
+      <SignButton label="initial" />
     </>
   );
 };
@@ -179,8 +149,8 @@ const Valuations = ({ valuation, onChange, valuationCostWithDeductible, valuatio
 
 const ValuationRates = ({ name, rate, onChange, min, max, placeholder }) => {
   return (
-    <div>
-      {placeholder} - ${rate}/ 100 lbs.
+    <div className="text-xs flex flex-col justify-center text-center">
+      <span>{placeholder}</span> <span className="text-sm py-2">${rate}/ 100 lbs.</span>
       <div class="slidecontainer">
         <input
           className="w-full lg:w-1/2"
