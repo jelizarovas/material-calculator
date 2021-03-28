@@ -27,11 +27,11 @@ export const MoveInOne = () => {
 
   return (
     <MoveProvider>
-      <div className="flex flex-col bg-yellow-500 w-full h-full flex-grow ">
+      <div className="flex flex-col  w-full h-full flex-grow ">
         {/* <Modal ref={modal}>TEST</Modal> */}
-        <button onClick={() => modal.current.open()}>modal</button>
-        <div className="flex bg-pink-500 w-full flex-grow ">
-          <div className="flex  w-1/2 flex-wrap    pb-10">
+        {/* <button onClick={() => modal.current.open()}>modal</button> */}
+        <div className="flex  w-full flex-grow ">
+          <div className="flex  flex-wrap    pb-10">
             <div className={colClass}>
               <div className="bg-white p-2 rounded-md">
                 <ContactInfo />
@@ -55,12 +55,11 @@ export const MoveInOne = () => {
                 <Signatures />
               </div>
             </div>
-          </div>
-          <div className="flex flex-col flex-grow   w-1/2  bg-red-500   p-2">
             <div className="bg-white p-2 rounded-md     w-full">
               <PreviewPDF />
             </div>
           </div>
+          <div className="flex flex-col flex-grow       p-2"></div>
         </div>
       </div>
       {/* <Overview /> */}
