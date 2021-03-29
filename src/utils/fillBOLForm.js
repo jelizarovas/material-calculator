@@ -96,7 +96,7 @@ export async function fillBOLForm(client) {
 
   //PACKING & MATERIAL
   client?.materials
-    .filter((m) => m.units > 0)
+    ?.filter((m) => m.units > 0)
     .forEach((item, index) => {
       const i = index + 1;
       if (index < 9) {
@@ -111,7 +111,7 @@ export async function fillBOLForm(client) {
 
   //MISC FEES
   client?.miscFees
-    .filter((m) => m.value > 0 && m.selected)
+    ?.filter((m) => m.value > 0 && m.selected)
     .forEach((item, i) => {
       if (i < 8) {
         //TODO remainder send to appendix
