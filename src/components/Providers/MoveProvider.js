@@ -75,6 +75,9 @@ const moveReducer = (state, { field, value, type, groupName, payload, id = null 
           [groupName]: group.filter((g) => g.id !== id),
         };
       }
+      case "clearData": {
+        return {};
+      }
       default:
         return state;
     }
@@ -130,8 +133,8 @@ const MoveProvider = ({ children }) => {
     departTime,
     breakTime,
     subtotal,
-    materials,
-    miscFees,
+    materials = [],
+    miscFees = [],
     isTravelFeeFixed,
     travelFee,
     totalValuation,

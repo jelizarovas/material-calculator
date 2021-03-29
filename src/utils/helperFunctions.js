@@ -18,6 +18,7 @@ export function getFormattedDate(date) {
 
 //MERGES DEFAULT STATE WITH PROVIDER STATE
 export const mergeDefaultWProvider = (base, state) => {
+  if (!base || state === undefined) return {};
   const newMerge = base.map((b) => {
     const match = state?.find((s) => s.id === b.id);
     if (match) {
@@ -27,10 +28,11 @@ export const mergeDefaultWProvider = (base, state) => {
       return b;
     }
   });
-  return [...newMerge, ...state.filter((s) => s.isCustom)];
+  return [...newMerge, ...state?.filter((s) => s.isCustom)];
 };
 
 export function timeToDecimal(t) {
+  if (!t) return "";
   var arr = t.split(":");
   var dec = parseInt((arr[1] / 6) * 10, 10);
 
@@ -76,8 +78,9 @@ export function truncateString(str, num) {
 }
 
 export function filterGroup(group, showNumber = 4, defValue, defFun = (v) => v > 0) {
-  let remainder = showNumber - group.filter((g) => defFun(g[defValue]) || g.isCustom).length;
-  return group.filter((g) => {
+  if (!group || !Array.isArray(group)) return [];
+  let remainder = showNumber - group?.filter((g) => defFun(g[defValue]) || g.isCustom).length;
+  return group?.filter((g) => {
     if (remainder > 0 && !defFun(g[defValue]) && !g.isCustom) {
       remainder--;
       return true;

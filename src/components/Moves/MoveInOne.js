@@ -19,6 +19,7 @@ import { Dates } from "./Dates";
 import { Valuation } from "./Valuation";
 import { Release } from "./Release";
 import { Modal } from "../Layout/Modal";
+import { ClearData } from "./ClearData";
 
 const colClass = "flex flex-col    w-full md:w-1/2  lg:w-1/3 2xl:w-1/4 3xl:w-1/3  p-2 ";
 
@@ -27,41 +28,42 @@ export const MoveInOne = () => {
 
   return (
     <MoveProvider>
-      <div className="flex flex-col  w-full h-full flex-grow ">
-        {/* <Modal ref={modal}>TEST</Modal> */}
-        {/* <button onClick={() => modal.current.open()}>modal</button> */}
-        <div className="flex  w-full flex-grow ">
-          <div className="flex  flex-wrap    pb-10">
-            <div className={colClass}>
-              <div className="bg-white p-2 rounded-md">
-                <ContactInfo />
-                <Locations />
-                <Dates />
-                <Estimate />
-                <Valuation />
-                <Release />
-              </div>
-            </div>
-            <div className={colClass}>
-              <div className="bg-white  p-2 rounded-md">
-                <Materials showMoreDefault={false} />
-                <MiscFees showMoreDefault={false} />
-              </div>
-            </div>
-            <div className={colClass}>
-              <div className="bg-white p-2 rounded-md">
-                <Totals />
-                <Payment />
-                <Signatures />
-              </div>
-            </div>
-            <div className="bg-white p-2 rounded-md     w-full">
-              <PreviewPDF />
-            </div>
+      <div className="flex flex-row  w-full h-full flex-grow ">
+        <div className={colClass}>
+          <div className="bg-white p-2 rounded-md">
+            <ContactInfo />
+            <Locations />
+            <Dates />
+            <Estimate />
+            <Valuation />
+            <Release />
           </div>
-          <div className="flex flex-col flex-grow       p-2"></div>
+        </div>
+        <div className={colClass}>
+          <div className="bg-white  p-2 rounded-md">
+            <Rates />
+          </div>
+        </div>
+
+        <div className={colClass}>
+          <div className="bg-white  p-2 rounded-md">
+            <Materials showMoreDefault={false} />
+            <MiscFees showMoreDefault={false} />
+          </div>
+        </div>
+        <div className={colClass}>
+          <div className="bg-white p-2 rounded-md">
+            <Totals />
+            <Payment />
+            <Signatures />
+            <ClearData />
+          </div>
+        </div>
+        <div className="bg-white p-2 rounded-md">
+          <PreviewPDF />
         </div>
       </div>
+      <div className="flex flex-col flex-grow       p-2"></div>
       {/* <Overview /> */}
     </MoveProvider>
   );

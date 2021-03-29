@@ -40,7 +40,7 @@ export const Input = (props) => {
 
   return (
     <div className="relative text-gray-600 focus-within:text-red-400 w-100 m-2 ">
-      {(value.length > 0 || (type === "number" && value > 0)) && showLabel && (
+      {(value?.length > 0 || (type === "number" && value > 0)) && showLabel && (
         <span
           className="absolute right-10 top-1 z-20  text-white bg-gray-300 text-sm rounded-lg p-1 px-3"
           onClick={() => setShowLabel(false)}
@@ -72,7 +72,7 @@ export const Input = (props) => {
         {units}
       </span>
 
-      {clear && (value.length > 0 || (type === "number" && value > 0)) ? (
+      {clear && (value?.length > 0 || (type === "number" && value > 0)) ? (
         <span
           className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100"
           onClick={() => {
