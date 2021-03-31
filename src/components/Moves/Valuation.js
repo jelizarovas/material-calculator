@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "../Inputs/Input";
 import { FitnessCenter, AttachMoney, Star, StarHalf, StarOutline, Edit, Clear } from "@material-ui/icons/";
 import { SectionTitle } from "../Layout/SectionTitle";
@@ -34,6 +34,30 @@ export const Valuation = () => {
     },
     { value: "replacement", placeholder: `Full Replacement ($${valuationCost})`, Icon: Star },
   ];
+
+  /*########## DEFAULT VALUES ##########*/
+  /*########## DEFAULT VALUES ##########*/
+  /*########## DEFAULT VALUES ##########*/
+  useEffect(() => {
+    const payload = {};
+    if (valuationRate === undefined) payload.valuationRate = 1.4;
+    if (valuationRateWithDeductible === undefined) payload.valuationRateWithDeductible = 1.15;
+    if (valuation === undefined) payload.valuation = "basic";
+    if (valuationCost === undefined) payload.valuationCost = 0;
+    if (valuationCostWithDeductible === undefined) payload.valuationCostWithDeductible = 0;
+    if (shipmentValue === undefined) payload.shipmentValue = 0;
+    if (estimatedWeight === undefined) payload.estimatedWeight = 0;
+    dispatch({ type: "fieldsUpdate", payload });
+  }, [
+    valuation,
+    valuationCost,
+    valuationCostWithDeductible,
+    shipmentValue,
+    estimatedWeight,
+    valuationRate,
+    valuationRateWithDeductible,
+    dispatch,
+  ]);
 
   return (
     <>
@@ -97,48 +121,6 @@ export const Valuation = () => {
       <ButtonSelect onClick={onChange} name="valuation" value={valuation} buttons={buttons} vertical={true} />
       <SignButton label="initial" />
     </>
-  );
-};
-
-const Valuations = ({ valuation, onChange, valuationCostWithDeductible, valuationCost }) => {
-  return (
-    <div className="mt-4 text-gray-700 flex-row">
-      <div className="mt-2">
-        <label className="block">
-          <input
-            type="radio"
-            onChange={onChange}
-            className="form-radio"
-            name="valuation"
-            checked={valuation === "basic"}
-            value="basic"
-          />
-          <span className="ml-2">Basic (Free)</span>
-        </label>
-        <label className="block ">
-          <input
-            type="radio"
-            onChange={onChange}
-            className="form-radio"
-            name="valuation"
-            checked={valuation === "replacementWithDeductible"}
-            value="replacementWithDeductible"
-          />
-          <span className="ml-2">Replacement (w/$300 Ded) (${valuationCostWithDeductible})</span>
-        </label>
-        <label className="block">
-          <input
-            type="radio"
-            onChange={onChange}
-            className="form-radio"
-            name="valuation"
-            checked={valuation === "replacement"}
-            value="replacement"
-          />
-          <span className="ml-2">Full Replacement (${valuationCost})</span>
-        </label>
-      </div>
-    </div>
   );
 };
 

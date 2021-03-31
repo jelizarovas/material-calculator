@@ -1,19 +1,5 @@
-import React, { useState } from "react";
-import { Input } from "../Inputs/Input";
-import {
-  FitnessCenter,
-  AttachMoney,
-  Star,
-  StarHalf,
-  StarOutline,
-  EventAvailable,
-  Edit,
-  Clear,
-  NetworkLocked,
-  NetworkCell,
-  Lock,
-  LockOpen,
-} from "@material-ui/icons/";
+import React, { useEffect } from "react";
+import { Lock, LockOpen } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
@@ -21,10 +7,10 @@ import { ButtonSelect } from "../Inputs/ButtonSelect";
 import { SignButton } from "./SignButton";
 
 export const Estimate = () => {
-  const [hasSigned, setHasSigned] = useState(false);
+  // const [hasSigned, setHasSigned] = useState(false);
   const client = useMove();
   const dispatch = useMoveDispatch();
-  const { estimateIsBinding, agreedToEstimate, estimateAgreedDate, bindingEstimateExists = true } = client;
+  const { estimateIsBinding, /*agreedToEstimate, estimateAgreedDate,*/ bindingEstimateExists = true } = client;
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
@@ -34,8 +20,16 @@ export const Estimate = () => {
       placeholder: "Non Binding",
       Icon: LockOpen,
     },
-    { value: true, placeholder: "Binding", Icon: Lock, isDisabled: true },
+    { value: true, placeholder: "Binding", Icon: Lock, isDisabled: !bindingEstimateExists },
   ];
+
+  useEffect(() => {
+    if (estimateIsBinding === undefined)
+      dispatch({
+        field: "estimateIsBinding",
+        value: false,
+      });
+  }, [estimateIsBinding, dispatch]);
 
   return (
     <>
@@ -76,6 +70,5 @@ export const Estimate = () => {
     </>
   );
 };
-{
-  /* <pre className="max-w-md overflow-hidden text-xs bg-white">{client && JSON.stringify(client, 0, 2)}</pre> */
-}
+
+/* <pre>{JSON.stringify(client, 0, 2)}</pre> */

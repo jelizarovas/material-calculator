@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Input } from "../Inputs/Input";
-import { EmojiPeople, Email, Phone, Home, LocalShipping, AddLocation, Remove, Add } from "@material-ui/icons/";
+import { Home, LocalShipping, AddLocation, Remove, Add } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
@@ -8,36 +8,14 @@ import { SectionTitle } from "../Layout/SectionTitle";
 export const Locations = () => {
   const client = useMove();
   const dispatch = useMoveDispatch();
-  const {
-    fullName,
-    phoneNumber,
-    email,
-    originAddress,
-    destinationAddress,
-    additionalStops,
-    anyAdditionalStops,
-  } = client;
+  const { originAddress, destinationAddress, additionalStops, anyAdditionalStops } = client;
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
-
-  useEffect(() => {
-    document.title = fullName ? `${fullName} - move` : "Bill of Lading";
-  }, [fullName]);
 
   // TODO when address autocomplete is done, if address not found
   // (most likely case of newly built house) allow entry of coordinates
 
   // TODO autocomplete address
-
-  // TODO name parse field
-
-  // TODO phone number field show
-
-  // TODO phone number mask
-
-  // TODO add 2nd contact
-
-  // TODO add autocomplete @ email
 
   // TODO calculate distance as the crow flies
 

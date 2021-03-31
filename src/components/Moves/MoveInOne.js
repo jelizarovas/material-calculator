@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
-import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
+import React /*, { useState, useRef } */ from "react";
+// import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
 import { Materials } from "./Materials";
-import { Client } from "./Client";
-import { MoveBottomBar } from "./MoveBottomBar";
+// import { Client } from "./Client";
+// import { MoveBottomBar } from "./MoveBottomBar";
 import { Rates } from "./Rates";
-import { Inventory } from "./Inventory";
+// import { Inventory } from "./Inventory";
 import { Estimate } from "./Estimate";
-import { Overview } from "./Overview";
+// import { Overview } from "./Overview";
 import { MoveProvider } from "../Providers/MoveProvider";
 import { MiscFees } from "./MiscFees";
 import { Payment } from "./Payment";
@@ -18,13 +18,13 @@ import { Locations } from "./Locations";
 import { Dates } from "./Dates";
 import { Valuation } from "./Valuation";
 import { Release } from "./Release";
-import { Modal } from "../Layout/Modal";
+// import { Modal } from "../Layout/Modal";
 import { ClearData } from "./ClearData";
 
 const colClass = "flex flex-col    w-full md:w-1/2  lg:w-1/3 2xl:w-1/4 3xl:w-1/3  p-2 ";
 
 export const MoveInOne = () => {
-  const modal = useRef(null);
+  // const modal = useRef(null);
 
   return (
     <MoveProvider>

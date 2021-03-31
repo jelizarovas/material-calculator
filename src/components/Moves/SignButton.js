@@ -1,5 +1,5 @@
 import { Gesture } from "@material-ui/icons";
-import React, { useRef } from "react";
+import React from "react";
 
 export const SignButton = ({ label = "Sign" }) => {
   return (

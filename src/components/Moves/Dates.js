@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "../Inputs/Input";
 import { CalendarToday, EventBusy, Today, Add, Remove, EventAvailable, DateRange } from "@material-ui/icons/";
 
@@ -13,11 +13,21 @@ export const Dates = () => {
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
-  const { dates, dateType } = client;
+  const { /*dates,*/ dateType } = client;
 
-  const addDate = () => {
-    dispatch({ field: "dates", value: [...dates, ""] });
-  };
+  // const addDate = () => {
+  //   dispatch({ field: "dates", value: [...dates, ""] });
+  // };
+
+  //if value in provider doesn't exist - provide default
+  useEffect(() => {
+    if (!dateType)
+      dispatch({
+        field: "dateType",
+        value: "today",
+      });
+    return () => {};
+  }, [dateType, dispatch]);
 
   return (
     <>
