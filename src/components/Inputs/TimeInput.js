@@ -6,12 +6,12 @@ export const TimeInput = (props) => {
   const { value, Icon /* onChange, field*/ } = props;
 
   const [showDropdown, setShowDropdown] = useState(false);
-  const [hour, setHour] = useState(value.split(":")[0] || "00");
-  const [minutes, setMinutes] = useState(value.split(":")[1] || "00");
+  const [hour, setHour] = useState(value?.split(":")[0] || "00");
+  const [minutes, setMinutes] = useState(value?.split(":")[1] || "00");
 
   useEffect(() => {
-    setHour(value.split(":")[0] || "00");
-    setMinutes(value.split(":")[1] || "00");
+    setHour(value?.split(":")[0] || "00");
+    setMinutes(value?.split(":")[1] || "00");
   }, [value, setHour, setMinutes]);
 
   return (

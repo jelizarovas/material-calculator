@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "../Inputs/Input";
 import {
   AccessTime,
@@ -92,6 +92,15 @@ export const Rates = () => {
     weightType,
   } = client;
 
+  useEffect(() => {
+    if (!jobType)
+      dispatch({
+        field: "jobType",
+        value: "local",
+      });
+    return () => {};
+  }, [jobType, dispatch]);
+
   return (
     <form method="post">
       <SectionTitle title="Job Type" hidePlus={true} />
@@ -180,7 +189,7 @@ export const Rates = () => {
             </div>
           )}
           {/* <h2>Time</h2> */}
-          <div className="flex">
+          {/* <div className="flex">
             <div className="flex-row">
               <label htmlFor="arriveTime" className=" px-2">
                 Arrive
@@ -200,7 +209,7 @@ export const Rates = () => {
               </label>
               <TimeInput name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={Update} />
             </div>
-          </div>
+          </div> */}
           <div className="flex">
             <div className="flex-row">
               <label htmlFor="arriveTime" className=" px-2">
@@ -222,7 +231,7 @@ export const Rates = () => {
             <Input name="breakTime" value={breakTime} onChange={onChange} placeholder="Breaks" Icon={HourglassEmpty} />
           </div>
           <h2>Totals</h2>
-          <NoInput value={totalHours.toString()} Icon={Timelapse} type="time" unit="Hrs" label="Total Time" />
+          <NoInput value={totalHours?.toString()} Icon={Timelapse} type="time" unit="Hrs" label="Total Time" />
           {/* <Input name="totalHours" value={totalHours} onChange={onChange} placeholder="Total Hours" Icon={AccessTime} /> */}
           {/* <h2>Total hours</h2> */}
           {/* {arriveTime} to {departTime} ={" "} */}

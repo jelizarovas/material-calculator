@@ -171,160 +171,160 @@ const MoveProvider = ({ children }) => {
 
   /*########## TOTAL VALUATION ##########*/
 
-  // useEffect(() => {
-  //   dispatch({
-  //     field: "totalValuation",
-  //     value: valuation === "basic" ? 0 : valuation === "replacement" ? valuationCost : valuationCostWithDeductible,
-  //   });
-  // }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
+  useEffect(() => {
+    dispatch({
+      field: "totalValuation",
+      value: valuation === "basic" ? 0 : valuation === "replacement" ? valuationCost : valuationCostWithDeductible,
+    });
+  }, [valuation, valuationCost, valuationCostWithDeductible, dispatch]);
 
-  // /*########## VALUATION COSTS ##########*/
-  // useEffect(() => {
-  //   // if (shipmentValue < estimatedWeight * 5) {
-  //   //   dispatch({
-  //   //     field: "shipmentValue",
-  //   //     value: estimatedWeight * 5,
-  //   //   });
-  //   // }
-  //   dispatch({
-  //     type: "fieldsUpdate",
-  //     payload: {
-  //       valuationCost: Math.ceil((shipmentValue / 100) * valuationRate * 100) / 100,
-  //       valuationCostWithDeductible: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
-  //     },
-  //   });
-  // }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
+  /*########## VALUATION COSTS ##########*/
+  useEffect(() => {
+    // if (shipmentValue < estimatedWeight * 5) {
+    //   dispatch({
+    //     field: "shipmentValue",
+    //     value: estimatedWeight * 5,
+    //   });
+    // }
+    dispatch({
+      type: "fieldsUpdate",
+      payload: {
+        valuationCost: Math.ceil((shipmentValue / 100) * valuationRate * 100) / 100,
+        valuationCostWithDeductible: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
+      },
+    });
+  }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
 
-  // /*########## SHIPMENT VALUE ##########*/
-  // useEffect(() => {
-  //   // if (shipmentValue < estimatedWeight * 5) {
-  //   dispatch({
-  //     field: "shipmentValue",
-  //     value: estimatedWeight * 5,
-  //   });
-  //   // }
-  // }, [estimatedWeight, dispatch]);
+  /*########## SHIPMENT VALUE ##########*/
+  useEffect(() => {
+    // if (shipmentValue < estimatedWeight * 5) {
+    dispatch({
+      field: "shipmentValue",
+      value: estimatedWeight * 5,
+    });
+    // }
+  }, [estimatedWeight, dispatch]);
 
-  // /*########## TOTAL MATERIALS ##########*/
-  // useEffect(() => {
-  //   dispatch({
-  //     field: "totalMaterials",
-  //     value:
-  //       jobType === "flatRate" && flatIsMaterialsIncluded === true
-  //         ? "0"
-  //         : materials.reduce((sum, { units = 0, rate = 0 }) => sum + Number(units) * Number(rate), 0),
-  //   });
-  // }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
+  /*########## TOTAL MATERIALS ##########*/
+  useEffect(() => {
+    dispatch({
+      field: "totalMaterials",
+      value:
+        jobType === "flatRate" && flatIsMaterialsIncluded === true
+          ? "0"
+          : materials.reduce((sum, { units = 0, rate = 0 }) => sum + Number(units) * Number(rate), 0),
+    });
+  }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
 
-  // /*########## TOTAL MISC FEES ##########*/
-  // useEffect(() => {
-  //   dispatch({
-  //     field: "totalMiscFees",
-  //     value: miscFees.reduce((sum, { value = 0, selected = false }) => sum + (selected ? Number(value) : 0), 0),
-  //   });
-  // }, [miscFees, flatIsMaterialsIncluded, dispatch]);
+  /*########## TOTAL MISC FEES ##########*/
+  useEffect(() => {
+    dispatch({
+      field: "totalMiscFees",
+      value: miscFees.reduce((sum, { value = 0, selected = false }) => sum + (selected ? Number(value) : 0), 0),
+    });
+  }, [miscFees, flatIsMaterialsIncluded, dispatch]);
 
-  // /*########## TOTAL HOURS ##########*/
-  // useEffect(() => {
-  //   const begin = timeToDecimal(isTravelFeeFixed ? arriveTime : startTime);
-  //   let finish = timeToDecimal(isTravelFeeFixed ? departTime : endTime);
-  //   const breaks = timeToDecimal(breakTime);
+  /*########## TOTAL HOURS ##########*/
+  useEffect(() => {
+    const begin = timeToDecimal(isTravelFeeFixed ? arriveTime : startTime);
+    let finish = timeToDecimal(isTravelFeeFixed ? departTime : endTime);
+    const breaks = timeToDecimal(breakTime);
 
-  //   if (begin > finish) finish += 12;
+    if (begin > finish) finish += 12;
 
-  //   dispatch({
-  //     field: "totalHours",
-  //     value: convertToHHMM(finish - begin - breaks),
-  //   });
-  // }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, isTravelFeeFixed, dispatch]);
+    dispatch({
+      field: "totalHours",
+      value: convertToHHMM(finish - begin - breaks),
+    });
+  }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, isTravelFeeFixed, dispatch]);
 
-  // /*########## TRAVEL FEE ##########*/
-  // useEffect(() => {
-  //   dispatch({
-  //     field: "travelFee",
-  //     value: (Number(hourlyRate) * Number(travelTime)).toString(),
-  //   });
-  // }, [travelTime, hourlyRate, dispatch]);
+  /*########## TRAVEL FEE ##########*/
+  useEffect(() => {
+    dispatch({
+      field: "travelFee",
+      value: (Number(hourlyRate) * Number(travelTime)).toString(),
+    });
+  }, [travelTime, hourlyRate, dispatch]);
 
-  // /*########## TOTAL TRANSPORTATION ##########*/
-  // useEffect(() => {
-  //   let value;
-  //   const field = "totalTransportation";
+  /*########## TOTAL TRANSPORTATION ##########*/
+  useEffect(() => {
+    let value;
+    const field = "totalTransportation";
 
-  //   if (jobType === "flatRate") value = Number(flatAmount).toString();
-  //   if (jobType === "local")
-  //     value = (Number(timeToDecimal(totalHours)) * Number(hourlyRate) + isTravelFeeFixed
-  //       ? Number(travelFee)
-  //       : 0
-  //     ).toString();
-  //   if (jobType === "longDistance") value = (Number(netWeight) * Number(mileageRate)).toString();
+    if (jobType === "flatRate") value = Number(flatAmount).toString();
+    if (jobType === "local")
+      value = (Number(timeToDecimal(totalHours)) * Number(hourlyRate) + isTravelFeeFixed
+        ? Number(travelFee)
+        : 0
+      ).toString();
+    if (jobType === "longDistance") value = (Number(netWeight) * Number(mileageRate)).toString();
 
-  //   dispatch({ field, value });
-  // }, [jobType, flatAmount, totalHours, hourlyRate, netWeight, mileageRate, travelFee, isTravelFeeFixed, dispatch]);
+    dispatch({ field, value });
+  }, [jobType, flatAmount, totalHours, hourlyRate, netWeight, mileageRate, travelFee, isTravelFeeFixed, dispatch]);
 
-  // /*########## SUBTOTAL ##########*/
-  // useEffect(() => {
-  //   dispatch({
-  //     field: "subtotal",
-  //     value: (
-  //       Number(totalTransportation) +
-  //       Number(totalMiscFees) +
-  //       Number(totalMaterials) +
-  //       Number(totalValuation)
-  //     ).toString(),
-  //   });
-  // }, [
-  //   totalTransportation,
-  //   totalMiscFees,
-  //   totalMaterials,
-  //   totalValuation,
-  //   // adjustment,
-  //   // totalMovingCharges,
-  //   // totalAmountPaid,
-  //   // remainingBalance,
-  // ]);
+  /*########## SUBTOTAL ##########*/
+  useEffect(() => {
+    dispatch({
+      field: "subtotal",
+      value: (
+        Number(totalTransportation) +
+        Number(totalMiscFees) +
+        Number(totalMaterials) +
+        Number(totalValuation)
+      ).toString(),
+    });
+  }, [
+    totalTransportation,
+    totalMiscFees,
+    totalMaterials,
+    totalValuation,
+    // adjustment,
+    // totalMovingCharges,
+    // totalAmountPaid,
+    // remainingBalance,
+  ]);
 
   // //TODO totalMiscFees
 
-  // /*########## ADJUSTMENT & TOTAL MOVINGCHARGES ##########*/
-  // useEffect(() => {
-  //   let adjustment = 0;
+  /*########## ADJUSTMENT & TOTAL MOVINGCHARGES ##########*/
+  useEffect(() => {
+    let adjustment = 0;
 
-  //   switch (paymentOption) {
-  //     case "cash":
-  //       adjustment = -5 / 100;
-  //       break;
-  //     case "card":
-  //       adjustment = 3 / 100;
-  //       break;
+    switch (paymentOption) {
+      case "cash":
+        adjustment = -5 / 100;
+        break;
+      case "card":
+        adjustment = 3 / 100;
+        break;
 
-  //     default:
-  //       break;
-  //   }
+      default:
+        break;
+    }
 
-  //   const adjustmentNumber = Number(subtotal) * adjustment;
-  //   const totalMovingChargesNumber = Number(subtotal) * (1 + Number(adjustment));
+    const adjustmentNumber = Number(subtotal) * adjustment;
+    const totalMovingChargesNumber = Number(subtotal) * (1 + Number(adjustment));
 
-  //   dispatch({
-  //     type: "fieldsUpdate",
-  //     payload: {
-  //       adjustment: money_round(adjustmentNumber).toString(),
-  //       totalMovingCharges: money_round(totalMovingChargesNumber).toString(),
-  //     },
-  //   });
+    dispatch({
+      type: "fieldsUpdate",
+      payload: {
+        adjustment: money_round(adjustmentNumber).toString(),
+        totalMovingCharges: money_round(totalMovingChargesNumber).toString(),
+      },
+    });
 
-  //   return () => {};
-  // }, [paymentOption, subtotal]);
+    return () => {};
+  }, [paymentOption, subtotal]);
 
-  // /*########## REMAINING BALANCE ##########*/
-  // useEffect(() => {
-  //   const remainingBalanceNumber = Number(totalMovingCharges) - Number(totalAmountPaid);
+  /*########## REMAINING BALANCE ##########*/
+  useEffect(() => {
+    const remainingBalanceNumber = Number(totalMovingCharges) - Number(totalAmountPaid);
 
-  //   dispatch({
-  //     field: "remainingBalance",
-  //     value: money_round(remainingBalanceNumber).toString(),
-  //   });
-  // }, [totalAmountPaid, totalMovingCharges]);
+    dispatch({
+      field: "remainingBalance",
+      value: money_round(remainingBalanceNumber).toString(),
+    });
+  }, [totalAmountPaid, totalMovingCharges]);
   //TODO totalAmountPaid
 
   //TODO remianing balance

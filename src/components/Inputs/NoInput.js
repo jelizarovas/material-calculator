@@ -15,9 +15,9 @@ export const NoInput = ({ value, label, Icon, unit = "", type = "number" }) => {
             {unit === "$" && unit + " "}
             {type === "number"
               ? money_round(value)
-                  .toString()
+                  ?.toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              : value.toString()}
+              : value?.toString()}
           </span>
 
           <span className="font-thin text-xs px-2 truncate w-1/5">{unit !== "$" && unit}</span>

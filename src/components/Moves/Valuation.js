@@ -87,6 +87,7 @@ export const Valuation = () => {
           />
           {/* https://www.utc.wa.gov/regulatedIndustries/transportation/TransportationDocuments/Tariff%2015-C.PDF */}
           {/* Shipment value is at least $5 per lbs., (val > weight * 5) */}
+          {/* //TODO when value 0 - shows 0 and not text  */}
           {estimatedWeight && Number(estimatedWeight) * 5 > Number(shipmentValue) && (
             <span className="text-xs text-red-500 flex justify-center absolute top-12 right-12">
               Min Shimpent Value ${Math.ceil((estimatedWeight * 5) / 100) * 100}
