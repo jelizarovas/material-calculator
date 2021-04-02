@@ -10,7 +10,7 @@ import { useGroup } from "../../utils/useGroup";
 import { filterGroup } from "../../utils/helperFunctions";
 
 export const MaterialsWProvider = ({ groupName = "materials", showMoreDefault = true, state, dispatch, ...rest }) => {
-  const { totalMaterials, materials: materialsState } = state;
+  const { totalMaterials = 0, materials: materialsState = [] } = state;
   const [materials, , update, add, remove, clear] = useGroup(groupName, defaultMaterials, materialsState, dispatch, [
     "units",
     "rate",

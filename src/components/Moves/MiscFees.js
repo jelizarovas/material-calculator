@@ -11,7 +11,7 @@ export const MiscFees = ({ groupName = "miscFees", showMoreDefault = true }) => 
   const move = useMove();
   const dispatch = useMoveDispatch();
 
-  const { totalMiscFees = 0, miscFees = [] } = move;
+  const { totalMiscFees, miscFees } = move;
   const [fees, , update, add, remove, clear] = useGroup(groupName, defaultMiscFees, miscFees, dispatch);
 
   const [showMore, setShowOnlySelected] = React.useState(showMoreDefault);
@@ -33,7 +33,7 @@ export const MiscFees = ({ groupName = "miscFees", showMoreDefault = true }) => 
 
   return (
     <>
-      <SectionTitle title="Misc Fees" onClick={clear} hidePlus={miscFees.length === 0} Icon={Delete} />
+      <SectionTitle title="Misc Fees" onClick={clear} hidePlus={!!miscFees && miscFees.length === 0} Icon={Delete} />
       <div className="mt-2 bg-white rounded-t-md w-full mx-auto">
         {(showMore ? fees : feesFilter).map((fee, i) => {
           return <Fee key={i} update={update} inputref={feeRefs.current[i]} remove={remove} {...fee} />;

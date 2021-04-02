@@ -47,7 +47,7 @@ export const Valuation = () => {
     if (valuationCostWithDeductible === undefined) payload.valuationCostWithDeductible = 0;
     if (shipmentValue === undefined) payload.shipmentValue = 0;
     if (estimatedWeight === undefined) payload.estimatedWeight = 0;
-    dispatch({ type: "fieldsUpdate", payload });
+    if (Object.keys(payload).length !== 0) dispatch({ type: "fieldsUpdate", payload });
   }, [
     valuation,
     valuationCost,

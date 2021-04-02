@@ -1,5 +1,5 @@
 import React, { useContext, useReducer, createContext, useEffect } from "react";
-import { defaultMove } from "../../utils/defaultMove";
+// import { defaultMove } from "../../utils/defaultMove";
 import { money_round, convertToHHMM, timeToDecimal } from "../../utils/helperFunctions";
 // import { useKeyPress } from "../../utils/useKeyPress";
 // const small = useKeyPress("q");
@@ -41,6 +41,7 @@ const useMoveDispatch = () => {
 };
 
 const moveReducer = (state, { field, value = "", type, groupName, payload, id = null }) => {
+  console.log({ field, type, payload, id, value });
   if (!type && field) {
     return {
       ...state,
@@ -57,7 +58,7 @@ const moveReducer = (state, { field, value = "", type, groupName, payload, id = 
         };
       }
       case "groupUpdate": {
-        if (!id || !groupName) return { ...state };
+        if (!id || !groupName || !group) return { ...state };
         return {
           ...state,
           [groupName]: group?.find((g) => g.id === id)
@@ -143,8 +144,12 @@ const MoveProvider = ({ children }) => {
     isTravelFeeFixed,
     travelFee,
     totalValuation,
+    cubicWeight,
     // adjustment,
     netWeight,
+    grossWeight,
+    tareWeight,
+    weightType,
     mileageRate,
     totalMovingCharges,
     totalAmountPaid,
@@ -189,8 +194,9 @@ const MoveProvider = ({ children }) => {
     dispatch({
       type: "fieldsUpdate",
       payload: {
-        valuationCost: Math.ceil((shipmentValue / 100) * valuationRate * 100) / 100,
-        valuationCostWithDeductible: Math.ceil((shipmentValue / 100) * valuationRateWithDeductible * 100) / 100,
+        valuationCost: Math.ceil((Number(shipmentValue) / 100) * Number(valuationRate) * 100) / 100,
+        valuationCostWithDeductible:
+          Math.ceil((Number(shipmentValue) / 100) * Number(valuationRateWithDeductible) * 100) / 100,
       },
     });
   }, [shipmentValue, valuationRate, valuationRateWithDeductible, dispatch]);
@@ -200,28 +206,28 @@ const MoveProvider = ({ children }) => {
     // if (shipmentValue < estimatedWeight * 5) {
     dispatch({
       field: "shipmentValue",
-      value: estimatedWeight * 5,
+      value: Number(estimatedWeight) * 5,
     });
     // }
   }, [estimatedWeight, dispatch]);
 
   /*########## TOTAL MATERIALS ##########*/
   useEffect(() => {
-    dispatch({
-      field: "totalMaterials",
-      value:
-        jobType === "flatRate" && flatIsMaterialsIncluded === true
-          ? "0"
-          : materials.reduce((sum, { units = 0, rate = 0 }) => sum + Number(units) * Number(rate), 0),
-    });
+    // dispatch({
+    //   field: "totalMaterials",
+    //   value:
+    //     jobType === "flatRate" && flatIsMaterialsIncluded === true
+    //       ? "0"
+    //       : materials.reduce((sum, { units = 0, rate = 0 }) => sum + Number(units) * Number(rate), 0),
+    // });
   }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
 
   /*########## TOTAL MISC FEES ##########*/
   useEffect(() => {
-    dispatch({
-      field: "totalMiscFees",
-      value: miscFees.reduce((sum, { value = 0, selected = false }) => sum + (selected ? Number(value) : 0), 0),
-    });
+    // dispatch({
+    //   field: "totalMiscFees",
+    //   value: miscFees.reduce((sum, { value = 0, selected = false }) => sum + (selected ? Number(value) : 0), 0),
+    // });
   }, [miscFees, flatIsMaterialsIncluded, dispatch]);
 
   /*########## TOTAL HOURS ##########*/
@@ -231,33 +237,51 @@ const MoveProvider = ({ children }) => {
     const breaks = timeToDecimal(breakTime);
 
     if (begin > finish) finish += 12;
+    const th = finish - begin - breaks;
 
     dispatch({
       field: "totalHours",
-      value: convertToHHMM(finish - begin - breaks),
+      value: convertToHHMM(th >= 0 ? th : 0),
     });
   }, [totalHours, startTime, endTime, arriveTime, departTime, breakTime, isTravelFeeFixed, dispatch]);
 
   /*########## TRAVEL FEE ##########*/
   useEffect(() => {
-    dispatch({
-      field: "travelFee",
-      value: (Number(hourlyRate) * Number(travelTime)).toString(),
-    });
+    let value = "0";
+    const field = "travelfee";
+
+    if (!!hourlyRate && !!travelTime) value = (Number(hourlyRate) * Number(travelTime)).toString();
+
+    dispatch({ field, value });
   }, [travelTime, hourlyRate, dispatch]);
+  useEffect(() => {
+    let value = 0;
+    const field = "netWeight";
+
+    if (!!weightType && !!cubicWeight && weightType === "cubicWeight") {
+      value = cubicWeight;
+    }
+
+    if (!!weightType && weightType === "weightTicket") {
+      const diff = Number(!!grossWeight ? grossWeight : 0) - Number(!!tareWeight ? tareWeight : 0);
+      value = diff > 0 ? diff : 0;
+    }
+    dispatch({ field, value });
+  }, [weightType, cubicWeight, netWeight, grossWeight, tareWeight, dispatch]);
 
   /*########## TOTAL TRANSPORTATION ##########*/
   useEffect(() => {
-    let value;
+    let value = 0;
     const field = "totalTransportation";
 
-    if (jobType === "flatRate") value = Number(flatAmount).toString();
-    if (jobType === "local")
-      value = (Number(timeToDecimal(totalHours)) * Number(hourlyRate) + isTravelFeeFixed
-        ? Number(travelFee)
-        : 0
-      ).toString();
-    if (jobType === "longDistance") value = (Number(netWeight) * Number(mileageRate)).toString();
+    if (jobType === "flatRate" && !!flatAmount) value = Number(flatAmount);
+    if (jobType === "local" && !!hourlyRate && !!totalHours) {
+      console.log({ hourlyRate, totalHours, isTravelFeeFixed, travelFee });
+      value = Number(timeToDecimal(totalHours)) * Number(hourlyRate);
+      if (!!isTravelFeeFixed && !!travelFee) value += Number(travelFee);
+    }
+    if (jobType === "longDistance" && !!netWeight && !!mileageRate) value = Number(netWeight) * Number(mileageRate);
+    value.toString();
 
     dispatch({ field, value });
   }, [jobType, flatAmount, totalHours, hourlyRate, netWeight, mileageRate, travelFee, isTravelFeeFixed, dispatch]);
@@ -266,12 +290,7 @@ const MoveProvider = ({ children }) => {
   useEffect(() => {
     dispatch({
       field: "subtotal",
-      value: (
-        Number(totalTransportation) +
-        Number(totalMiscFees) +
-        Number(totalMaterials) +
-        Number(totalValuation)
-      ).toString(),
+      value: sum([totalTransportation, totalMiscFees, totalMaterials, totalValuation]).toString(),
     });
   }, [
     totalTransportation,
@@ -337,3 +356,11 @@ const MoveProvider = ({ children }) => {
 };
 
 export { MoveProvider, useMove, useMoveDispatch };
+
+function sum(arr) {
+  if (!!arr) return 0;
+  const reducer = (accumulator, currentValue) => (!!currentValue ? accumulator + Number(currentValue) : accumulator);
+  const sumIs = arr.reduce(reducer);
+  console.log({ sumIs });
+  return sumIs;
+}

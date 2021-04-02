@@ -1,10 +1,17 @@
+import React from "react";
 import { nanoid } from "nanoid";
 import { useCallback, useState } from "react";
 import { mergeDefaultWProvider } from "./helperFunctions";
 import { vibrate } from "./vibrate";
 
-export const useGroup = (groupName, defaultState, providerState, dispatch, addValues) => {
+export const useGroup = (groupName, defaultState, providerState, dispatch) => {
   const [group, setGroup] = useState(mergeDefaultWProvider(defaultState, providerState));
+
+  // React.useEffect(() => {
+  //   if (!!providerState) {
+  //     setGroup(defaultState);
+  //   }
+  // }, [providerState, setGroup, defaultState]);
 
   const update = useCallback(
     (id, data = {}) => {
