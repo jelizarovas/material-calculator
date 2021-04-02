@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Input } from "../Inputs/Input";
 import { Timelapse, HourglassEmpty, Restore, Update, Timer, AlarmOn } from "@material-ui/icons/";
 

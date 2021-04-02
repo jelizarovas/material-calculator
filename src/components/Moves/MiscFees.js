@@ -11,7 +11,7 @@ export const MiscFees = ({ groupName = "miscFees", showMoreDefault = true }) => 
   const move = useMove();
   const dispatch = useMoveDispatch();
 
-  const { totalMiscFees, miscFees } = move;
+  const { totalMiscFees = 0, miscFees = [] } = move;
   const [fees, , update, add, remove, clear] = useGroup(groupName, defaultMiscFees, miscFees, dispatch);
 
   const [showMore, setShowOnlySelected] = React.useState(showMoreDefault);

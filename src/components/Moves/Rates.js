@@ -1,18 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Input } from "../Inputs/Input";
-import {
-  AccessTime,
-  SettingsEthernet,
-  LocalShippingOutlined,
-  LocalShippingTwoTone,
-  FitnessCenter,
-  LocalOffer,
-  LocalShipping,
-  CreditCard,
-  LocalOfferTwoTone,
-  SettingsOverscan,
-  Receipt,
-} from "@material-ui/icons/";
+import React, { useEffect } from "react";
+import { AccessTime, LocalShipping, CreditCard, LocalOfferTwoTone } from "@material-ui/icons/";
 import { SectionTitle } from "../Layout/SectionTitle";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
@@ -31,18 +18,7 @@ export const Rates = () => {
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
-  const {
-    totalTransportation,
-    jobType,
-    flatAmount,
-    distance,
-    grossWeight,
-    tareWeight,
-    netWeight,
-    mileageRate,
-
-    weightType,
-  } = client;
+  const { totalTransportation, jobType } = client;
 
   useEffect(() => {
     if (!jobType)

@@ -213,6 +213,11 @@ const MoveProvider = ({ children }) => {
 
   /*########## TOTAL MATERIALS ##########*/
   useEffect(() => {
+    // let value = 0;
+    // if (!!jobType && jobType === "flatRate" && !!flatIsMaterialsIncluded && flatIsMaterialsIncluded === true) {
+    //   value = 0
+    // }
+    // if (!!materials) {
     // dispatch({
     //   field: "totalMaterials",
     //   value:
@@ -220,6 +225,7 @@ const MoveProvider = ({ children }) => {
     //       ? "0"
     //       : materials.reduce((sum, { units = 0, rate = 0 }) => sum + Number(units) * Number(rate), 0),
     // });
+    // }
   }, [materials, jobType, flatIsMaterialsIncluded, dispatch]);
 
   /*########## TOTAL MISC FEES ##########*/
