@@ -39,7 +39,7 @@ export const Estimate = () => {
         name="estimateIsBinding"
         value={estimateIsBinding}
         buttons={buttons}
-        vertical={true}
+        // vertical={true}
       />
       <SignButton label="initial" />
       {/* <div>

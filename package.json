@@ -9,6 +9,8 @@
     "@material-ui/icons": "^4.11.2",
     "@mikecousins/react-pdf": "^5.5.1",
     "@reduxjs/toolkit": "^1.5.0",
+    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/stripe-js": "^1.13.2",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",

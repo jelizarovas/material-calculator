@@ -1,6 +1,7 @@
 import React from "react";
 import { PaymentType } from "./PaymentType";
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
+import { Card } from "./Card";
 
 import { Input } from "../Inputs/Input";
 
@@ -26,6 +27,7 @@ export const Payment = () => {
         }}
         placeholder="Total Amount Paid"
       />
+      {paymentOption && paymentOption === "card" && <Card />}
     </div>
   );
 };
