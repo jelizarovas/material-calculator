@@ -54,3 +54,40 @@ tbody tr:nth-child(odd) {
   background-color: #f5f5f5;
   /* color: #fff; */
 }
+
+.ware-app {
+  font-family: sans-serif;
+}
+
+/** add ware **/
+.add-ware {
+  margin-left: 0.5rem;
+}
+
+/** ware list **/
+.ware-list {
+  margin-top: 1rem;
+  text-align: left;
+  list-style: none;
+}
+
+/** ware item **/
+.ware-item {
+  font-family: monospace;
+  cursor: pointer;
+  line-height: 1.5;
+}
+.ware-item__text--completed {
+  text-decoration: line-through;
+  color: lightgray;
+}
+
+/** visibility filters **/
+.filter {
+  padding: 0.3rem 0;
+  margin: 0 0.3rem;
+  cursor: pointer;
+}
+.filter--active {
+  border-bottom: 1px solid black;
+}

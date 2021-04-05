@@ -14,8 +14,8 @@ import { Paramount } from "./components/Paramount/Paramount";
 import { Dispatch } from "./components/Dispatch/Dispatch";
 import { Job } from "./components/Dispatch/Job";
 
-import { Warehouse } from "./components/Warehouse/Warehouse";
-import { Ware } from "./components/Warehouse/Ware";
+import Warehouse from "./components/Warehouse/Warehouse";
+import Ware from "./components/Warehouse/Ware";
 
 import { Tools } from "./components/Tools/Tools";
 import { Tool } from "./components/Tools/Tool";
