@@ -14,6 +14,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/storage";
 import "firebase/firestore"; // <- needed if using firestore
 import "firebase/functions"; // <- needed if using httpsCallable
 import { createStore, combineReducers } from "redux";
@@ -36,8 +37,10 @@ const rrfConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // Initialize other services on firebase instance
-firebase.firestore(); // <- needed if using firestore
-firebase.functions(); // <- needed if using httpsCallable
+const projectFirestore = firebase.firestore(); // <- needed if using firestore
+const projectFunctions = firebase.functions(); // <- needed if using httpsCallable
+const projectStorage = firebase.storage();
+const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 
 // Add firebase to reducers
 const rootReducer = combineReducers({
@@ -74,3 +77,5 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+export { projectStorage, projectFirestore, projectFunctions, timestamp };
