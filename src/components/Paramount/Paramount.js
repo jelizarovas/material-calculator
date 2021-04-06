@@ -3,11 +3,13 @@ import { FieldsList } from "./FieldsList";
 import { PacketList } from "./PacketList";
 import { PreviewPDF } from "./PreviewPDF";
 import { DndProvider } from "react-dnd";
+import { nanoid } from "nanoid";
 // import { HTML5Backend } from "react-dnd-html5-backend";
 import MultiBackend from "react-dnd-multi-backend";
 import HTML5toTouch from "react-dnd-multi-backend/dist/esm/HTML5toTouch";
 import { useDrop, useDrag } from "react-dnd";
 import update from "immutability-helper";
+import { Clear } from "@material-ui/icons";
 
 const styles = {
   width: "612px",
@@ -29,6 +31,7 @@ const fieldExample = {
 };
 
 export const Paramount = () => {
+  const [pdf, setPdf] = useState(null);
   const [fields, setDields] = useState([fieldExample]);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const getCoordinates = (e) => {
@@ -42,7 +45,7 @@ export const Paramount = () => {
 
   return (
     <div className="flex  justify-around items-start ">
-      <PacketList />
+      <PacketList pdf={pdf} setPdf={setPdf} />
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <FieldsList />
         {/* <div className="flex">{`x: ${coordinates.x}, y: ${coordinates.y}`}</div> */}
@@ -50,8 +53,7 @@ export const Paramount = () => {
           DROPZONE */}
         {/* </Dropzone> */}
         {/* <GlobalBox /> */}
-        <LocalBox />
-        <Box />
+        <LocalBox pdf={pdf} />
       </DndProvider>
       {/* <PreviewPDF /> */}
     </div>
@@ -107,11 +109,12 @@ export const Dropzone = (props) => {
 //   return <div ref={ref} className="GlobalBox" />;
 // }
 
-function LocalBox() {
+function LocalBox({ pdf }) {
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 80, title: "Drag me around" },
     b: { top: 180, left: 20, title: "Drag me too" },
   });
+
   const moveBox = useCallback(
     (id, left, top) => {
       setBoxes(
@@ -125,13 +128,23 @@ function LocalBox() {
     [boxes, setBoxes]
   );
 
+  const handleDelete = (id) => {
+    return (e) => {
+      setBoxes((boxes) => {
+        console.log(boxes[id]);
+        return boxes;
+      });
+    };
+  };
+
   const ref = useLocalDrop(moveBox, setBoxes);
   return (
     <div ref={ref} className="LocalBox bg-purple-900 relative" style={styles}>
+      <PreviewPDF pdf={pdf} />
       {Object.keys(boxes).map((key) => {
         const { left, top, title } = boxes[key];
         return (
-          <Box key={key} id={key} left={left} top={top} hideSourceOnDrag={true}>
+          <Box key={key} id={key} left={left} top={top} hideSourceOnDrag={true} handleDelete={handleDelete}>
             {title}
           </Box>
         );
@@ -140,7 +153,7 @@ function LocalBox() {
   );
 }
 
-const Box = ({ id, left, top, hideSourceOnDrag = true, children }) => {
+const Box = ({ id, left, top, hideSourceOnDrag = true, children, handleDelete }) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: "box",
@@ -155,10 +168,19 @@ const Box = ({ id, left, top, hideSourceOnDrag = true, children }) => {
   if (isDragging && hideSourceOnDrag) {
     return <div ref={drag} />;
   }
+
   return (
-    <div ref={drag} className="absolute bg-green-500 text-white" style={{ left, top }} role="Box">
-      {children}
-    </div>
+    <button
+      ref={drag}
+      className="absolute bg-green-500 text-white text-xs p-1 rounded-sm cursor-pointer"
+      style={{ left, top }}
+      role="Box"
+    >
+      <span>{children}</span>
+      <span className="m-1 hover:text-gray-300" onClick={handleDelete(id)}>
+        <Clear className="p-1" />
+      </span>
+    </button>
   );
 };
 
@@ -176,7 +198,7 @@ function useLocalDrop(moveBox, setBoxes) {
           const x = offset.x - dropTargetXy.left;
           const y = offset.y - dropTargetXy.top;
 
-          setBoxes((b) => ({ ...b, [item.id]: { title: item.name, left: x, top: y } }));
+          setBoxes((b) => ({ ...b, [nanoid(6)]: { title: item.name, fieldId: item.id, left: x, top: y } }));
           return undefined;
         }
       }

@@ -6,6 +6,11 @@ const fields = [
   { name: "Phone Number", id: "5t4e" },
   { name: "Email", id: "ert34" },
   { name: "Origin Address", id: "asdf4" },
+  { name: "Destination Address", id: "asdasd4f4" },
+  { name: "Reference Number", id: "y654hr" },
+  { name: "Signature", id: "sdvcxc" },
+  { name: "Initials", id: "gre676" },
+  { name: "Date", id: "gre676" },
 ];
 
 export const FieldsList = (props) => {

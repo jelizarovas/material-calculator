@@ -66,7 +66,7 @@ function App() {
       {/* </div> */}
       <div className="container relative mx-auto bg-gray-100 rounded-b-lg shadow-2xl">
         <Switch>
-          <Redirect exact from="/" to="/m/R2tpMl/client" />
+          <Redirect exact from="/" to="/p/R2tpMl/" />
           <Redirect exact from="/materials" to="/t/materials" />
           <Redirect exact from="/bol" to="/t/coordinates" />
           <Redirect exact from="/bingo" to="/t/loadchart" />

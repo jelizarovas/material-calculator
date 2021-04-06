@@ -14,6 +14,8 @@ export const PreviewPDF = memo(({ pdf } = {}) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
+  const url = pdf?.url || process.env.PUBLIC_URL + "/pdf/bol-sfm-fonts.pdf";
+
   const getCoordinates = (e) => {
     console.log("getcoordinates");
     var rect = e.target.getBoundingClientRect();
@@ -39,7 +41,7 @@ export const PreviewPDF = memo(({ pdf } = {}) => {
   return (
     <div>
       <Document
-        file={data ? { data } : process.env.PUBLIC_URL + "/pdf/bol-sfm-fonts.pdf"}
+        file={data ? { data } : url}
         onLoadSuccess={onDocumentLoadSuccess}
         renderMode="canvas"
         onClick={getCoordinates}
