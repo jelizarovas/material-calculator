@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import { Moves } from "./components/Moves/Moves";

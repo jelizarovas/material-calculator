@@ -1,6 +1,7 @@
 import { PictureAsPdf } from "@material-ui/icons";
-import React from "react";
+import React, { useState } from "react";
 import { SectionTitle } from "../Layout/SectionTitle";
+import { UploadForm } from "./UploadForm";
 
 const items = [
   {
@@ -36,6 +37,8 @@ const items = [
 ];
 
 export const PacketList = ({ pdf, setPdf }) => {
+  const [customPdf, setCustomPdf] = useState([]);
+
   const onClick = (item) => {
     return (e) => {
       setPdf((pdf) => {
@@ -57,8 +60,8 @@ export const PacketList = ({ pdf, setPdf }) => {
       </div>
       <div>
         <SectionTitle title="Unique Paperwork" hidePlus={true} />
-        <span></span>
-        {/* <UploadForm /> */}
+        {!!customPdf && customPdf.map((pdf, i) => <span>{pdf?.name}</span>)}
+        <UploadForm customPdf={customPdf} setCustomPdf={setCustomPdf} />
       </div>
     </div>
   );
