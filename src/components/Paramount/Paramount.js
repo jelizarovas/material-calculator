@@ -32,7 +32,11 @@ const fieldExample = {
 
 export const Paramount = () => {
   const [pdf, setPdf] = useState(null);
-  const [fields, setDields] = useState([fieldExample]);
+  const [fields, setFields] = useState([fieldExample]);
+  const [boxes, setBoxes] = useState({
+    a: { top: 20, left: 80, title: "Drag me around" },
+    b: { top: 180, left: 20, title: "Drag me too" },
+  });
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const getCoordinates = (e) => {
     console.log("getcoordinates");
@@ -53,7 +57,7 @@ export const Paramount = () => {
           DROPZONE */}
         {/* </Dropzone> */}
         {/* <GlobalBox /> */}
-        <LocalBox pdf={pdf} />
+        <LocalBox pdf={pdf} boxes={boxes} setBoxes={setBoxes} />
       </DndProvider>
       {/* <PreviewPDF /> */}
     </div>
@@ -109,12 +113,7 @@ export const Dropzone = (props) => {
 //   return <div ref={ref} className="GlobalBox" />;
 // }
 
-function LocalBox({ pdf }) {
-  const [boxes, setBoxes] = useState({
-    a: { top: 20, left: 80, title: "Drag me around" },
-    b: { top: 180, left: 20, title: "Drag me too" },
-  });
-
+function LocalBox({ pdf, boxes, setBoxes }) {
   const moveBox = useCallback(
     (id, left, top) => {
       setBoxes(
@@ -166,17 +165,19 @@ const Box = ({ id, left, top, hideSourceOnDrag = true, children, handleDelete })
   );
 
   if (isDragging && hideSourceOnDrag) {
-    return <div ref={drag} />;
+    return <div ref={drag}>t</div>;
   }
 
   return (
     <button
       ref={drag}
-      className="absolute bg-green-500 text-white text-xs p-1 rounded-sm cursor-pointer"
+      className="absolute bg-green-500 text-white text-xs px-1 rounded-sm cursor-pointer"
       style={{ left, top }}
       role="Box"
     >
-      <span>{children}</span>
+      <span>
+        {children} [{left.toFixed(1)}, {(792 - Number(top)).toFixed(1)}]
+      </span>
       <span className="m-1 hover:text-gray-300" onClick={handleDelete(id)}>
         <Clear className="p-1" />
       </span>
