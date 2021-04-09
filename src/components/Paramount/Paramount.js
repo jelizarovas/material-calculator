@@ -10,6 +10,7 @@ import HTML5toTouch from "react-dnd-multi-backend/dist/esm/HTML5toTouch";
 import { useDrop, useDrag } from "react-dnd";
 import update from "immutability-helper";
 import { Clear } from "@material-ui/icons";
+import { NavLink, useRouteMatch } from "react-router-dom";
 
 const styles = {
   width: "612px",
@@ -30,6 +31,15 @@ const fieldExample = {
   value: "Arnas Jelizarovas",
 };
 
+const urls = ({ path, url }) => ({
+  current: path,
+  redirect: `${url}/client`,
+
+  ...Object.fromEntries(
+    ["type", "contact", "prepdocs", "schedule", "assign", "overview"].map((u) => [u, `${path}/${u}`])
+  ),
+});
+
 export const Paramount = () => {
   const [pdf, setPdf] = useState(null);
   const [fields, setFields] = useState([fieldExample]);
@@ -49,6 +59,7 @@ export const Paramount = () => {
 
   return (
     <div className="flex  justify-around items-start ">
+      <TaskList />
       <PacketList pdf={pdf} setPdf={setPdf} />
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <FieldsList />
@@ -232,3 +243,40 @@ function useLocalDrop(moveBox, setBoxes) {
 
 //   return dropTarget;
 // }
+
+const TaskList = () => {
+  const [links] = useState(urls(useRouteMatch()));
+
+  return (
+    <div>
+      <h1>Task List</h1>
+      <ul>
+        <TaskLink to="type" text="Job Type" />
+
+        <TaskLink to="contact" text="Personal Info" />
+
+        <TaskLink to="prep" text="Prepare Paperwork" />
+
+        <TaskLink to="schedule" text="Schedule" />
+
+        <TaskLink to="assign" text="Assign Crew" />
+      </ul>
+    </div>
+  );
+};
+
+const TaskLink = ({ to, text, onClick }) => {
+  let { url } = useRouteMatch();
+  return (
+    <li className="px-2 nav-item">
+      <NavLink
+        className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug  hover:opacity-75 ml-2 "
+        to={`${url}/${to}`}
+        activeClassName="text-red-500"
+        // replace
+      >
+        {text}
+      </NavLink>
+    </li>
+  );
+};
