@@ -11,6 +11,7 @@ import { useDrop, useDrag } from "react-dnd";
 import update from "immutability-helper";
 import { Clear } from "@material-ui/icons";
 import { NavLink, useRouteMatch } from "react-router-dom";
+import { fillPDF } from "../../utils/fillPDF";
 
 const styles = {
   width: "612px",
@@ -57,10 +58,30 @@ export const Paramount = () => {
     // console.log("Left? : " + x + " ; Top? : " + -(y - 792) + ".");
   };
 
+  const pdfize = async (e) => {
+    if (!!pdf) {
+      const newPdf = await fillPDF({ url: pdf?.url });
+      setPdf((file) => ({ ...file, data: newPdf }));
+    }
+  };
+
   return (
     <div className="flex  justify-around items-start ">
       <TaskList />
-      <PacketList pdf={pdf} setPdf={setPdf} />
+      <div>
+        <PacketList pdf={pdf} setPdf={setPdf} />
+        <button onClick={pdfize} className="bg-purple-700 text-white p-2 rounded-md">
+          PDFize
+        </button>
+        <button
+          onClick={() => {
+            console.log(pdf);
+          }}
+          className="bg-purple-700 text-white p-2 rounded-md"
+        >
+          clg
+        </button>
+      </div>
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <FieldsList />
         {/* <div className="flex">{`x: ${coordinates.x}, y: ${coordinates.y}`}</div> */}

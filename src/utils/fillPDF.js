@@ -1,21 +1,34 @@
 import { PDFDocument } from "pdf-lib";
+import download from "downloadjs";
 
 //pass pdf with url key, or array data, with
 //item can have following keys: type[text, signature, formField], page, text, x, y, size
 
-export async function fillPDF(pdf, data) {
-  if (!url || !data) return undefined;
-  const { url } = pdf;
-  const formPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
+const fakeData = [
+  {
+    type: "text",
+    page: 0,
+    text: "Jamming",
+    x: 200,
+    y: 200,
+    size: 50,
+  },
+];
 
+export async function fillPDF(pdf, data = fakeData) {
+  console.log({ pdf, data });
+  const { url } = pdf;
+  if (!url || !data) return undefined;
+  const formPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
+  console.log({ formPdfBytes });
   const pdfDoc = await PDFDocument.load(formPdfBytes);
 
   const pages = pdfDoc.getPages();
   const form = pdfDoc.getForm();
 
-  const setFromField = ({ pdfField, text, condition = false }) => {
-    if (!pdfField || !value || condition) return;
-    if (Array.isArray(value)) value = value.join(", ");
+  const setFormField = ({ pdfField, text, condition = false }) => {
+    if (!pdfField || !text || condition) return;
+    if (Array.isArray(text)) text = text.join(", ");
     return form.getTextField(pdfField).setText(text.toString());
   };
 
@@ -28,6 +41,7 @@ export async function fillPDF(pdf, data) {
 
   const setTextField = ({ text, x, y, size = 10, page = 0 }) => {
     if (!text || !x || !y) return;
+    console.log("setting trext");
     return pages[page].drawText(text, { x, y, size });
   };
 
@@ -41,5 +55,6 @@ export async function fillPDF(pdf, data) {
 
   form.flatten();
   const pdfBytes = await pdfDoc.save();
+  // download(pdfBytes, `test pdf .pdf`, "application/pdf");
   return pdfBytes;
 }

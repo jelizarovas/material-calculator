@@ -1,20 +1,17 @@
 import React, { useState, memo } from "react";
-import { getFormattedDate } from "../../utils/helperFunctions";
-import download from "downloadjs";
 import { Document, Page, pdfjs } from "react-pdf";
-import { fillBOLForm } from "../../utils/fillBOLForm";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export const PreviewPDF = memo(({ pdf } = {}) => {
+  console.log("previewRerender");
+  // const { url = process.env.PUBLIC_URL + "/pdf/bol-sfm-fonts.pdf" } = pdf;
   const [data, setData] = useState(null);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   //   const hasMovedCursor = typeof x === "number" && typeof y === "number";
 
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-
-  const url = pdf?.url || process.env.PUBLIC_URL + "/pdf/bol-sfm-fonts.pdf";
 
   const getCoordinates = (e) => {
     console.log("getcoordinates");
@@ -38,10 +35,12 @@ export const PreviewPDF = memo(({ pdf } = {}) => {
     setNumPages(numPages);
   }
 
+  // if (!!pdf?.data) return <div>no data</div>;
+
   return (
     <div>
       <Document
-        file={data ? { data } : url}
+        file={!!pdf?.data ? { data: pdf.data } : pdf?.url}
         onLoadSuccess={onDocumentLoadSuccess}
         renderMode="canvas"
         onClick={getCoordinates}
