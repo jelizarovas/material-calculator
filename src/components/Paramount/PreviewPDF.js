@@ -38,7 +38,7 @@ export const PreviewPDF = memo(({ pdf } = {}) => {
   // if (!!pdf?.data) return <div>no data</div>;
 
   return (
-    <div>
+    <div className="bg-white p-4 rounded-md">
       <Document
         file={!!pdf?.data ? { data: pdf.data } : pdf?.url}
         onLoadSuccess={onDocumentLoadSuccess}
@@ -50,6 +50,8 @@ export const PreviewPDF = memo(({ pdf } = {}) => {
       <p>
         Page {pageNumber} of {numPages}
       </p>
+      <button onclick={() => setPageNumber((page) => page--)}>prev page</button>
+      <button onclick={() => setPageNumber((page) => page++)}>net page</button>
       <h1>{`coordinate: x: ${coordinates.x}, y: ${coordinates.y}.`}</h1>
     </div>
   );
