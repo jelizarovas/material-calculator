@@ -50,7 +50,9 @@ export const PreviewPDF = memo(({ pdf } = {}) => {
       <p>
         Page {pageNumber} of {numPages}
       </p>
-      <button onclick={() => setPageNumber((page) => page--)}>prev page</button>
+      <button className="p-1" onclick={() => setPageNumber((page) => page--)}>
+        prev page
+      </button>
       <button onclick={() => setPageNumber((page) => page++)}>net page</button>
       <h1>{`coordinate: x: ${coordinates.x}, y: ${coordinates.y}.`}</h1>
     </div>
