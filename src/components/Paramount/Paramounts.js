@@ -84,11 +84,11 @@ export const Paramounts = () => {
 const Search = ({ value = "", setValue }) => {
   const onChange = (e) => setValue(e.target.value);
   return (
-    <div className="bg-white w-80 p-2 m-1 mx-4 rounded-md">
+    <div className="bg-white w-80 p-2 m-1 mx-4 rounded-md flex">
       <span>
         <SearchOutlined />
       </span>
-      <input type="search" onChange={onChange} value={value} className=" pl-2" placeholder="search..." />
+      <input type="search" onChange={onChange} value={value} className="w-full pl-2" placeholder="search..." />
     </div>
   );
 };

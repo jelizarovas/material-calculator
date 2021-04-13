@@ -40,7 +40,7 @@ export const PreviewPDF = memo(() => {
         <button onClick={getPreview} className="bg-purple-600 p-4 rounded-lg text-white">
           {data ? "Update" : "Preview"}
         </button>
-        <button onClick={downloadNow} className="bg-gray-600 p-4 rounded-lg text-white ml-10">
+        <button onClick={downloadNow} className="bg-gray-600 p-4 rounded-lg text-white ml-10 w-[2px]">
           Download
         </button>
       </div>
@@ -52,6 +52,7 @@ export const PreviewPDF = memo(() => {
       >
         <Page pageNumber={pageNumber} className="flex" />
       </Document>
+
       {/* <p>
           Page {pageNumber} of {numPages}
         </p> */}

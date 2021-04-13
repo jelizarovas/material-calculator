@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Switch, useRouteMatch, Redirect, useParams } from "react-router-dom";
 import { Materials } from "./Materials";
 import { Client } from "./Client";
 import { MoveBottomBar } from "./MoveBottomBar";
@@ -9,6 +9,8 @@ import { Estimate } from "./Estimate";
 import { Overview } from "./Overview";
 import { MoveProvider } from "../Providers/MoveProvider";
 import { MiscFees } from "./MiscFees";
+import { useSelector } from "react-redux";
+import { useFirestore } from "react-redux-firebase";
 
 const urls = ({ path, url }) => ({
   current: path,
@@ -21,15 +23,27 @@ const urls = ({ path, url }) => ({
 
 export const Move = () => {
   const [links] = useState(urls(useRouteMatch()));
-  // let { moveId } = useParams();
+  let { moveId } = useParams();
+
+  const move = useSelector(({ firestore: { data } }) => data.moves && data.moves[moveId]);
+  const firestore = useFirestore();
+
+  function toggleDone() {
+    firestore.update(`moves/${moveId}`, { done: !move.done });
+  }
+
+  function deleteTodo() {
+    return firestore.delete(`moves/${moveId}`);
+  }
 
   return (
     <>
+      <button onClick={() => console.log(move)}>log it</button>
       <MoveBottomBar />
       <div className="flex flex-col items-stretch w-full sm:w-3/4 mx-auto lg:w-1/2 pb-10">
         <MoveProvider>
           <Switch>
-            <Route exact path={links.current} render={() => <Redirect to={links.redirect} />} />
+            {/* <Route exact path={links.current} render={() => <Redirect to={links.redirect} />} /> */}
 
             <Route path={links.overview}>
               <Overview />

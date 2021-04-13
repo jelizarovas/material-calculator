@@ -54,45 +54,48 @@ function App() {
 
   return (
     <Router basename="/">
-      <Appbar />
-      {/* <div className="p-5 bg-white"> */}
-      {/* {user ? (
+      <div className="min-h-screen w-full flex flex-col justify-between ">
+        <Appbar />
+        {/* <div className="p-5 bg-white"> */}
+        {/* {user ? (
           <div>
             yes user <SignOut />
           </div>
         ) : (
           <SignIn />
         )} */}
-      {/* </div> */}
-      <div className="container relative mx-auto bg-gray-100 rounded-b-lg shadow-2xl">
-        <Switch>
-          <Redirect exact from="/" to="/p/R2tpMl/" />
-          <Redirect exact from="/materials" to="/t/materials" />
-          <Redirect exact from="/bol" to="/t/coordinates" />
-          <Redirect exact from="/bingo" to="/t/loadchart" />
+        {/* </div> */}
+        <div className="flex-grow relative w-full rounded-b-lg shadow-2xl  ">
+          <Switch>
+            <Redirect exact from="/" to="/p/R2tpMl/" />
+            <Redirect exact from="/materials" to="/t/materials" />
+            <Redirect exact from="/bol" to="/t/coordinates" />
+            <Redirect exact from="/bingo" to="/t/loadchart" />
 
-          <Route path="/moves" component={Moves} />
-          <Route path="/m/:moveId" component={Move} />
+            <Route path="/moves" component={Moves} />
+            <Route path="/m/:moveId" component={Move} />
 
-          <Route path="/estimates" component={Estimates} />
-          <Route path="/e/:estimateId" component={Estimate} />
+            <Route path="/estimates" component={Estimates} />
+            <Route path="/e/:estimateId" component={Estimate} />
 
-          <Route path="/paramount" component={Paramounts} />
-          <Route path="/p/:pId" component={Paramount} />
+            <Route path="/paramount" component={Paramounts} />
+            <Route path="/p/:pId" component={Paramount} />
 
-          <Route path="/dispatch" component={Dispatch} />
-          <Route path="/d/:jobId" component={Job} />
+            <Route path="/dispatch" component={Dispatch} />
+            <Route path="/d/:jobId" component={Job} />
 
-          <Route path="/warehouse" component={Warehouse} />
-          <Route path="/w/:wId" component={Ware} />
+            <Route path="/warehouse" component={Warehouse} />
+            <Route path="/w/:wId" component={Ware} />
 
-          <Route path="/tools" component={Tools} />
-          <Route path="/t/:toolId" component={Tool} />
-        </Switch>
+            <Route path="/tools" component={Tools} />
+            <Route path="/t/:toolId" component={Tool} />
+          </Switch>
+          <Switch>
+            <Route path="/m1/:moveId" component={MoveInOne} />
+          </Switch>
+        </div>
+        {/* <div className="w-full h-20 mt-8 ">FOOTER</div> */}
       </div>
-      <Switch>
-        <Route path="/m1/:moveId" component={MoveInOne} />
-      </Switch>
     </Router>
   );
 }
