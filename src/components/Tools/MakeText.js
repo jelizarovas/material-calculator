@@ -1,4 +1,4 @@
-import { AccessTime, CreditCard, DirectionsWalk, Message, Phone, Save } from "@material-ui/icons";
+import { AccessTime, CreditCard, Delete, DirectionsWalk, Edit, Message, Phone, Save } from "@material-ui/icons";
 import React, { useState, useEffect } from "react";
 import { ButtonSelect } from "../Inputs/ButtonSelect";
 import { Input } from "../Inputs/Input";
@@ -165,7 +165,7 @@ const ListSMS = ({ handleEdit }) => {
   }
 
   return (
-    <div className="sidebar flex flex-col w-full">
+    <div className="sidebar flex flex-col w-full bg-gray-50 mt-4 p-4 rounded-md">
       {sms.map(({ id, ...rest }, ind) => (
         <SMSLink key={`${id}-${ind}`} id={id} handleEdit={handleEdit} {...rest} />
       ))}
@@ -176,9 +176,19 @@ const ListSMS = ({ handleEdit }) => {
 const SMSLink = (props) => {
   const { id, handleEdit, ...rest } = props;
   return (
-    <div onClick={handleEdit(props.id, rest)}>
-      {JSON.stringify(rest)}
-      {props?.id}
+    <div className="overflow-x-hidden w-full p-2 flex justify-around">
+      <div>Date</div>
+      <div>{rest?.customer}</div>
+      <div>{id}</div>
+      <div className="flex">
+        <div className="px-2 cursor-pointer" onClick={handleEdit(id, rest)}>
+          <Edit />
+        </div>
+        <div className="px-2">
+          <Delete />
+        </div>
+      </div>
+      {/* {JSON.stringify(rest)} */}
     </div>
   );
 };
