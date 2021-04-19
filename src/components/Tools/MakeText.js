@@ -95,6 +95,13 @@ export const MakeText = () => {
         <Input name="phone" Icon={Phone} value={phone} onChange={onChange} placeholder="Text phone number" />
 
         <Input name="customer" Icon={DirectionsWalk} value={customer} onChange={onChange} placeholder="Customer name" />
+        <Input
+          name="scheduledETA"
+          Icon={DirectionsWalk}
+          value={scheduledETA}
+          onChange={onChange}
+          placeholder="scheduledETA"
+        />
         <div className="bg-white mx-2 py-1 rounded-md">
           <ButtonSelect
             name="greeting"
