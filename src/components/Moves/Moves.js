@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   // BrowserRouter as Router,
   // Switch,
@@ -9,7 +9,7 @@ import {
   // useRouteMatch,
 } from "react-router-dom";
 import { nanoid } from "nanoid";
-import faker from "faker";
+// import faker from "faker";
 import { AddCircle, Filter, Search } from "@material-ui/icons";
 
 import { useSelector } from "react-redux";
@@ -45,7 +45,7 @@ const MoveLink = ({ id = "", firstName, lastName, fullName = "", phone = "", ema
 };
 
 export const Moves = () => {
-  const [state, setstate] = useState([]);
+  // const [state, setstate] = useState([]);
 
   const firestore = useFirestore();
   let history = useHistory();
@@ -157,6 +157,6 @@ const Toolbar = ({ newMove }) => {
   );
 };
 
-const MoveItem = (props) => {
-  return <div>{props?.id}</div>;
-};
+// const MoveItem = (props) => {
+//   return <div>{props?.id}</div>;
+// };

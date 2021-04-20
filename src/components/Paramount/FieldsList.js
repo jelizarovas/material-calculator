@@ -25,7 +25,7 @@ export const FieldsList = (props) => {
 };
 
 const ListItem = (props) => {
-  const { name, value, id } = props;
+  const { name, value } = props;
 
   return (
     <Box {...props}>
@@ -64,7 +64,7 @@ export const Box = (props) => {
           } else {
             alertMessage = `You cannot ${dropResult.dropEffect} an item into the ${dropResult.name}`;
           }
-          //   console.log({ monitor });
+          console.log(alertMessage);
         }
       },
       collect: (monitor) => ({

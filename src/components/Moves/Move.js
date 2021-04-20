@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Route, Switch, useRouteMatch, Redirect, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Route, Switch, useRouteMatch, useParams } from "react-router-dom";
 import { Materials } from "./Materials";
 import { Client } from "./Client";
 import { MoveBottomBar } from "./MoveBottomBar";
@@ -10,7 +10,7 @@ import { Overview } from "./Overview";
 import { MoveProvider } from "../Providers/MoveProvider";
 import { MiscFees } from "./MiscFees";
 import { useSelector } from "react-redux";
-import { useFirestore } from "react-redux-firebase";
+// import { useFirestore } from "react-redux-firebase";
 
 const urls = ({ path, url }) => ({
   current: path,
@@ -26,15 +26,15 @@ export const Move = () => {
   let { moveId } = useParams();
 
   const move = useSelector(({ firestore: { data } }) => data.moves && data.moves[moveId]);
-  const firestore = useFirestore();
+  // const firestore = useFirestore();
 
-  function toggleDone() {
-    firestore.update(`moves/${moveId}`, { done: !move.done });
-  }
+  // function toggleDone() {
+  //   firestore.update(`moves/${moveId}`, { done: !move.done });
+  // }
 
-  function deleteTodo() {
-    return firestore.delete(`moves/${moveId}`);
-  }
+  // function deleteTodo() {
+  //   return firestore.delete(`moves/${moveId}`);
+  // }
 
   return (
     <>

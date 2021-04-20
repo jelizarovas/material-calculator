@@ -1,5 +1,5 @@
 import { AccessTime, CreditCard, Delete, DirectionsWalk, Edit, Message, Phone, Save } from "@material-ui/icons";
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { ButtonSelect } from "../Inputs/ButtonSelect";
 import { Input } from "../Inputs/Input";
 import { useHistory, useLocation } from "react-router-dom";
@@ -7,8 +7,8 @@ import { isIOS } from "react-device-detect";
 
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, useFirestore, isLoaded, isEmpty } from "react-redux-firebase";
-import { timestamp } from "../..";
-import { nanoid } from "nanoid";
+// import { timestamp } from "../..";
+// import { nanoid } from "nanoid";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -145,6 +145,7 @@ export const MakeText = () => {
             className="bg-green-500 text-white p-2 px-4 rounded-md"
             href={`sms:${phone}${isIOS ? "&" : "?"}body=${sms}`}
             target="_blank"
+            rel="noreferrer"
           >
             <Message className="mr-2" /> Send text
           </a>
@@ -171,6 +172,7 @@ const smsQuery = {
 const ListSMS = ({ handleEdit }) => {
   let history = useHistory();
   const firestore = useFirestore();
+  console.log(history, firestore);
 
   useFirestoreConnect(() => [smsQuery]);
   const sms = useSelector(({ firestore: { ordered } }) => ordered.sms);

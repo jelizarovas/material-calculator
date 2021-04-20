@@ -18,45 +18,45 @@ const styles = {
   height: "792px",
 };
 
-const fieldExample = {
-  id: "234dss",
-  place: [
-    {
-      pdfId: "asdvxzcvzxcv",
-      pageNum: 1,
-      x: 0,
-      y: 0,
-    },
-  ],
-  name: "Full Name",
-  value: "Arnas Jelizarovas",
-};
+// const fieldExample = {
+//   id: "234dss",
+//   place: [
+//     {
+//       pdfId: "asdvxzcvzxcv",
+//       pageNum: 1,
+//       x: 0,
+//       y: 0,
+//     },
+//   ],
+//   name: "Full Name",
+//   value: "Arnas Jelizarovas",
+// };
 
-const urls = ({ path, url }) => ({
-  current: path,
-  redirect: `${url}/client`,
+// const urls = ({ path, url }) => ({
+//   current: path,
+//   redirect: `${url}/client`,
 
-  ...Object.fromEntries(
-    ["type", "contact", "prepdocs", "schedule", "assign", "overview"].map((u) => [u, `${path}/${u}`])
-  ),
-});
+//   ...Object.fromEntries(
+//     ["type", "contact", "prepdocs", "schedule", "assign", "overview"].map((u) => [u, `${path}/${u}`])
+//   ),
+// });
 
 export const Paramount = () => {
   const [pdf, setPdf] = useState(null);
-  const [fields, setFields] = useState([fieldExample]);
+  // const [fields, setFields] = useState([fieldExample]);
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 80, title: "Drag me around" },
     b: { top: 180, left: 20, title: "Drag me too" },
   });
-  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
-  const getCoordinates = (e) => {
-    console.log("getcoordinates");
-    var rect = e.target.getBoundingClientRect();
-    var x = e.clientX - rect.left; //x position within the element.
-    var y = e.clientY - rect.top; //y position within the element.
-    setCoordinates({ x: x.toFixed(2), y: -(y - 792).toFixed(2) });
-    // console.log("Left? : " + x + " ; Top? : " + -(y - 792) + ".");
-  };
+  // const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+  // const getCoordinates = (e) => {
+  //   console.log("getcoordinates");
+  //   var rect = e.target.getBoundingClientRect();
+  //   var x = e.clientX - rect.left; //x position within the element.
+  //   var y = e.clientY - rect.top; //y position within the element.
+  //   setCoordinates({ x: x.toFixed(2), y: -(y - 792).toFixed(2) });
+  //   // console.log("Left? : " + x + " ; Top? : " + -(y - 792) + ".");
+  // };
 
   const pdfize = async (e) => {
     if (!!pdf) {
@@ -96,20 +96,20 @@ export const Paramount = () => {
   );
 };
 
-const style = {
-  minWidth: "612px",
-  minHeight: "792px",
-};
+// const style = {
+//   minWidth: "612px",
+//   minHeight: "792px",
+// };
 
-function selectBackgroundColor(isActive, canDrop) {
-  if (isActive) {
-    return "darkgreen";
-  } else if (canDrop) {
-    return "darkkhaki";
-  } else {
-    return "#222";
-  }
-}
+// function selectBackgroundColor(isActive, canDrop) {
+//   if (isActive) {
+//     return "darkgreen";
+//   } else if (canDrop) {
+//     return "darkkhaki";
+//   } else {
+//     return "#222";
+//   }
+// }
 export const Dropzone = (props) => {
   // const ref = useLocalDrop(console.log);
   // const ref = useRef();
@@ -205,7 +205,7 @@ const Box = ({ id, left, top, hideSourceOnDrag = true, children, handleDelete })
       ref={drag}
       className="absolute bg-green-500 text-white text-xs px-1 rounded-sm cursor-pointer"
       style={{ left, top }}
-      role="Box"
+      // role="Box"
     >
       <span>
         {children} [{left.toFixed(1)}, {(792 - Number(top)).toFixed(1)}]
@@ -266,7 +266,7 @@ function useLocalDrop(moveBox, setBoxes) {
 // }
 
 const TaskList = () => {
-  const [links] = useState(urls(useRouteMatch()));
+  // const [links] = useState(urls(useRouteMatch()));
 
   return (
     <div>

@@ -3,8 +3,8 @@ import { ProgressBar } from "./ProgressBar";
 
 export const UploadForm = ({ customPdf, setCustomPdf }) => {
   const [file, setFile] = useState(null);
-  const [error, setError] = useState(null);
-  const [url, setUrl] = useState(null);
+  const [error] = useState(null);
+  const [url] = useState(null);
 
   const onUrlAdded = (url) => {
     setCustomPdf((currCustomPdfs) => {
@@ -12,7 +12,7 @@ export const UploadForm = ({ customPdf, setCustomPdf }) => {
     });
   };
 
-  const types = ["image/png", "image/jpeg"];
+  // const types = ["image/png", "image/jpeg"];
 
   const handleChange = (e) => {
     let selected = e.target.files[0];

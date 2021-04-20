@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFirestore, useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
 export const Estimates = () => {

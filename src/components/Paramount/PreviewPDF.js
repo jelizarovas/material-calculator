@@ -6,7 +6,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 export const PreviewPDF = memo(({ pdf } = {}) => {
   console.log("previewRerender");
   // const { url = process.env.PUBLIC_URL + "/pdf/bol-sfm-fonts.pdf" } = pdf;
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   //   const hasMovedCursor = typeof x === "number" && typeof y === "number";
 
