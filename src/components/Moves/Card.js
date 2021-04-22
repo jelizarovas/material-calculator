@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
-import "./card.css";
+// import "./card.css";
 
 const CARD_OPTIONS = {
   iconStyle: "solid",
@@ -38,12 +38,12 @@ const CardField = ({ onChange }) => (
 );
 
 const Field = ({ label, id, type, placeholder, required, autoComplete, value, onChange }) => (
-  <div className="FormRow">
-    <label htmlFor={id} className="FormRowLabel">
+  <div className="FormRow flex items-center  border border-purple-500 my-2 rounded-md">
+    <label htmlFor={id} className="FormRowLabel w-1/5 min-w-max px-3  ">
       {label}
     </label>
     <input
-      className="FormRowInput"
+      className="FormRowInput w-full py-3  pr-4"
       id={id}
       type={type}
       placeholder={placeholder}
@@ -57,7 +57,7 @@ const Field = ({ label, id, type, placeholder, required, autoComplete, value, on
 
 const SubmitButton = ({ processing, error, children, disabled }) => (
   <button
-    className={`SubmitButton ${error ? "SubmitButton--error" : ""}`}
+    className={`SubmitButton px-4 py-2 bg-green-500 text-gray-200 rounded-md  ${error ? "SubmitButton--error" : ""}`}
     type="submit"
     disabled={processing || disabled}
   >

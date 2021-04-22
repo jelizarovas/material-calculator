@@ -52,11 +52,11 @@ export const Paramounts = () => {
   // let { path, url } = useRouteMatch();
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center bg-gray-50 container mx-auto">
       <Search value={filter} setValue={setFilter} />
-      <div className="flex justify-center">
+      <div className="flex justify-center ">
         {/* <h1>Paramounts</h1> */}
-        <table>
+        <table className="w-full">
           <thead className="text-white bg-gray-900 text-center cursor-pointer">
             <tr>
               <th>Id</th>

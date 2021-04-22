@@ -29,7 +29,7 @@ const MoveLink = ({ id = "", firstName, lastName, fullName = "", phone = "", ema
         <Link to={`/m/${id}`}> {id}</Link>
       </div>
       <div>
-        <Link to={`/m/${id}`}>{fullName || firstName + " " + lastName || ""}</Link>
+        <Link to={`/m/${id}`}>{fullName || (!!firstName && !!lastName) ? firstName + " " + lastName : ""}</Link>
       </div>
       <div>
         <Link to={`/m/${id}`}>{email}</Link>
@@ -92,9 +92,16 @@ export const Moves = () => {
   // }, []);
   // let { path, url } = useRouteMatch();
 
+  const search = () => {
+    return console.log("search");
+  };
+  const filter = () => {
+    return console.log("filter");
+  };
+
   return (
     <div className="container bg-white mx-auto  min-h-full flex flex-col items-center pb-4 mb-4">
-      <Toolbar newMove={newMove} />
+      <Toolbar newMove={newMove} filter={filter} search={search} />
       <div className="flex justify-between w-full">
         {/* <h1>Moves</h1> */}
         <div className="sidebar flex flex-col w-full">
@@ -124,7 +131,7 @@ export const Moves = () => {
   );
 };
 
-const Toolbar = ({ newMove }) => {
+const Toolbar = ({ newMove, filter, search }) => {
   return (
     <div className="w-full bg-gray-200 flex justify-between border border-gray-300 mb-2">
       <div className=" flex items-center">
@@ -134,17 +141,17 @@ const Toolbar = ({ newMove }) => {
         </span>
       </div>
       <div className="rightToolbar flex">
-        <button className=" text white p-2 rounded-md  flex items-center px-4 " onClick={newMove}>
-          <span>
-            <Filter className="p-1" />
-          </span>
-          Filter
-        </button>
-        <button className=" text white p-2 rounded-md  flex items-center px-4 " onClick={newMove}>
+        <button className=" text white p-2 rounded-md  flex items-center px-4 " onClick={search}>
           <span>
             <Search className="p-1" />
           </span>
           Search
+        </button>
+        <button className=" text white p-2 rounded-md  flex items-center px-4 " onClick={filter}>
+          <span>
+            <Filter className="p-1" />
+          </span>
+          Filter
         </button>
         <button className=" text white p-2 rounded-md  flex items-center px-4 " onClick={newMove}>
           <span>
