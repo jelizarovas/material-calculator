@@ -86,6 +86,8 @@ export const ABHS = () => {
 
     value = Number(timeToDecimal(totalTime)) * Number(rate);
 
+    if (!!travelFee) value += travelFee;
+
     dispatch({ payload: { total: value } });
   }, [totalTime, rate, dispatch]);
 
