@@ -4,6 +4,7 @@ import { MaterialsWProvider } from "../Moves/Materials";
 import { BillOfLading } from "./BillOfLading";
 import { MaterialsProvider, useMaterialsDispatch, useMaterials } from "../Providers/MaterialsProvider";
 import { MakeText } from "./MakeText";
+import { ABHS } from "./ABHS";
 
 export const ToosWProviders = () => {
   const materials = useMaterials();
@@ -20,6 +21,9 @@ export const ToosWProviders = () => {
         </Route>
         <Route path={`/t/sms`}>
           <MakeText />
+        </Route>
+        <Route path={`/t/abhs`}>
+          <ABHS />
         </Route>
       </Switch>
     </div>

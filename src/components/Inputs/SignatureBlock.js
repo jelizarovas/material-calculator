@@ -8,13 +8,13 @@ export const SignatureBlock = ({ type, name, width = 500, height = 200, dispatch
 
   const clear = () => {
     sigCanvas.current.clear();
-    dispatch({ field: type, value: "" });
+    dispatch({ payload: { [name]: "" } });
   };
 
   const save = () => {
     const url = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
     // setImageURL(url);
-    dispatch({ field: type, value: url });
+    dispatch({ payload: { [name]: url } });
   };
 
   return (
