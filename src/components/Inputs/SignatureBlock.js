@@ -20,13 +20,13 @@ export const SignatureBlock = ({ type, name, width = 500, height = 200, dispatch
   return (
     <div className="m-5 relative">
       <h2>{name}</h2>
-      <div className="rounded-lg p-2 bg-blue-600">
+      <div className="rounded-lg p-2 bg-blue-600 w-full">
         <SignatureCanvas
           penColor="blue"
           canvasProps={{
-            width,
+            width: "100%",
             height,
-            className: "bg-white rounded-lg",
+            className: "bg-white rounded-lg ",
           }}
           onEnd={save}
           ref={sigCanvas}

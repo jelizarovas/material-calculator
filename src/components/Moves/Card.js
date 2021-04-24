@@ -57,7 +57,7 @@ const Field = ({ label, id, type, placeholder, required, autoComplete, value, on
 
 const SubmitButton = ({ processing, error, children, disabled }) => (
   <button
-    className={`SubmitButton px-4 py-2 bg-green-500 text-gray-200 rounded-md  ${error ? "SubmitButton--error" : ""}`}
+    className={`SubmitButton px-4 py-2 bg-green-500 text-gray-200 rounded-md   ${error ? "SubmitButton--error" : ""}`}
     type="submit"
     disabled={processing || disabled}
   >

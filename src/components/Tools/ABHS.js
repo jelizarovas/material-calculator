@@ -64,7 +64,6 @@ export const ABHS = () => {
     download(await abhsFill(state), `ABHS ${getFormattedDate(new Date())}.pdf`, "application/pdf");
   };
 
-  /*########## TOTAL HOURS ##########*/
   useEffect(() => {
     const begin = timeToDecimal(start);
     let finish = timeToDecimal(end);
@@ -80,7 +79,6 @@ export const ABHS = () => {
     });
   }, [start, end, breaks, dispatch]);
 
-  /*########## TOTAL TRANSPORTATION ##########*/
   useEffect(() => {
     let value = 0;
 
@@ -89,7 +87,7 @@ export const ABHS = () => {
     if (!!travelFee) value += travelFee;
 
     dispatch({ payload: { total: value } });
-  }, [totalTime, rate, dispatch]);
+  }, [totalTime, rate, travelFee, dispatch]);
 
   return (
     <div className="container bg-gray-50 p-2 rounded-b-md">
@@ -100,9 +98,11 @@ export const ABHS = () => {
       <Input name="type" value={type} onChange={onChange} Icon={Weekend} label="type" />
       <Input name="date" value={date} onChange={onChange} Icon={Today} label="date" />
       <Input name="crew" value={crew} onChange={onChange} Icon={DirectionsRun} label="crew" />
-      <Input name="start" value={start} onChange={onChange} Icon={Update} label="start" />
+      <div className="flex">
+        <Input name="start" className="w-1/2" value={start} onChange={onChange} Icon={Update} label="start" />
+        <Input name="end" className="w-1/2" value={end} onChange={onChange} Icon={AlarmOn} label="end" />
+      </div>
       <Input name="breaks" value={breaks} onChange={onChange} Icon={HourglassEmpty} label="breaks" />
-      <Input name="end" value={end} onChange={onChange} Icon={AlarmOn} label="end" />
       <Input name="totalTime" value={totalTime} onChange={onChange} Icon={AccessTime} label="total Time" />
       <Input name="rate" value={rate} onChange={onChange} Icon={LocalOffer} label="rate" />
       <Input name="travelFee" value={travelFee} onChange={onChange} Icon={LocalShipping} label="travel Fee" />
