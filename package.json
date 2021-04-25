@@ -38,7 +38,6 @@
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
     "react-firebase-hooks": "^3.0.3",
-    "react-json-view": "^1.21.3",
     "react-pdf": "^5.2.0",
     "react-redux": "^7.2.3",
     "react-redux-firebase": "^3.10.0",
