@@ -10,7 +10,11 @@ export const Estimate = () => {
   // const [hasSigned, setHasSigned] = useState(false);
   const client = useMove();
   const dispatch = useMoveDispatch();
-  const { estimateIsBinding, /*agreedToEstimate, estimateAgreedDate,*/ bindingEstimateExists = true } = client;
+  const {
+    estimateIsBinding,
+    /*agreedToEstimate, estimateAgreedDate,*/ bindingEstimateExists = true,
+    estimateInitial,
+  } = client;
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
@@ -41,7 +45,7 @@ export const Estimate = () => {
         buttons={buttons}
         // vertical={true}
       />
-      <SignButton label="initial" />
+      <SignButton label="initial" dispatch={dispatch} name="estimateInitial" value={estimateInitial} />
       {/* <div>
         <input
           name="agreedToEstimate"
