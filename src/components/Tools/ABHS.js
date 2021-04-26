@@ -112,7 +112,7 @@ export const ABHS = () => {
       <SignatureBlock dispatch={dispatch} type="signature" name="clientSignature" />
 
       <div className="flex justify-center my-4">
-        <button onClick={getPDF} className="px-4 py-2 bg-green-500 text-white rounded-md">
+        <button onClick={getPDF} className="btn">
           Download
         </button>
       </div>
