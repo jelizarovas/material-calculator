@@ -19,6 +19,7 @@ import {
 import { SignatureBlock } from "../Inputs/SignatureBlock";
 import { abhsFill } from "../../utils/abhsFill";
 import download from "downloadjs";
+import { Button } from "../Inputs/Button";
 
 const reducer = (state, { payload }) => {
   if (!payload) return state;
@@ -89,32 +90,39 @@ export const ABHS = () => {
     dispatch({ payload: { total: value } });
   }, [totalTime, rate, travelFee, dispatch]);
 
+  const jobs = [];
+
   return (
-    <div className="container bg-gray-50 p-2 rounded-b-md">
-      <SectionTitle title="ABHS" hidePlus={true} />
-
-      <Input name="reference" value={reference} onChange={onChange} Icon={EmojiPeople} label="Reference" />
-      <Input name="address" value={address} onChange={onChange} Icon={Home} label="address" />
-      <Input name="type" value={type} onChange={onChange} Icon={Weekend} label="type" />
-      <Input name="date" value={date} onChange={onChange} Icon={Today} label="date" />
-      <Input name="crew" value={crew} onChange={onChange} Icon={DirectionsRun} label="crew" />
-      <div className="flex">
-        <Input name="start" className="w-1/2" value={start} onChange={onChange} Icon={Update} label="start" />
-        <Input name="end" className="w-1/2" value={end} onChange={onChange} Icon={AlarmOn} label="end" />
+    <div className="flex">
+      <div className="sidebar bg-gray-300 mx-2 rounded-b-md p-4">
+        <button className>New</button>
+        <SectionTitle title="Jobs" hidePlus={true} />
+        <div id="jobList">{!!jobs ? jobs.map((job, index) => <div>JOB</div>) : <div>No jobs</div>}</div>
       </div>
-      <Input name="breaks" value={breaks} onChange={onChange} Icon={HourglassEmpty} label="breaks" />
-      <Input name="totalTime" value={totalTime} onChange={onChange} Icon={AccessTime} label="total Time" />
-      <Input name="rate" value={rate} onChange={onChange} Icon={LocalOffer} label="rate" />
-      <Input name="travelFee" value={travelFee} onChange={onChange} Icon={LocalShipping} label="travel Fee" />
-      <Input name="total" value={total} onChange={onChange} Icon={AttachMoney} label="total" />
+      <div className="container bg-gray-50 p-2 rounded-b-md">
+        <SectionTitle title="ABHS" hidePlus={true} />
 
-      <SignatureBlock dispatch={dispatch} type="signature" name="crewSignature" />
-      <SignatureBlock dispatch={dispatch} type="signature" name="clientSignature" />
+        <Input name="reference" value={reference} onChange={onChange} Icon={EmojiPeople} label="Reference" />
+        <Input name="address" value={address} onChange={onChange} Icon={Home} label="address" />
+        <Input name="type" value={type} onChange={onChange} Icon={Weekend} label="type" />
+        <Input name="date" value={date} onChange={onChange} Icon={Today} label="date" />
+        <Input name="crew" value={crew} onChange={onChange} Icon={DirectionsRun} label="crew" />
+        <div className="flex">
+          <Input name="start" className="w-1/2" value={start} onChange={onChange} Icon={Update} label="start" />
+          <Input name="end" className="w-1/2" value={end} onChange={onChange} Icon={AlarmOn} label="end" />
+        </div>
+        <Input name="breaks" value={breaks} onChange={onChange} Icon={HourglassEmpty} label="breaks" />
+        <Input name="totalTime" value={totalTime} onChange={onChange} Icon={AccessTime} label="total Time" />
+        <Input name="rate" value={rate} onChange={onChange} Icon={LocalOffer} label="rate" />
+        <Input name="travelFee" value={travelFee} onChange={onChange} Icon={LocalShipping} label="travel Fee" />
+        <Input name="total" value={total} onChange={onChange} Icon={AttachMoney} label="total" />
 
-      <div className="flex justify-center my-4">
-        <button onClick={getPDF} className="btn">
-          Download
-        </button>
+        <SignatureBlock dispatch={dispatch} type="signature" name="crewSignature" />
+        <SignatureBlock dispatch={dispatch} type="signature" name="clientSignature" />
+
+        <div className="flex justify-center my-4">
+          <Button onClick={getPDF} text="Download" />
+        </div>
       </div>
     </div>
   );

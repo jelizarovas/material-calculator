@@ -28,9 +28,9 @@ export const MoveInOne = () => {
 
   return (
     <MoveProvider>
-      <div className="flex flex-col md:flex-row px-2 md:px-0  w-full h-full flex-grow ">
+      <div className="flex flex-col md:flex-row px-0 md:px-0  w-full h-full flex-grow ">
         <div className={colClass}>
-          <div className="bg-white p-2 rounded-md">
+          <div className="bg-gray-100 p-2 rounded-md">
             <ContactInfo />
             <Locations />
             <Dates />

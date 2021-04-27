@@ -3,7 +3,8 @@ import { Input } from "../Inputs/Input";
 import { FitnessCenter, AttachMoney, Star, StarHalf, StarOutline, Edit, Clear } from "@material-ui/icons/";
 import { SectionTitle } from "../Layout/SectionTitle";
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
-import { ButtonSelect } from "../Inputs/ButtonSelect";
+// import { ButtonSelect } from "../Inputs/ButtonSelect";
+import { Radio } from "../Inputs/Radio";
 import { SignButton } from "./SignButton";
 
 export const Valuation = () => {
@@ -25,14 +26,15 @@ export const Valuation = () => {
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
-  const buttons = [
-    { value: "basic", placeholder: "Basic (Free)", Icon: StarOutline },
+  const options = [
+    { value: "basic", name: "Basic (Free)", Icon: StarOutline, price: "Free" },
     {
       value: "replacementWithDeductible",
-      placeholder: `Replacement (w/$300 Ded) ($${valuationCostWithDeductible})`,
+      name: `Replacement (w/$300 Ded)`,
       Icon: StarHalf,
+      price: valuationCostWithDeductible,
     },
-    { value: "replacement", placeholder: `Full Replacement ($${valuationCost})`, Icon: Star },
+    { value: "replacement", name: `Full Replacement`, Icon: Star, price: valuationCost },
   ];
 
   /*########## DEFAULT VALUES ##########*/
@@ -62,34 +64,36 @@ export const Valuation = () => {
   return (
     <>
       <SectionTitle title="Valuation" onClick={toggleShowChangeRate} Icon={showChangeRates ? Clear : Edit} />
-      <div className="flex">
-        <div className="w-1/2 text-center">
+      <div className="flex max-w-md mx-auto space-x-2">
+        <div className="text-center">
           <Input
             name="estimatedWeight"
             value={estimatedWeight}
             onChange={onChange}
             Icon={FitnessCenter}
             placeholder="Estimated Weight"
+            label="Estimated Weight"
             type="number"
             units="lbs."
-            align="center"
+            align="right"
           />
         </div>
-        <div className="w-1/2 relative">
+        <div className="relative">
           <Input
             name="shipmentValue"
             value={shipmentValue}
             onChange={onChange}
             Icon={AttachMoney}
             placeholder="Shipment Value"
+            label="Shipment Value"
             type="number"
-            align="center"
+            align="right"
           />
           {/* https://www.utc.wa.gov/regulatedIndustries/transportation/TransportationDocuments/Tariff%2015-C.PDF */}
           {/* Shipment value is at least $5 per lbs., (val > weight * 5) */}
           {/* //TODO when value 0 - shows 0 and not text  */}
-          {estimatedWeight && Number(estimatedWeight) * 5 > Number(shipmentValue) && (
-            <span className="text-xs text-red-500 flex justify-center absolute top-12 right-12">
+          {!!estimatedWeight && Number(estimatedWeight) * 5 > Number(shipmentValue) && (
+            <span className="text-xs text-red-500 flex justify-center ">
               Min Shimpent Value ${Math.ceil((estimatedWeight * 5) / 100) * 100}
             </span>
           )}
@@ -119,7 +123,9 @@ export const Valuation = () => {
         </div>
       )}
 
-      <ButtonSelect onClick={onChange} name="valuation" value={valuation} buttons={buttons} vertical={true} />
+      {/* <ButtonSelect onClick={onChange} name="valuation" value={valuation} buttons={buttons} vertical={true} /> */}
+
+      <Radio showPrice={true} options={options} groupName="Select valuation type" />
       <SignButton label="initial" />
     </>
   );
@@ -134,7 +140,7 @@ const ValuationRates = ({ name, rate, onChange, min, max, placeholder }) => {
   return (
     <div className="text-xs flex flex-col justify-center text-center">
       <span>{placeholder}</span> <span className="text-sm py-2">${rate}/ 100 lbs.</span>
-      <div class="slidecontainer">
+      <div className="slidecontainer">
         <input
           className="w-full lg:w-1/2"
           name={name}
@@ -143,7 +149,6 @@ const ValuationRates = ({ name, rate, onChange, min, max, placeholder }) => {
           max={max}
           step={1 / 100}
           value={rate}
-          class="slider"
           id="myRange"
           onChange={onChange}
         />

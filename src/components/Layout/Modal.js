@@ -1,49 +1,89 @@
-import React, { useEffect, useImperativeHandle, useState, forwardRef, useCallback } from "react";
-import { createPortal } from "react-dom";
-import "./modal.css";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useRef, useEffect, useState } from "react";
 
-const modalElement = document.getElementById("modal-root");
+export default function MyModal() {
+  const [open, setOpen] = useState(true);
+  const cancelButtonRef = useRef();
 
-export function Modal({ children, fade = false, defaultOpened = false }, ref) {
-  const [isOpen, setIsOpen] = useState(defaultOpened);
+  function closeModal() {
+    setOpen(false);
+  }
 
-  const close = useCallback(() => setIsOpen(false), []);
+  function openModal() {
+    setOpen(true);
+  }
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      open: () => setIsOpen(true),
-      close,
-    }),
-    [close]
-  );
-
-  const handleEscape = useCallback(
-    (event) => {
-      if (event.keyCode === 27) close();
-    },
-    [close]
-  );
-
-  useEffect(() => {
-    if (isOpen) document.addEventListener("keydown", handleEscape, false);
-    return () => {
-      document.removeEventListener("keydown", handleEscape, false);
-    };
-  }, [handleEscape, isOpen]);
-
-  return createPortal(
-    isOpen ? (
-      <div className={`modal ${fade ? "modal-fade" : ""}`}>
-        <div className="modal-overlay" onClick={close} />
-        <span role="button" className="modal-close" aria-label="close" onClick={close}>
-          x
-        </span>
-        <div className="modal-body">{children}</div>
+  return (
+    <>
+      <div className="fixed inset-0 flex items-center justify-center">
+        <button
+          type="button"
+          onClick={openModal}
+          className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        >
+          Open dialog
+        </button>
       </div>
-    ) : null,
-    modalElement
+      <Transition show={open} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          initialFocus={cancelButtonRef}
+          static
+          open={open}
+          onClose={closeModal}
+        >
+          <div className="min-h-screen px-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0" />
+            </Transition.Child>
+
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span className="inline-block h-screen align-middle" aria-hidden="true">
+              &#8203;
+            </span>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  Payment successful
+                </Dialog.Title>
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">
+                    Your payment has been successfully submitted. We’ve sent your an email with all of the details of
+                    your order.
+                  </p>
+                </div>
+
+                <div className="mt-4">
+                  <button
+                    type="button"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    onClick={closeModal}
+                  >
+                    Got it, thanks!
+                  </button>
+                </div>
+              </div>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
   );
 }
-
-export default forwardRef(Modal);

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
-export const SignatureBlock = ({ type, name, width = 500, height = 200, dispatch }) => {
+export const SignatureBlock = ({ type, name, width = 500, height = 200, dispatch = () => {} }) => {
   // const [imageURL, setImageURL] = useState(null);
 
   const sigCanvas = useRef({});
@@ -18,24 +18,28 @@ export const SignatureBlock = ({ type, name, width = 500, height = 200, dispatch
   };
 
   return (
-    <div className="mt-5 w-full relative">
-      <h2>{name}</h2>
-      <div className="rounded-lg p-2 bg-blue-600 ">
-        <SignatureCanvas
-          penColor="blue"
-          canvasProps={{
-            width,
-            height,
-            className: "bg-white rounded-lg",
-          }}
-          onEnd={save}
-          ref={sigCanvas}
-        />
-      </div>
-      <button className="bg-blue-600 p-2 m-2 text-white absolute top-4 right-2 rounded-lg" onClick={clear}>
-        Reset
-      </button>
-      {/* {imageURL ? (
+    <div className="flex flex-col">
+      {/* <h2>{name}</h2> */}
+      <div className=" w-full relative">
+        <div className="rounded-lg p-1 bg-gray-400 bg-opacity-50 ">
+          <SignatureCanvas
+            penColor="blue"
+            canvasProps={{
+              width,
+              height,
+              className: "bg-white rounded-lg",
+            }}
+            onEnd={save}
+            ref={sigCanvas}
+          />
+        </div>
+        <button
+          className="bg-gray-400 bg-opacity-50 no select-none hover:bg-opacity-100 text-xs p-2 m-2 text-white absolute top-0 right-0 rounded-lg"
+          onClick={clear}
+        >
+          Reset
+        </button>
+        {/* {imageURL ? (
           <img
             src={imageURL}
             alt="my signature"
@@ -47,6 +51,7 @@ export const SignatureBlock = ({ type, name, width = 500, height = 200, dispatch
             }}
           />
         ) : null} */}
+      </div>
     </div>
   );
 };

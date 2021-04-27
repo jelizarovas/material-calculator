@@ -40,42 +40,30 @@ export const Input = (props) => {
   const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
   return (
-    <div className="mt-2">
-      {!!label && <label className="text-xs pl-4 uppercase ">{label}</label>}
-      <div className="relative text-gray-600 focus-within:text-red-400 w-100 mx-2 ">
-        {(value?.length > 0 || (type === "number" && value > 0)) && showLabel && (
-          <span
-            className="absolute right-10 top-1 z-20  text-white bg-gray-300 text-sm rounded-lg p-1 px-3"
-            onClick={() => setShowLabel(false)}
-          >
-            {placeholder}
-          </span>
-        )}
-        <span
-          className="absolute inset-y-0 left-0 flex items-center pl-2 cursor-pointer"
-          onMouseEnter={() => setShowLabel(true)}
-          onMouseLeave={() => setShowLabel(false)}
-        >
-          <Icon />
-        </span>
+    <div className="flex flex-col items-center w-full text-sm text-gray-500 focus-within:text-purple-600">
+      {!!label && <label className="text-xs my-1">{label}</label>}
+      <div className="w-full flex justify-between items-center  bg-white rounded-md  border-b-2">
+        <Icon className="mx-2 " />
         <input
           ref={inputRef}
           type={type}
           name={name}
-          className={` w-full  py-2 pr-10 text-sm text-black bg-white rounded-md border-b-2 pl-12 focus:outline-none focus:bg-white focus:text-gray-900 text-${align}`}
+          className={` w-full px-4 py-3 flex-grow focus:text-gray-900 text-${align}`}
           placeholder={placeholder}
           autoComplete="off"
           value={value}
           onChange={onChange}
+          onFocus={(e) => e.target.select()}
           step={step}
           readOnly={readOnly}
           inputMode={inputMode}
         />
-        <span className="absolute text-xs inset-y-0 right-10 flex items-center px-2 cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100">
+        <span className="  flex items-center pr-2  cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100">
           {units}
         </span>
+      </div>
 
-        {clear && (value?.length > 0 || (type === "number" && value > 0)) ? (
+      {/* {clear && (value?.length > 0 || (type === "number" && value > 0)) ? (
           <span
             className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer opacity-20 focus:opacity-100 hover:opacity-100"
             onClick={() => {
@@ -93,8 +81,7 @@ export const Input = (props) => {
           >
             <Restore />
           </span>
-        ) : null}
-      </div>
+        ) : null} */}
     </div>
   );
 };
