@@ -21,13 +21,14 @@ export const Valuation = () => {
   } = client;
 
   const [showChangeRates, setShowChangeRates] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
   const toggleShowChangeRate = () => setShowChangeRates((show) => !show);
 
   const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
   const options = [
-    { value: "basic", name: "Basic (Free)", Icon: StarOutline, price: "Free" },
+    { value: "basic", name: "Basic", Icon: StarOutline, price: "Free" },
     {
       value: "replacementWithDeductible",
       name: `Replacement (w/$300 Ded)`,
@@ -61,6 +62,10 @@ export const Valuation = () => {
     dispatch,
   ]);
 
+  const toggleComplete = () => setCompleted(!completed);
+
+  if (!!completed) return <button onClick={toggleComplete}>Completed</button>;
+
   return (
     <>
       <SectionTitle title="Valuation" onClick={toggleShowChangeRate} Icon={showChangeRates ? Clear : Edit} />
@@ -76,6 +81,7 @@ export const Valuation = () => {
             type="number"
             units="lbs."
             align="right"
+            min="0"
           />
         </div>
         <div className="relative">
@@ -88,6 +94,8 @@ export const Valuation = () => {
             label="Shipment Value"
             type="number"
             align="right"
+            min="0"
+            // TODO VALIDATE NEGATIVE VALUES ON BLUR
           />
           {/* https://www.utc.wa.gov/regulatedIndustries/transportation/TransportationDocuments/Tariff%2015-C.PDF */}
           {/* Shipment value is at least $5 per lbs., (val > weight * 5) */}
@@ -126,7 +134,7 @@ export const Valuation = () => {
       {/* <ButtonSelect onClick={onChange} name="valuation" value={valuation} buttons={buttons} vertical={true} /> */}
 
       <Radio showPrice={true} options={options} groupName="Select valuation type" />
-      <SignButton label="initial" />
+      <SignButton label="initial" completed={completed} setCompleted={setCompleted} />
     </>
   );
 };

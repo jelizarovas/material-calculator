@@ -39,10 +39,16 @@ export function Radio(props) {
                 disabled={option.disabled}
                 className={({ active, checked, disabled }) =>
                   `${active ? "ring-2 ring-offset-2 ring-offset-purple-300 ring-white ring-opacity-60" : ""}
-                  ${checked ? "bg-purple-900 bg-opacity-75 " : disabled ? "bg-transparent" : "bg-white"}
-                    relative rounded-lg  px-4 py-3 cursor-pointer flex focus:outline-none ${
-                      checked ? "text-white shadow-md" : disabled ? "text-gray-400 shadow-md" : "text-gray-900"
-                    }`
+                  ${
+                    checked
+                      ? "bg-purple-900 border-purple-700 bg-opacity-75 "
+                      : disabled
+                      ? "bg-transparent"
+                      : "bg-white"
+                  }
+                  border-b-2 relative rounded-lg  px-4 py-3 cursor-pointer flex focus:outline-none ${
+                    checked ? "text-white shadow-md" : disabled ? "text-gray-400 shadow-md" : "text-gray-900"
+                  }`
                 }
               >
                 {({ active, checked, disabled }) => (
