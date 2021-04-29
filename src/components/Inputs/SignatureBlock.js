@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import SignatureCanvas from "react-signature-canvas";
+// import SignatureCanvas from "react-signature-canvas";
 import SignaturePad from "react-signature-pad-wrapper";
 
 export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 200, dispatch = () => {} }) => {

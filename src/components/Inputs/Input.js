@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
-import { Clear, Restore } from "@material-ui/icons/";
-import useLongPress from "../../utils/useLongPress";
+// import { Clear, Restore } from "@material-ui/icons/";
+// import useLongPress from "../../utils/useLongPress";
 
 export const Input = (props) => {
   const {
@@ -14,31 +14,31 @@ export const Input = (props) => {
     value,
     onChange,
     readOnly = false,
-    clear = true,
+    // clear = true,
     units = "",
     align = "left",
     label = "",
     min = 0,
   } = props;
 
-  const [deletedValue, setDeletedValue] = useState("");
-  const [showLabel, setShowLabel] = useState(false);
+  // const [deletedValue, setDeletedValue] = useState("");
+  // const [showLabel, setShowLabel] = useState(false);
 
   const inputRef = useRef();
 
-  const onClick = () => {
-    setDeletedValue("");
-    onChange({ target: { name, value: deletedValue } });
-  };
+  // const onClick = () => {
+  //   setDeletedValue("");
+  //   onChange({ target: { name, value: deletedValue } });
+  // };
 
-  const onLongPress = () => setDeletedValue("");
+  // const onLongPress = () => setDeletedValue("");
 
-  const defaultOptions = {
-    shouldPreventDefault: true,
-    delay: 1000,
-  };
+  // const defaultOptions = {
+  //   shouldPreventDefault: true,
+  //   delay: 1000,
+  // };
 
-  const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
+  // const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
   return (
     <div className="flex flex-col items-center w-full text-sm text-gray-500 focus-within:text-purple-600 ">

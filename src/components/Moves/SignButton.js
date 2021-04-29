@@ -1,4 +1,4 @@
-import { Check, Gesture, CheckBoxOutlineBlank, LockOpen, Clear } from "@material-ui/icons";
+import { Gesture, LockOpen, Clear } from "@material-ui/icons";
 import React, { useState } from "react";
 import { SignatureBlock } from "../Inputs/SignatureBlock";
 
