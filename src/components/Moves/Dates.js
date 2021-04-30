@@ -6,6 +6,7 @@ import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { decrementDate, getFormattedDate, incrementDate } from "../../utils/helperFunctions";
 import { SectionTitle } from "../Layout/SectionTitle";
 import { ButtonSelect } from "../Inputs/ButtonSelect";
+import { Radio } from "../Inputs/Radio";
 
 export const Dates = () => {
   const client = useMove();
@@ -40,11 +41,11 @@ export const Dates = () => {
 
 const DateType = (props) => {
   const dateTypes = [
-    { value: "today", placeholder: "Today", Icon: EventAvailable },
-    { value: "other", placeholder: "Multi-Day/Other", Icon: DateRange, isDisabled: true },
+    { value: "today", name: "Today", Icon: EventAvailable },
+    { value: "other", name: "Multi-Day/Other", Icon: DateRange, disabled: true },
     // { value: "other", placeholder: "Other", Icon: EventNote },
   ];
-  return <ButtonSelect name="dateType" buttons={dateTypes} {...props} />;
+  return <Radio name="dateType" options={dateTypes} {...props} row="true" />;
 };
 
 const DatesList = () => {

@@ -13,7 +13,14 @@ export const ContactInfo = (props) => {
   return (
     <>
       <SectionTitle title="Contact Info" hidePlus={true} />
-      <Input name="fullName" value={fullName} onChange={onChange} Icon={EmojiPeople} placeholder="Full Name" />
+      <Input
+        name="fullName"
+        value={fullName}
+        onChange={onChange}
+        Icon={EmojiPeople}
+        placeholder="Full Name"
+        label="Full Name"
+      />
       <Input
         name="phoneNumber"
         value={phoneNumber}
@@ -22,8 +29,17 @@ export const ContactInfo = (props) => {
         placeholder="Phone Number"
         inputMode="numeric"
         type="tel"
+        label="Phone Number"
       />
-      <Input name="email" value={email} onChange={onChange} Icon={Email} placeholder="Email" type="email" />
+      <Input
+        name="email"
+        value={email}
+        onChange={onChange}
+        Icon={Email}
+        placeholder="Email"
+        type="email"
+        label="Email"
+      />
     </>
   );
 };

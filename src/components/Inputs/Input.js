@@ -41,8 +41,8 @@ export const Input = (props) => {
   // const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
   return (
-    <div className="flex flex-col items-center w-full text-sm text-gray-500 focus-within:text-purple-600 ">
-      {!!label && <label className="text-xs my-1">{label}</label>}
+    <div className="flex flex-col justify-start  w-full text-sm text-gray-500 focus-within:text-purple-600 ">
+      {!!label && <label className="text-xs my-1 text-justify pl-2">{label}</label>}
       <div className="w-full flex justify-between items-center  bg-white rounded-md  border-b-2 focus-within:border-purple-500">
         <Icon className="mx-2 " />
         <input

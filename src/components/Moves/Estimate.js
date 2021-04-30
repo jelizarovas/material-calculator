@@ -5,6 +5,7 @@ import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
 import { ButtonSelect } from "../Inputs/ButtonSelect";
 import { SignButton } from "./SignButton";
+import { Radio } from "../Inputs/Radio";
 
 export const Estimate = () => {
   // const [hasSigned, setHasSigned] = useState(false);
@@ -21,10 +22,10 @@ export const Estimate = () => {
   const buttons = [
     {
       value: false,
-      placeholder: "Non Binding",
+      name: "Non Binding",
       Icon: LockOpen,
     },
-    { value: true, placeholder: "Binding", Icon: Lock, isDisabled: !bindingEstimateExists },
+    { value: true, name: "Binding", Icon: Lock, isDisabled: !bindingEstimateExists },
   ];
 
   useEffect(() => {
@@ -38,13 +39,7 @@ export const Estimate = () => {
   return (
     <>
       <SectionTitle title="Estimate" hidePlus={true} />
-      <ButtonSelect
-        onClick={onChange}
-        name="estimateIsBinding"
-        value={estimateIsBinding}
-        buttons={buttons}
-        // vertical={true}
-      />
+      <Radio onClick={onChange} name="estimateIsBinding" value={estimateIsBinding} options={buttons} row={true} />
       <SignButton label="initial" dispatch={dispatch} name="estimateInitial" value={estimateInitial} />
       {/* <div>
         <input

@@ -14,7 +14,7 @@ function isObjempty(obj) {
 }
 
 export function Radio(props) {
-  const { showPrice = false, options = {}, groupName = "" } = props;
+  const { showPrice = false, options = {}, groupName = "", row = false } = props;
   const [selected, setSelected] = useState(options[0].value);
 
   if (isObjempty(options))
@@ -25,13 +25,13 @@ export function Radio(props) {
     );
 
   return (
-    <div className="w-full py-4">
+    <div className="w-full py-0">
       <div className="w-full max-w-md mx-auto">
         <RadioGroup value={selected} onChange={setSelected}>
           <RadioGroup.Label className="text-xs text-black mx-auto w-full flex justify-center my-1">
             {groupName}
           </RadioGroup.Label>
-          <div className="space-y-2 text-sm">
+          <div className={`space-y-2 text-sm flex ${row ? "flex-row justify-around" : "flex-col"}`}>
             {options.map((option) => (
               <RadioGroup.Option
                 key={option.name}

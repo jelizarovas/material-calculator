@@ -22,20 +22,20 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
     <div className="flex flex-col">
       {/* <h2>{name}</h2> */}
       <div className=" w-full relative">
-        <div className="rounded-lg p-1 bg-gray-400 bg-opacity-50 relative ">
+        <div className="rounded-lg p-1 bg-gray-300 bg-opacity-50 relative ">
+          <div className="w-4/5 mx-auto border-t-2 absolute bottom-6 z-0 left-0 right-0 text-center text-gray-400 select-none">
+            {type}
+          </div>
           <SignaturePad
             penColor="black"
             canvasProps={{
               width,
               height,
-              className: "bg-white rounded-lg",
+              className: "bg-white bg-opacity-50 rounded-lg z-10",
             }}
             onEnd={save}
             ref={sigCanvas}
           />
-          <div className="w-4/5 mx-auto border-t-2 absolute bottom-6 left-0 right-0 text-center text-gray-400 select-none">
-            {type}
-          </div>
         </div>
         <button
           className="bg-gray-400 bg-opacity-50 no select-none hover:bg-opacity-100 text-xs p-2 m-2 text-white absolute top-0 right-0 rounded-lg"

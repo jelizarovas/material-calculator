@@ -37,6 +37,7 @@ export const Locations = () => {
         onChange={onChange}
         Icon={Home}
         placeholder="Starting Point (Origin)"
+        label="Starting Point (Origin)"
       />
       {anyAdditionalStops && (
         <Input
@@ -45,6 +46,7 @@ export const Locations = () => {
           onChange={onChange}
           Icon={AddLocation}
           placeholder="Other Stops"
+          label="Other Stops"
         />
       )}
       <Input
@@ -53,6 +55,7 @@ export const Locations = () => {
         onChange={onChange}
         Icon={LocalShipping}
         placeholder="End Point (Destination)"
+        label="End Point (Destination)"
       />
     </>
   );
