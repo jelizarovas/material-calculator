@@ -14,7 +14,7 @@ function isObjempty(obj) {
 }
 
 export function Radio(props) {
-  const { showPrice = false, options = {}, groupName = "", row = false } = props;
+  const { showPrice = false, options = {}, groupName = "", row = false, dense = "false" } = props;
   const [selected, setSelected] = useState(options[0].value);
 
   if (isObjempty(options))
@@ -25,13 +25,13 @@ export function Radio(props) {
     );
 
   return (
-    <div className="w-full py-0">
+    <div className="w-full py-0 max-w-full overflow-hidden text-xs ">
       <div className="w-full max-w-md mx-auto">
         <RadioGroup value={selected} onChange={setSelected}>
-          <RadioGroup.Label className="text-xs text-black mx-auto w-full flex justify-center my-1">
+          <RadioGroup.Label className="text-black mx-auto w-full flex justify-center my-1">
             {groupName}
           </RadioGroup.Label>
-          <div className={`space-y-2 text-sm flex ${row ? "flex-row justify-around" : "flex-col"}`}>
+          <div className={`space-y-2 flex ${row ? "flex-row justify-around space-x-2" : "flex-col"}`}>
             {options.map((option) => (
               <RadioGroup.Option
                 key={option.name}
@@ -46,7 +46,7 @@ export function Radio(props) {
                       ? "bg-transparent"
                       : "bg-white"
                   }
-                  border-b-2 relative rounded-lg  px-4 py-3 cursor-pointer flex focus:outline-none ${
+                  border-b-2 relative rounded-lg  px-2 py-1 w-full overflow-hidden cursor-pointer flex focus:outline-none ${
                     checked ? "text-white shadow-md" : disabled ? "text-gray-400 shadow-md" : "text-gray-900"
                   }`
                 }
@@ -54,7 +54,7 @@ export function Radio(props) {
                 {({ active, checked, disabled }) => (
                   <>
                     <div className={`flex items-center justify-between w-full `}>
-                      <div className="flex items-center  truncate mr-5 ">
+                      <div className={`flex items-center  truncate mr-0 `}>
                         {option.Icon && <option.Icon className="mr-2 " />}
                         <RadioGroup.Label as="p" className="font-medium ">
                           {option.name}

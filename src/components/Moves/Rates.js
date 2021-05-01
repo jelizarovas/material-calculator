@@ -10,6 +10,7 @@ import { NoInput } from "../Inputs/NoInput";
 import { Local } from "./Local";
 import { LongDistance } from "./LongDistance";
 import { FlatRate } from "./FlatRate";
+import { Radio } from "../Inputs/Radio";
 // import { TimeInput } from "../Inputs/TimeInput";
 
 export const Rates = () => {
@@ -55,10 +56,10 @@ export const Rates = () => {
 
 const JobType = (props) => {
   const jobTypes = [
-    { value: "local", placeholder: "Local (Hourly)", Icon: AccessTime },
-    { value: "flatRate", placeholder: "Flat Rate", Icon: CreditCard },
-    { value: "longDistance", placeholder: "Long Distance", Icon: LocalShipping },
+    { value: "local", name: "Local (Hourly)", Icon: AccessTime },
+    { value: "flatRate", name: "Flat Rate", Icon: CreditCard },
+    { value: "longDistance", name: "Long Distance", Icon: LocalShipping },
   ];
 
-  return <ButtonSelect name="jobType" buttons={jobTypes} {...props} />;
+  return <Radio name="jobType" options={jobTypes} row="true" dense="true" {...props} />;
 };
