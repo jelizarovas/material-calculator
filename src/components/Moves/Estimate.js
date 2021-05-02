@@ -3,7 +3,7 @@ import { Lock, LockOpen } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 import { SectionTitle } from "../Layout/SectionTitle";
-import { ButtonSelect } from "../Inputs/ButtonSelect";
+// import { ButtonSelect } from "../Inputs/ButtonSelect";
 import { SignButton } from "./SignButton";
 import { Radio } from "../Inputs/Radio";
 

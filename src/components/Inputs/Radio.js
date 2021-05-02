@@ -14,7 +14,7 @@ function isObjempty(obj) {
 }
 
 export function Radio(props) {
-  const { showPrice = false, options = {}, groupName = "", row = false, dense = "false" } = props;
+  const { showPrice = false, options = {}, groupName = "", row = false, dense = false } = props;
   const [selected, setSelected] = useState(options[0].value);
 
   if (isObjempty(options))
@@ -46,7 +46,9 @@ export function Radio(props) {
                       ? "bg-transparent"
                       : "bg-white"
                   }
-                  border-b-2 relative rounded-lg  px-2 py-1 w-full overflow-hidden cursor-pointer flex focus:outline-none ${
+                  border-b-2 relative rounded-lg  ${
+                    !!dense ? "px-2 py-1" : "px-4 py-3"
+                  } w-full overflow-hidden cursor-pointer flex focus:outline-none ${
                     checked ? "text-white shadow-md" : disabled ? "text-gray-400 shadow-md" : "text-gray-900"
                   }`
                 }
