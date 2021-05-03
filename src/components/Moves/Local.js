@@ -73,8 +73,8 @@ export const Local = () => {
           {/* </div> */}
         </div>
       ) : (
-        <div className="flex">
-          <div className="flex-row">
+        <div className="flex space-x-2 ">
+          <div className="flex-row ">
             <label htmlFor="startTime" className=" px-2">
               Start
             </label>
@@ -110,7 +110,7 @@ export const Local = () => {
             <TimeInput name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={Update} />
           </div>
         </div> */}
-      <div className="flex">
+      <div className="flex space-x-2">
         <div className="flex-row">
           <label htmlFor="arriveTime" className=" px-2">
             Arrive
