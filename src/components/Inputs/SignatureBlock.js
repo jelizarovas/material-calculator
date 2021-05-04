@@ -13,13 +13,16 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
   };
 
   const save = () => {
-    const url = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
+    console.log("save");
+    const url = sigCanvas.current.toDataURL("image/png");
+    // console.log({ url });
     // setImageURL(url);
     dispatch({ payload: { [name]: url } });
   };
 
   return (
     <div className="flex flex-col">
+      <button onClick={() => sigCanvas.current.toDataURL()}>GET REF</button>
       {/* <h2>{name}</h2> */}
       <div className=" w-full relative">
         <div className="rounded-lg p-1 bg-gray-300 bg-opacity-50 relative ">
@@ -28,12 +31,14 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
           </div>
           <SignaturePad
             penColor="black"
+            options={{ onEnd: save }}
             canvasProps={{
               width,
               height,
               className: "bg-white bg-opacity-50 rounded-lg z-10",
             }}
             onEnd={save}
+            // ref={(ref) => (this.signaturePad = ref)}
             ref={sigCanvas}
           />
         </div>

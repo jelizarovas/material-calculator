@@ -93,13 +93,14 @@ export const ABHS = () => {
   const jobs = [];
 
   return (
-    <div className="flex">
-      <div className="sidebar bg-gray-300 mx-2 rounded-b-md p-4">
+    <div className="flex flex-col lg:flex-row items-center">
+      <div>{/* <pre>< {JSON/pre> */}</div>
+      {/* <div className="sidebar bg-gray-300 mx-2 rounded-b-md p-4">
         <button className>New</button>
         <SectionTitle title="Jobs" hidePlus={true} />
-        <div id="jobList">{!!jobs ? jobs.map((job, index) => <div>JOB</div>) : <div>No jobs</div>}</div>
-      </div>
-      <div className="container bg-gray-50 p-2 rounded-b-md">
+        <div id="jobList">{!!jobs ? jobs.map((job, index) => <div>JOB</div>) : <div>No jobs</div>}</div> */}
+      {/* </div> */}
+      <div className="container bg-gray-50 p-2 rounded-b-md max-w-md">
         <SectionTitle title="ABHS" hidePlus={true} />
 
         <Input name="reference" value={reference} onChange={onChange} Icon={EmojiPeople} label="Reference" />
@@ -116,11 +117,12 @@ export const ABHS = () => {
         <Input name="rate" value={rate} onChange={onChange} Icon={LocalOffer} label="rate" />
         <Input name="travelFee" value={travelFee} onChange={onChange} Icon={LocalShipping} label="travel Fee" />
         <Input name="total" value={total} onChange={onChange} Icon={AttachMoney} label="total" />
-
+        <span> Crew Signature </span>
         <SignatureBlock dispatch={dispatch} type="signature" name="crewSignature" />
+        <span> ABHS Signature </span>
         <SignatureBlock dispatch={dispatch} type="signature" name="clientSignature" />
 
-        <div className="flex justify-center my-4">
+        <div className="flex justify-center my-4 bg-green-400 rounded-sm shadow-md">
           <Button onClick={getPDF} text="Download" />
         </div>
       </div>
