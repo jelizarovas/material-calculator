@@ -21,8 +21,7 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
   };
 
   return (
-    <div className="flex flex-col">
-      <button onClick={() => sigCanvas.current.toDataURL()}>GET REF</button>
+    <div className="flex flex-col pt-2">
       {/* <h2>{name}</h2> */}
       <div className=" w-full relative">
         <div className="rounded-lg p-1 bg-gray-300 bg-opacity-50 relative ">

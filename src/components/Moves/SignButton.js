@@ -32,7 +32,7 @@ export const SignButton = ({ label = "Sign", dispatch, name, value }) => {
           </div>
         ) : (
           <button
-            className="text-blue-500  hover:bg-gray-300 px-6 uppercase py-2 rounded-md w-full font-bold"
+            className="text-blue-500  hover:bg-gray-300 px-6 uppercase py-2 mt-2 rounded-md w-full font-bold"
             onClick={toggleShowBlock}
           >
             <Gesture className="mr-2" />
