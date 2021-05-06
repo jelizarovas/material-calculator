@@ -12,7 +12,7 @@ export const SignButton = ({ label = "Sign", dispatch, name, value }) => {
       <div className="flex flex-col justify-center items-center w-full max-w-md mx-auto ">
         {showSignBlock ? (
           <div className="mt-1 flex flex-col justify-center items-center w-full mb-6">
-            <SignatureBlock dispatch={dispatch} name={name} width="428" />
+            <SignatureBlock dispatch={dispatch} name={name} />
             <div className="flex space-x-4">
               <button
                 className="hover:bg-gray-300 text-gray-500 px-6 uppercase py-2 my-4 rounded-md"

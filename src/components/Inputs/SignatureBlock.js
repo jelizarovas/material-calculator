@@ -9,15 +9,15 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
 
   const clear = () => {
     sigCanvas.current.clear();
-    dispatch({ payload: { [name]: "" } });
+    dispatch({ field: name, value: "" });
   };
 
   const save = () => {
-    console.log("save");
     const url = sigCanvas.current.toDataURL("image/png");
+    console.log({ name, url });
     // console.log({ url });
     // setImageURL(url);
-    dispatch({ payload: { [name]: url } });
+    dispatch({ field: name, value: url });
   };
 
   return (
