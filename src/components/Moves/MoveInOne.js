@@ -59,7 +59,7 @@ export const MoveInOne = () => {
             <ClearData />
           </div>
         </div>
-        <div className="bg-white p-2 rounded-md">
+        <div className={colClass + " bg-white max-h-full "}>
           <PreviewPDF />
         </div>
       </div>
