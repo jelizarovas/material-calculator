@@ -1,44 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const url = `${process.env.PUBLIC_URL}/img/tools-materials.gif`;
+const tools = [
+  { title: "Materials Calculator", img: `${process.env.PUBLIC_URL}/img/tools-materials.gif`, url: "/t/materials" },
+  { title: "Coordinates View", url: "/t/coordinates" },
+  { title: "Text Customer", url: "/t/sms" },
+  { title: "ABHS", url: "/t/abhs" },
+];
 
 export const Tools = () => {
   return (
-    <div className="flex flex-wrap -mx-2 overflow-hidden sm:-mx-2 md:-mx-1 lg:-mx-2 xl:-mx-1">
-      <div className="my-2 px-2 w-1/4 overflow-hidden sm:my-2 sm:px-2 sm:w-1/2 md:my-1 md:px-1 md:w-1/3 lg:my-2 lg:px-2 lg:w-1/5 xl:my-1 xl:px-1 xl:w-1/6">
-        <div className="m-5 p-2 border-2 rounded-md">
-          <img alt="demo" src={url} />
-          <Link to="/t/materials">Materials Calculator</Link>
-        </div>
-      </div>
-
-      <div className="my-2 px-2 w-1/4 overflow-hidden sm:my-2 sm:px-2 sm:w-1/2 md:my-1 md:px-1 md:w-1/3 lg:my-2 lg:px-2 lg:w-1/5 xl:my-1 xl:px-1 xl:w-1/6">
-        <Link to="/t/coordinates">Coordinates View</Link>
-      </div>
-
-      <div className="my-2 px-2 w-1/4 overflow-hidden sm:my-2 sm:px-2 sm:w-1/2 md:my-1 md:px-1 md:w-1/3 lg:my-2 lg:px-2 lg:w-1/5 xl:my-1 xl:px-1 xl:w-1/6"></div>
-      <Link to="/t/sms">Text Customer</Link>
-      <div className="my-2 px-2 w-1/4 overflow-hidden sm:my-2 sm:px-2 sm:w-1/2 md:my-1 md:px-1 md:w-1/3 lg:my-2 lg:px-2 lg:w-1/5 xl:my-1 xl:px-1 xl:w-1/6"></div>
-
-      <div className="my-2 px-2 w-1/4 overflow-hidden sm:my-2 sm:px-2 sm:w-1/2 md:my-1 md:px-1 md:w-1/3 lg:my-2 lg:px-2 lg:w-1/5 xl:my-1 xl:px-1 xl:w-1/6"></div>
-      <Link to="/t/abhs">ABHS</Link>
+    <div className="grid grid-cols-4 gap-4 container mx-auto mt-10">
+      {tools.map((tool) => {
+        return (
+          <div className="w-full border-2 rounded-md relative min-h-[200px] hover:bg-red-700 hover:font-bold bg-red-500">
+            <Link to={tool.url}>
+              {!!tool.img ? (
+                <img alt="demo" src={tool.img} className="w-full " />
+              ) : (
+                <div className="w-full h-full  "></div>
+              )}
+              <span className="absolute bottom-0 bg-white w-full px-4 py-2 text-center ">{tool.title}</span>
+            </Link>
+          </div>
+        );
+      })}
     </div>
-    // <div className="container mx-auto grid grid-cols-3 grid-flow-col gap-2">
-    //   <div className="m-5 p-2 border-2 rounded-md">
-    //     <img alt="demo" src={url} />
-    //     <Link to="/t/materials">Materials Calculator</Link>
-    //   </div>
-    //   <div className="m-5 p-2 border-2 rounded-md relative flex justify-center flex-col">
-    //     <div className="bg-gray-500" style={{ minWidth: "265px", minHeight: "265px" }}></div>
-    //     <Link to="/t/coordinates">Coordinates View</Link>
-    //   </div>
-    //   <div className="m-5 p-2 border-2 rounded-md relative flex justify-center flex-col">
-
-    //   </div>
-    //   <div className="m-5 p-2 border-2 rounded-md relative flex justify-center flex-col">
-
-    //   </div>
-    // </div>
   );
 };
