@@ -57,6 +57,10 @@ export const ABHS = () => {
     // clientSignature = "",
   } = state;
 
+  const sigDispatch = ({ field, value }) => {
+    dispatch({ payload: { [field]: value } });
+  };
+
   const onChange = (e) => {
     dispatch({ payload: { [e.target.name]: e.target.value } });
   };
@@ -118,9 +122,9 @@ export const ABHS = () => {
         <Input name="travelFee" value={travelFee} onChange={onChange} Icon={LocalShipping} label="travel Fee" />
         <Input name="total" value={total} onChange={onChange} Icon={AttachMoney} label="total" />
         <span> Crew Signature </span>
-        <SignatureBlock dispatch={dispatch} type="signature" name="crewSignature" />
+        <SignatureBlock dispatch={sigDispatch} type="signature" name="crewSignature" />
         <span> ABHS Signature </span>
-        <SignatureBlock dispatch={dispatch} type="signature" name="clientSignature" />
+        <SignatureBlock dispatch={sigDispatch} type="signature" name="clientSignature" />
 
         <div className="flex justify-center my-4 bg-green-400 rounded-sm shadow-md">
           <Button onClick={getPDF} text="Download" />
