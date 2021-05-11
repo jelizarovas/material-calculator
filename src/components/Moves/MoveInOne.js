@@ -59,9 +59,9 @@ export const MoveInOne = () => {
             <ClearData />
           </div>
         </div>
-        <div className={colClass + " bg-white max-h-full "}>
+        {/* <div className={colClass + " bg-white max-h-full "}>
           <PreviewPDF />
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col flex-grow       p-2"></div>
       {/* <Overview /> */}
