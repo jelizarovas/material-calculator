@@ -6,6 +6,7 @@ const tools = [
   { title: "Coordinates View", url: "/t/coordinates" },
   { title: "Text Customer", url: "/t/sms" },
   { title: "ABHS", url: "/t/abhs" },
+  { title: "Tip Split", url: "/t/tips" },
 ];
 
 export const Tools = () => {
