@@ -40,12 +40,17 @@ export const Dates = () => {
 };
 
 const DateType = (props) => {
+  const client = useMove();
+  const dispatch = useMoveDispatch();
+
+  const { /*dates,*/ dateType } = client;
+
   const dateTypes = [
     { value: "today", name: "Today", Icon: EventAvailable },
     { value: "other", name: "Multi-Day/Other", Icon: DateRange, disabled: true },
     // { value: "other", placeholder: "Other", Icon: EventNote },
   ];
-  return <Radio name="dateType" options={dateTypes} {...props} row="true" />;
+  return <Radio name="dateType" dispatch={dispatch} value={dateType} options={dateTypes} {...props} row="true" />;
 };
 
 const DatesList = () => {

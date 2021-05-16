@@ -133,7 +133,14 @@ export const Valuation = () => {
 
       {/* <ButtonSelect onClick={onChange} name="valuation" value={valuation} buttons={buttons} vertical={true} /> */}
 
-      <Radio showPrice={true} options={options} groupName="Select valuation type" />
+      <Radio
+        showPrice={true}
+        options={options}
+        groupName="Select valuation type"
+        dispatch={dispatch}
+        value={valuation}
+        name="valuation"
+      />
       <SignButton
         label="initial"
         completed={completed}

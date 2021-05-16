@@ -39,7 +39,14 @@ export const Estimate = () => {
   return (
     <>
       <SectionTitle title="Estimate" hidePlus={true} />
-      <Radio onClick={onChange} name="estimateIsBinding" value={estimateIsBinding} options={buttons} row={true} />
+      <Radio
+        onClick={onChange}
+        name="estimateIsBinding"
+        value={estimateIsBinding}
+        dispatch={dispatch}
+        options={buttons}
+        row={true}
+      />
       <SignButton label="initial" dispatch={dispatch} name="estimateInitial" value={estimateInitial} />
       {/* <div>
         <input

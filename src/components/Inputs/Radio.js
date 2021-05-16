@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { Check, Warning } from "@material-ui/icons";
 
@@ -14,11 +13,15 @@ export function Radio(props) {
     groupName = "",
     row = false,
     dense = false,
-    //TODO SYNC SELECTED WITH DB
-    // value = {},
-    // setValue = () => {},
+    name = "",
+    value = "",
+    dispatch = () => {},
   } = props;
-  const [selected, setSelected] = useState(options[0].value);
+
+  const onChange = (option) => {
+    console.log(option);
+    dispatch({ field: name, value: option });
+  };
 
   if (isObjempty(options))
     return (
@@ -28,11 +31,7 @@ export function Radio(props) {
     );
 
   return (
-    <RadioGroup
-      value={selected}
-      onChange={setSelected}
-      className="w-full  mx-auto pt-2 text-xs text-gray-900 select-none"
-    >
+    <RadioGroup value={value} onChange={onChange} className="w-full  mx-auto py-2 text-xs text-gray-900 select-none">
       {groupName && (
         <RadioGroup.Label className="text-black mx-auto w-full flex justify-center my-1">{groupName}</RadioGroup.Label>
       )}

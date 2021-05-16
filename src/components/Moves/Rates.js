@@ -55,11 +55,18 @@ export const Rates = () => {
 // }
 
 const JobType = (props) => {
+  const client = useMove();
+  const dispatch = useMoveDispatch();
+
+  const { jobType } = client;
+
   const jobTypes = [
     { value: "local", name: "Local (Hourly)", Icon: AccessTime },
     { value: "flatRate", name: "Flat Rate", Icon: CreditCard },
     { value: "longDistance", name: "Long Distance", Icon: LocalShipping },
   ];
 
-  return <Radio name="jobType" options={jobTypes} row="true" dense="true" {...props} />;
+  return (
+    <Radio name="jobType" value={jobType} dispatch={dispatch} options={jobTypes} row="true" dense="true" {...props} />
+  );
 };
