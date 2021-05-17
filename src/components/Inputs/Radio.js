@@ -42,7 +42,7 @@ export function Radio(props) {
             value={option.value}
             disabled={option.disabled}
             className={({ active, checked, disabled }) =>
-              `w-full  border-b-2 rounded-lg   cursor-pointer focus:outline-none flex items-center justify-between hover:bg-purple-100 bg-opacity-75 overflow-hidden
+              `w-full  border-b-2 rounded-lg bg-white  cursor-pointer focus:outline-none flex items-center justify-between hover:bg-purple-100 bg-opacity-75 overflow-hidden
                     ${active && "ring-2 ring-offset-2 ring-offset-purple-300 ring-white ring-opacity-60 "}
                     ${checked && "bg-purple-900 border-purple-700   text-white shadow-md hover:bg-purple-800"}
                     ${disabled && "text-gray-400 "}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, memo, useEffect } from "react";
 import { getFormattedDate } from "../../utils/helperFunctions";
 import download from "downloadjs";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -9,7 +9,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-export const PreviewPDF = () => {
+export const PreviewPDF = memo((props) => {
   const client = useMove();
 
   const [data, setData] = useState(null);
@@ -29,6 +29,10 @@ export const PreviewPDF = () => {
     const newData = await fillBOLForm(client);
     return setData(newData);
   };
+
+  useEffect(() => {
+    getPreview();
+  }, [client]);
 
   const downloadNow = async () => {
     download(
@@ -117,7 +121,7 @@ export const PreviewPDF = () => {
         </p> */}
     </div>
   );
-};
+});
 
 const Tooltip = ({ placement, title, children }) => {
   return (
@@ -132,30 +136,39 @@ const ToolbarButton = ({ icon, type, disabled, onClick }) => {
   return <button onClick={onClick}>{icon}</button>;
 };
 
-const PDF = ({ pdf, scale, page, pdfWrapperRef, onSuccess }) => (
-  <Document
-    file={pdf}
-    renderMode="canvas"
-    loading={<div>Loading...</div>}
-    onLoadSuccess={onSuccess}
-    onLoadError={console.error}
-    error={"Unable to load the library article. Please reach out to the support for further assistance."}
-  >
-    <TransformWrapper options={{ limitToBounds: false, minScale: 0.5 }}>
-      <TransformComponent>
-        <div className="flex flex-col items-center justify-center w-full ">
-          <Page
-            scale={scale}
-            // width={pdfWrapperRef.current?.getBoundingClientRect().width * 0.95 || undefined}
-            pageNumber={page}
-          />
-          <Page
-            scale={scale}
-            // width={pdfWrapperRef.current?.getBoundingClientRect().width * 0.95 || undefined}
-            pageNumber={page + 1}
-          />
-        </div>
-      </TransformComponent>
-    </TransformWrapper>
-  </Document>
-);
+const PDF = ({ pdf, scale, page, pdfWrapperRef, onSuccess }) => {
+  useEffect(() => {
+    console.log({ name: "new pdf", pdf });
+    return () => {
+      console.log({ name: "old pdf", pdf });
+    };
+  }, [pdf]);
+
+  return (
+    <Document
+      file={pdf}
+      renderMode="canvas"
+      // loading={<div>Loading...</div>}
+      onLoadSuccess={onSuccess}
+      onLoadError={console.error}
+      error={"Unable to load the library article. Please reach out to the support for further assistance."}
+    >
+      <TransformWrapper options={{ limitToBounds: false, minScale: 0.5 }}>
+        <TransformComponent>
+          <div className="flex flex-col items-center justify-center w-full ">
+            <Page
+              scale={scale}
+              // width={pdfWrapperRef.current?.getBoundingClientRect().width * 0.95 || undefined}
+              pageNumber={page}
+            />
+            <Page
+              scale={scale}
+              // width={pdfWrapperRef.current?.getBoundingClientRect().width * 0.95 || undefined}
+              pageNumber={page + 1}
+            />
+          </div>
+        </TransformComponent>
+      </TransformWrapper>
+    </Document>
+  );
+};

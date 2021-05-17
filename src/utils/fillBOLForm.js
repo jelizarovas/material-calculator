@@ -57,8 +57,8 @@ export async function fillBOLForm(client) {
   setField("Selected Valuation", client.totalValuation);
 
   // AGREE TO CONTRACT - CREW & CUSTOMER SIGNATURES
+  await setSignature(client.agreeToMoveSignature, 24, 95, 150, 35);
   if (client.agreedToEstimate) {
-    await setSignature(client.signature, 24, 95, 150, 35);
     setDateField(client.estimateAgreedDate || client.dates[0], 238, 103);
   }
   if (client.crewLeadAssigned) {
