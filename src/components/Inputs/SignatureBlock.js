@@ -1,4 +1,6 @@
 import React, { useRef } from "react";
+import { trimCanvas } from "../../utils/helperFunctions";
+// import trimCanvas from "trim-canvas";
 // import SignatureCanvas from "react-signature-canvas";
 import SignaturePad from "react-signature-pad-wrapper";
 
@@ -12,10 +14,8 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
     dispatch({ field: name, value: "" });
   };
 
-  const save = () => {
-    const url = sigCanvas.current.toDataURL("image/png");
-    console.log({ name, url });
-    // console.log({ url });
+  const save = (e) => {
+    const url = trimCanvas(sigCanvas.current._canvas).toDataURL("image/png");
     // setImageURL(url);
     dispatch({ field: name, value: url });
   };
@@ -29,15 +29,14 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
             {type}
           </div>
           <SignaturePad
-            penColor="black"
-            options={{ onEnd: save }}
+            // penColor="blue"
+            options={{ onEnd: save, penColor: "rgb(66, 133, 244)" }}
             canvasProps={{
               width,
               height,
               className: "bg-white bg-opacity-50 rounded-lg z-10",
             }}
-            onEnd={save}
-            // ref={(ref) => (this.signaturePad = ref)}
+            // onEnd={save}
             ref={sigCanvas}
           />
         </div>

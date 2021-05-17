@@ -44,16 +44,16 @@ export const PreviewPDF = () => {
 
   return (
     <div className=" w-full flex-col flex justify-around items-center relative h-full max-h-screen overflow-hidden min-w-full bg-gray-200 ">
-      {/* <div
+      <div
         className={data ? "" : "w-full h-full bg-black bg-opacity-75 absolute z-20 flex justify-center items-center"}
       >
         <button onClick={getPreview} className="bg-purple-600 p-4 rounded-lg text-white">
           {data ? "Update" : "Preview"}
         </button>
-        <button onClick={downloadNow} className="bg-gray-600 p-4 rounded-lg text-white ml-10 w-[2px]">
+        <button onClick={downloadNow} className="bg-gray-600 p-4 rounded-lg text-white ml-10 ">
           Download
         </button>
-      </div> */}
+      </div>
 
       {/* <Document
         file={data ? { data } : process.env.PUBLIC_URL + "/pdf/bol-sfm-fonts.pdf"}

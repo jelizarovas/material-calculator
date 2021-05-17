@@ -19,11 +19,13 @@ export async function fillBOLForm(client) {
     return form.getTextField(pdfField).setText(value.toString());
   };
 
-  const setSignature = async (signature, x, y, width = 25, height = 10) => {
+  const setSignature = async (signature, x, y, width = 25, height = 12) => {
     if (!signature || !x || !y) return;
     const bytes = await fetch(signature).then((res) => res.arrayBuffer());
     const image = await pdfDoc.embedPng(bytes);
-    return pages[0].drawImage(image, { x, y, height, width });
+    console.log(image.height, image.width);
+    const ratio = image.width / image.height;
+    return pages[0].drawImage(image, { x, y, height, width: ratio * height });
   };
 
   const setDateField = (date, x, y, size = 10) => {
@@ -42,14 +44,14 @@ export async function fillBOLForm(client) {
 
   //B. ESTIMATE TYPE
   client.estimateIsBinding
-    ? await setSignature(client.initials, 24, 373)
-    : await setSignature(client.initials, 24, 462);
+    ? await setSignature(client.estimateInitial, 24, 373)
+    : await setSignature(client.estimateInitial, 24, 462);
 
   //C. VALUATION
-  if (client.valuation === "basic") await setSignature(client.initials, 24, 323);
-  if (client.valuation === "replacementWithDeductible") await setSignature(client.initials, 24, 275);
+  if (client.valuation === "basic") await setSignature(client.valuationInitials, 24, 323);
+  if (client.valuation === "replacementWithDeductible") await setSignature(client.valuationInitials, 24, 275);
   setField("valuation with deductible", client.valuationCostWithDeductible);
-  if (client.valuation === "replacement") await setSignature(client.initials, 24, 222);
+  if (client.valuation === "replacement") await setSignature(client.valuationInitials, 24, 222);
   setField("valuation no deductible", client.valuationCost);
   setField("Shipment Value", client.shipmentValue);
   setField("Selected Valuation", client.totalValuation);

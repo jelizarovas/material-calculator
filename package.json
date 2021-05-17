@@ -48,7 +48,8 @@
     "react-spring": "^9.1.2",
     "react-zoom-pan-pinch": "^1.6.1",
     "redux-firestore": "^0.15.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2",
+    "trim-canvas": "^0.1.2"
   },
   "scripts": {
     "start": "craco start",
