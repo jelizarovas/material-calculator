@@ -1,14 +1,29 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { Check, UnfoldMore } from "@material-ui/icons";
 
-export default function Select({ name, label = "Travel Fee", options = [], value, dispatch }) {
+export default function Select({
+  name,
+  label = "Travel Fee",
+  options = [],
+  value,
+  dispatch,
+  defaultValueIndex = undefined,
+}) {
   const onChange = (v) => {
     if (v === value) return;
     if (value?.onDeselect) value.onDeselect();
     if (v?.onSelect) v.onSelect();
     dispatch({ field: name, value: v });
   };
+
+  useEffect(() => {
+    if (!value && !!options && !!defaultValueIndex)
+      dispatch({
+        type: "fieldsUpdate",
+        payload: { [name]: options[defaultValueIndex], isTravelFeeFixed: true },
+      });
+  }, [value]);
 
   return (
     <div className="flex flex-col justify-start  w-full text-sm text-gray-500 focus-within:text-purple-600 max-w-md mx-auto ">
@@ -20,11 +35,14 @@ export default function Select({ name, label = "Travel Fee", options = [], value
       <Listbox value={value} onChange={onChange}>
         {({ open }) => (
           <>
-            <div className="relative mt-1 ">
+            <div className="relative ">
               <Listbox.Button className="border-b-2 focus-within:border-purple-500 px-4 py-3 relative w-full pr-10 text-left bg-white rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
                 <span className="block truncate">{value?.label}</span>
                 <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <UnfoldMore className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                  <UnfoldMore
+                    className="w-5 h-5 text-gray-400"
+                    aria-hidden="true"
+                  />
                 </span>
               </Listbox.Button>
               <Transition
@@ -39,19 +57,29 @@ export default function Select({ name, label = "Travel Fee", options = [], value
                     <Listbox.Option
                       key={optionIdx}
                       className={({ active }) =>
-                        `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
+                        `${
+                          active
+                            ? "text-amber-900 bg-amber-100"
+                            : "text-gray-900"
+                        }
                           cursor-default select-none relative py-2 pl-10 pr-4`
                       }
                       value={option}
                     >
                       {({ selected, active }) => (
                         <>
-                          <span className={`${selected ? "font-medium" : "font-normal"} block truncate`}>
+                          <span
+                            className={`${
+                              selected ? "font-medium" : "font-normal"
+                            } block truncate`}
+                          >
                             {option.label}
                           </span>
                           {selected ? (
                             <span
-                              className={`${active ? "text-amber-600" : "text-amber-600"}
+                              className={`${
+                                active ? "text-amber-600" : "text-amber-600"
+                              }
                                 absolute inset-y-0 left-0 flex items-center pl-3`}
                             >
                               <Check className="w-5 h-5" aria-hidden="true" />
@@ -59,7 +87,10 @@ export default function Select({ name, label = "Travel Fee", options = [], value
                           ) : (
                             option?.Icon && (
                               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <option.Icon className="w-5 h-5" aria-hidden="true" />
+                                <option.Icon
+                                  className="w-5 h-5"
+                                  aria-hidden="true"
+                                />
                               </span>
                             )
                           )}
