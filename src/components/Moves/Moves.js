@@ -26,19 +26,19 @@ const MoveLink = ({ id = "", firstName, lastName, fullName = "", phone = "", ema
   return (
     <div className="hover:bg-pink-500 hover:text-white cursor-pointer flex w-full justify-around">
       <div>
-        <Link to={`/m/${id}`}> {id}</Link>
+        <Link to={`/m1/${id}`}> {id}</Link>
       </div>
       <div>
-        <Link to={`/m/${id}`}>{fullName || (!!firstName && !!lastName) ? firstName + " " + lastName : ""}</Link>
+        <Link to={`/m1/${id}`}>{fullName || (!!firstName && !!lastName) ? firstName + " " + lastName : ""}</Link>
       </div>
       <div>
-        <Link to={`/m/${id}`}>{email}</Link>
+        <Link to={`/m1/${id}`}>{email}</Link>
       </div>
       <div>
-        <Link to={`/m/${id}`}>{phone}</Link>
+        <Link to={`/m1/${id}`}>{phone}</Link>
       </div>
       <div>
-        <Link to={`/m1/${id}`}>Single View</Link>
+        <Link to={`/m1/${id}`}>View</Link>
       </div>
     </div>
   );
@@ -70,12 +70,12 @@ export const Moves = () => {
 
   // Show a message while moves are loading
   if (!isLoaded(moves)) {
-    return "Loading";
+    return "Loading Moves...";
   }
 
   // Show a message if there are no moves
   if (isEmpty(moves)) {
-    return "Todo list is empty";
+    return "Move list is empty";
   }
 
   // useEffect(() => {

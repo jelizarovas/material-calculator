@@ -1,10 +1,11 @@
 import React from "react";
 import { Input } from "../Inputs/Input";
-import { Timelapse, HourglassEmpty, Restore, Update, Timer, AlarmOn } from "@material-ui/icons/";
+import { Timelapse, HourglassEmpty, Restore, Update, Timer, AlarmOn, LocalOffer, Clear } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
 import { NoInput } from "../Inputs/NoInput";
+import Select from "../Inputs/Select";
 // import { TimeInput } from "../Inputs/TimeInput";
 
 export const Local = () => {
@@ -26,17 +27,25 @@ export const Local = () => {
 
   return (
     <React.Fragment>
-      <h2>Rates</h2>
-      <Input
-        name="hourlyRate"
-        value={hourlyRate}
-        onChange={onChange}
-        placeholder="Hourly"
-        type="number"
-        Icon={() => <span className="select-none text-bold">$/hr</span>}
-        step="5"
-      />
-      <div className="flex items-center">
+      <div className="flex max-w-md mx-auto space-x-2">
+        <Input
+          name="hourlyRate"
+          value={hourlyRate}
+          onChange={onChange}
+          placeholder="Hourly Rate"
+          type="number"
+          Icon={LocalOffer}
+          step="5"
+          label="Hourly Rate"
+          type="number"
+          units="$/hr"
+          align="right"
+          min="0"
+        />
+        <TravelTime name="travelTime" dispatch={dispatch} travelTime={travelTime} hourlyRate={hourlyRate} />
+        {/* <Select values={travelTimes} name="travelTime" /> */}
+      </div>
+      {/* <div className="flex items-center">
         <input
           name="isTravelFeeFixed"
           className="mr-5 ml-3"
@@ -46,14 +55,10 @@ export const Local = () => {
           type="checkbox"
         />
         <label htmlFor="isTravelFeeFixed">Fixed?</label>
-      </div>
+      </div> */}
+
       {isTravelFeeFixed ? (
         <div className="flex-col">
-          <div className="flex justify-between">
-            <label htmlFor="travelTime" className=" px-2 w-full">
-              Travel Time
-            </label>
-          </div>
           {/* <div className="flex-row">
                   <label htmlFor="startTime" className=" px-2">
                   Fee
@@ -69,7 +74,6 @@ export const Local = () => {
                 </div> */}
           {/* <div className="flex-row"> */}
 
-          <TravelTime name="travelTime" onChange={onChange} travelTime={travelTime} hourlyRate={hourlyRate} />
           {/* </div> */}
         </div>
       ) : (
@@ -143,8 +147,19 @@ export const Local = () => {
   );
 };
 
-const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
+const TravelTime = ({ dispatch, travelTime, hourlyRate }) => {
   const times = [
+    {
+      label: "Not Fixed",
+      isCustom: true,
+      Icon: Clear,
+      onSelect: () => {
+        dispatch({ field: "isTravelFeeFixed", value: false });
+      },
+      onDeselect: () => {
+        dispatch({ field: "isTravelFeeFixed", value: true });
+      },
+    },
     { label: "0:00 ", value: 0 },
     { label: "0:15", value: 0.25 },
     { label: "0:30 ", value: 0.5 },
@@ -157,23 +172,9 @@ const TravelTime = ({ onChange, travelTime, hourlyRate }) => {
   ];
   if (hourlyRate)
     times.map((t) => {
-      t.label += ` ($${hourlyRate * t.value})`;
+      if (!t?.isCustom) t.label += ` ($${hourlyRate * t.value})`;
       return t;
     });
 
-  return (
-    <select
-      name="travelTime"
-      value={travelTime}
-      onChange={onChange}
-      className="m-2 w-full  py-2 pr-6 text-sm text-black bg-white rounded-md pl-2 focus:outline-none focus:bg-white focus:text-gray-900"
-    >
-      {times.map((t) => (
-        <option key={t.label} value={t.value}>
-          ⏰ {t.label.toString()}
-        </option>
-      ))}
-      <option onSelect={() => console.log("more")}>More...</option>
-    </select>
-  );
+  return <Select name="travelTime" value={travelTime} dispatch={dispatch} options={times} />;
 };

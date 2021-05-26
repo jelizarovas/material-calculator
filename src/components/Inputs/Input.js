@@ -7,7 +7,7 @@ export const Input = (props) => {
   const {
     name,
     placeholder,
-    Icon,
+    Icon = undefined,
     type = "text",
     inputMode,
     step,
@@ -41,15 +41,19 @@ export const Input = (props) => {
   // const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
   return (
-    <div className="flex flex-col justify-start  w-full text-sm text-gray-500 focus-within:text-purple-600 ">
-      {!!label && <label className="text-xs my-1 text-justify pl-2">{label}</label>}
-      <div className="w-full flex justify-between items-center  bg-white rounded-md  border-b-2 focus-within:border-purple-500">
-        <Icon className="mx-2 " />
+    <div className="flex flex-col justify-start  w-full text-sm text-gray-500 focus-within:text-purple-600 max-w-md mx-auto">
+      {!!label && (
+        <label htmlFor={name} className="text-xs my-1 text-justify pl-2">
+          {label}
+        </label>
+      )}
+      <div className="w-full flex justify-between items-center  bg-white rounded-md  border-b-2 focus-within:border-purple-500 ">
+        {!!Icon && <Icon className="mx-2 " />}
         <input
           ref={inputRef}
           type={type}
           name={name}
-          className={` w-full px-4 py-3 flex-grow focus:text-gray-900 text-${align}`}
+          className={` w-full px-4 py-3 flex-grow focus:text-gray-900 text-${align} bg-transparent`}
           placeholder={placeholder}
           autoComplete="off"
           value={value}

@@ -30,7 +30,7 @@ export const SignatureBlock = ({ type = "Initial", name, width = 500, height = 2
           </div>
           <SignaturePad
             // penColor="blue"
-            options={{ onEnd: save, penColor: "rgb(66, 133, 244)" }}
+            options={{ onEnd: save, penColor: "rgb(66, 133, 244)", minWidth: 3, maxWidth: 5 }}
             canvasProps={{
               width,
               height,

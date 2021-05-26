@@ -21,14 +21,14 @@ import { Release } from "./Release";
 // import { Modal } from "../Layout/Modal";
 import { ClearData } from "./ClearData";
 
-const colClass = "flex flex-col    w-full md:w-1/2  lg:w-1/3 2xl:w-1/4 3xl:w-1/3  p-2 ";
+const colClass = "flex flex-col max-w-lg w-full ";
 
 export const MoveInOne = () => {
   // const modal = useRef(null);
 
   return (
     <MoveProvider>
-      <div className="flex flex-col md:flex-row px-0 md:px-0  w-full h-full flex-grow ">
+      <div className="flex flex-col justify-center items-center md:items-stretch md:flex-row px-0 space-y-2 md:space-y-0 md:space-x-2 mt-2 max-w-screen-2xl">
         <div className={colClass}>
           <div className="bg-gray-50 p-2 rounded-md">
             <ContactInfo />
@@ -40,28 +40,24 @@ export const MoveInOne = () => {
           </div>
         </div>
         <div className={colClass}>
-          <div className="bg-white  p-2 rounded-md">
+          <div className="bg-gray-50  p-2 rounded-md">
             <Rates />
-          </div>
-        </div>
-
-        <div className={colClass}>
-          <div className="bg-white  p-2 rounded-md">
             <Materials showMoreDefault={false} />
             <MiscFees showMoreDefault={false} />
           </div>
         </div>
+
         <div className={colClass}>
-          <div className="bg-white p-2 rounded-md">
+          <div className="bg-gray-50 p-2 rounded-md">
             <Totals />
             <Payment />
             <Signatures />
             <ClearData />
           </div>
         </div>
-        <div className={colClass + " bg-white max-h-full "}>
+        {/* <div className={colClass + " bg-white max-h-full "}>
           <PreviewPDF />
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col flex-grow       p-2"></div>
       {/* <Overview /> */}

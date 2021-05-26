@@ -16,7 +16,7 @@ export async function fillBOLForm(client) {
   const setField = (pdfField, value, condition = false) => {
     if (!pdfField || !value || condition) return;
     if (Array.isArray(value)) value = value.join(", ");
-    return form.getTextField(pdfField).setText(value.toString());
+    return form.getTextField(pdfField);
   };
 
   const setSignature = async (signature, x, y, width = 25, height = 12) => {
