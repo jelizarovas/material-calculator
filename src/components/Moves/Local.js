@@ -1,15 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "../Inputs/Input";
-import {
-  Timelapse,
-  HourglassEmpty,
-  Restore,
-  Update,
-  Timer,
-  AlarmOn,
-  LocalOffer,
-  Clear,
-} from "@material-ui/icons/";
+import { Timelapse, HourglassEmpty, Restore, Update, Timer, AlarmOn, LocalOffer, Clear } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
@@ -20,20 +11,13 @@ import Select from "../Inputs/Select";
 export const Local = () => {
   const client = useMove();
   const dispatch = useMoveDispatch();
-  const onChange = (e) =>
-    dispatch({ field: e.target.name, value: e.target.value });
+  const onChange = (e) => dispatch({ field: e.target.name, value: e.target.value });
 
-  const {
-    isTravelFeeFixed,
-    hourlyRate,
-    travelTime,
-    totalHours,
-    startTime,
-    endTime,
-    arriveTime,
-    departTime,
-    breakTime,
-  } = client;
+  const addBreak = (e) => {
+    e.preventDefault();
+  };
+
+  const { isTravelFeeFixed, hourlyRate, totalHours, startTime, endTime, arriveTime, departTime, breakTime } = client;
 
   return (
     <React.Fragment>
@@ -43,80 +27,38 @@ export const Local = () => {
           value={hourlyRate}
           onChange={onChange}
           placeholder="Hourly Rate"
-          type="number"
           Icon={LocalOffer}
-          step="5"
           label="Hourly Rate"
           type="number"
           units="$/hr"
           align="right"
           min="0"
         />
-        <TravelTime
-          name="travelTime"
-          dispatch={dispatch}
-          travelTime={travelTime}
-          hourlyRate={hourlyRate}
-        />
-        {/* <Select values={travelTimes} name="travelTime" /> */}
+        <TravelTime />
       </div>
-      {/* <div className="flex items-center">
-        <input
-          name="isTravelFeeFixed"
-          className="mr-5 ml-3"
-          checked={isTravelFeeFixed}
-          onChange={(e) => dispatch({ field: e.target.name, value: !isTravelFeeFixed })}
-          placeholder="Total Valuation Cost"
-          type="checkbox"
-        />
-        <label htmlFor="isTravelFeeFixed">Fixed?</label>
-      </div> */}
 
-      {isTravelFeeFixed ? (
-        <div className="flex-col">
-          {/* <div className="flex-row">
-                  <label htmlFor="startTime" className=" px-2">
-                  Fee
-                  </label>
-                  <Input
-                  name="travelFee"
-                  value={travelFee}
-                  onChange={onChange}
-                  placeholder="Travel Fee"
-                  type="number"
-                  Icon={LocalShipping}
-                  />
-                </div> */}
-          {/* <div className="flex-row"> */}
-
-          {/* </div> */}
-        </div>
-      ) : (
-        <div className="flex space-x-2 ">
-          <div className="flex-row ">
-            <label htmlFor="startTime" className=" px-2">
-              Start
-            </label>
-            <Input
-              name="startTime"
-              value={startTime}
-              onChange={onChange}
-              placeholder="Start"
-              Icon={Timer}
-            />
-          </div>
-          <div className="flex-row">
-            <label htmlFor="endTime" className=" px-2">
-              End
-            </label>
-            <Input
-              name="endTime"
-              value={endTime}
-              onChange={onChange}
-              placeholder="End"
-              Icon={AlarmOn}
-            />
-          </div>
+      {!isTravelFeeFixed && (
+        <div className="flex space-x-2 max-w-md w-full mx-auto">
+          <Input
+            name="startTime"
+            value={startTime}
+            onChange={onChange}
+            Icon={Timer}
+            placeholder="Start"
+            label="Start"
+            type="time"
+            align="left"
+          />
+          <Input
+            name="endTime"
+            value={endTime}
+            onChange={onChange}
+            Icon={AlarmOn}
+            placeholder="End"
+            label="End"
+            type="time"
+            align="left"
+          />
         </div>
       )}
       {/* <h2>Time</h2> */}
@@ -141,52 +83,43 @@ export const Local = () => {
             <TimeInput name="departTime" value={departTime} onChange={onChange} placeholder="Depart" Icon={Update} />
           </div>
         </div> */}
-      <div className="flex space-x-2">
-        <div className="flex-row">
-          <label htmlFor="arriveTime" className=" px-2">
-            Arrive
-          </label>
-          <Input
-            name="arriveTime"
-            value={arriveTime}
-            onChange={onChange}
-            placeholder="Arrive"
-            Icon={Restore}
-          />
-        </div>
-        <div className="flex-row">
-          <label htmlFor="departTime" className=" px-2">
-            Depart
-          </label>
-          <Input
-            name="departTime"
-            value={departTime}
-            onChange={onChange}
-            placeholder="Depart"
-            Icon={Update}
-          />
-        </div>
+      <div className="flex space-x-2 max-w-md w-full mx-auto">
+        <Input
+          name="arriveTime"
+          value={arriveTime}
+          onChange={onChange}
+          Icon={Restore}
+          placeholder="Arrive"
+          label="Arrive"
+          type="time"
+          align="left"
+        />
+        <Input
+          name="departTime"
+          value={departTime}
+          onChange={onChange}
+          Icon={Update}
+          placeholder="Depart"
+          label="Depart"
+          type="time"
+          align="left"
+        />
       </div>
-      <div className="flex-row">
+
+      <div className="text-xs my-2 flex  ">
+        <button className="mx-auto   rounded-md flex items-center text-gray-700" onClick={addBreak}>
+          <HourglassEmpty className="p-1" />
+          <span className="pr-2">Add a Break</span>
+        </button>
+      </div>
+      {/* <div className="flex-row">
         <label htmlFor="breakTime" className=" px-2">
           Breaks
         </label>
-        <Input
-          name="breakTime"
-          value={breakTime}
-          onChange={onChange}
-          placeholder="Breaks"
-          Icon={HourglassEmpty}
-        />
-      </div>
-      <h2>Totals</h2>
-      <NoInput
-        value={totalHours?.toString()}
-        Icon={Timelapse}
-        type="time"
-        unit="Hrs"
-        label="Total Time"
-      />
+        <Input name="breakTime" value={breakTime} onChange={onChange} placeholder="Breaks" Icon={HourglassEmpty} />
+      </div> */}
+      {/* <h2>Totals</h2> */}
+      <NoInput value={totalHours?.toString()} Icon={Timelapse} type="time" unit="Hrs" label="Total Time" />
       {/* <Input name="totalHours" value={totalHours} onChange={onChange} placeholder="Total Hours" Icon={AccessTime} /> */}
       {/* <h2>Total hours</h2> */}
       {/* {arriveTime} to {departTime} ={" "} */}
@@ -198,7 +131,13 @@ export const Local = () => {
   );
 };
 
-const TravelTime = ({ dispatch, travelTime, hourlyRate }) => {
+const TravelTime = (props) => {
+  const client = useMove();
+  const dispatch = useMoveDispatch();
+
+  const { isTravelFeeFixed, hourlyRate, travelTime } = client;
+  console.log("travel time render", travelTime);
+
   const times = [
     {
       label: "Not Fixed",
@@ -221,19 +160,22 @@ const TravelTime = ({ dispatch, travelTime, hourlyRate }) => {
     { label: "1:45 ", value: 1.75 },
     { label: "2:00 ", value: 2 },
   ];
+
   if (hourlyRate)
     times.map((t) => {
       if (!t?.isCustom) t.label += ` ($${hourlyRate * t.value})`;
       return t;
     });
+  useEffect(() => {
+    if (!!isTravelFeeFixed)
+      dispatch({
+        field: "travelTime",
+        value: {
+          ...travelTime,
+          label: travelTime.label.split(" ")[0] + ` ($${Number(hourlyRate) * travelTime.value})`,
+        },
+      });
+  }, [hourlyRate]);
 
-  return (
-    <Select
-      name="travelTime"
-      value={travelTime}
-      dispatch={dispatch}
-      options={times}
-      defaultValueIndex="5"
-    />
-  );
+  return <Select name="travelTime" value={travelTime} dispatch={dispatch} options={times} defaultValueIndex="5" />;
 };

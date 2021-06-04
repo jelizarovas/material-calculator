@@ -41,7 +41,7 @@ export const Input = (props) => {
   // const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
   return (
-    <div className="flex flex-col justify-start  w-full text-sm text-gray-500 focus-within:text-purple-600 max-w-md mx-auto">
+    <div className="w-full text-sm text-gray-500 focus-within:text-purple-600 max-w-md mx-auto ">
       {!!label && (
         <label htmlFor={name} className="text-xs my-1 text-justify pl-2">
           {label}

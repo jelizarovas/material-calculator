@@ -28,7 +28,7 @@ export const MoveInOne = () => {
 
   return (
     <MoveProvider>
-      <div className="flex flex-col justify-center items-center md:items-stretch md:flex-row px-0 space-y-2 md:space-y-0 md:space-x-2 mt-2 max-w-screen-2xl">
+      <div className="flex flex-col justify-center items-center md:items-stretch md:flex-row px-0 space-y-2 md:space-y-0 md:space-x-2 mt-2 max-w-screen-2xl bg-red-500 mx-auto">
         <div className={colClass}>
           <div className="bg-gray-50 p-2 rounded-md">
             <ContactInfo />
