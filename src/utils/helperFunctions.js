@@ -32,11 +32,13 @@ export const mergeDefaultWProvider = (base, state) => {
 };
 
 export function timeToDecimal(t) {
-  if (!t) return "";
-  var arr = t.split(":");
-  var dec = parseInt((arr[1] / 6) * 10, 10);
-
-  return parseFloat(parseInt(arr[0], 10) + "." + (dec < 10 ? "0" : "") + dec);
+  if (!t) return 0;
+  if (typeof t === "string") {
+    var arr = t.split(":");
+    var dec = parseInt((arr[1] / 6) * 10, 10);
+    return parseFloat(parseInt(arr[0], 10) + "." + (dec < 10 ? "0" : "") + dec);
+  }
+  return 0;
 }
 
 export function convertToHHMM(info) {

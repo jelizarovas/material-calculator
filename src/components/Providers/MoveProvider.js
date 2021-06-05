@@ -240,10 +240,11 @@ const MoveProvider = ({ children }) => {
   useEffect(() => {
     const begin = timeToDecimal(isTravelFeeFixed ? arriveTime : startTime);
     let finish = timeToDecimal(isTravelFeeFixed ? departTime : endTime);
-    const breaks = timeToDecimal(breakTime);
+    //TODO add break to total time calculation
+    // const breaks = timeToDecimal(breakTime);
 
     if (begin > finish) finish += 12;
-    const th = finish - begin - breaks;
+    const th = finish - begin; //- breaks;
 
     dispatch({
       field: "totalHours",

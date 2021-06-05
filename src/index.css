@@ -1,5 +1,9 @@
 /* ./src/index.css */
 
+html {
+  scroll-behaviour: smooth;
+}
+
 @import url("https://fonts.googleapis.com/css?family=Work+Sans:regular,bold,italic&subset=latin,latin-ext");
 @import "tailwindcss/base";
 @import "tailwindcss/components";

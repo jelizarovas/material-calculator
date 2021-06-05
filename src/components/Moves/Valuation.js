@@ -96,6 +96,7 @@ export const Valuation = () => {
             align="right"
             min="0"
             // TODO VALIDATE NEGATIVE VALUES ON BLUR
+            // TODO add LINK and UNLINK value to automatically update shipment value
           />
           {/* https://www.utc.wa.gov/regulatedIndustries/transportation/TransportationDocuments/Tariff%2015-C.PDF */}
           {/* Shipment value is at least $5 per lbs., (val > weight * 5) */}
