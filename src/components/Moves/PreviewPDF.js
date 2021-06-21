@@ -17,7 +17,7 @@ export const PreviewPDF = memo((props) => {
   const [, /*numPages*/ setNumPages] = useState(null);
   const [pageNumber /*setPageNumber*/] = useState(1);
 
-  const [isFullscreen, setIsFS] = useState(false);
+  // const [isFullscreen, setIsFS] = useState(false);
   const [scale, setScale] = useState(1.0);
   const [sidebar, setSidebar] = useState(true);
 
@@ -32,7 +32,7 @@ export const PreviewPDF = memo((props) => {
 
   useEffect(() => {
     getPreview();
-  }, [client]);
+  }, [getPreview]);
 
   const downloadNow = async () => {
     download(

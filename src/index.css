@@ -1,5 +1,29 @@
 /* ./src/index.css */
 
+/* Works on Firefox */
+* {
+  --main-color: #a4a4a4;
+  --secondary-color: white;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--main-color) var(--secondary-color);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--secondary-color);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--main-color);
+  border-radius: 20px;
+  border: 3px solid var(--secondary-color);
+}
+
 html {
   scroll-behaviour: smooth;
 }

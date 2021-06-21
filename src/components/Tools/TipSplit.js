@@ -6,9 +6,9 @@ import { ArrowRight } from "@material-ui/icons";
 //## Accordeon
 
 export const TipSplit = () => {
-  const [crew, setCrew] = useState([]);
-  const [mover, setMover] = useState({});
-  const [jobDays, setJobDays] = useState();
+  // const [crew, setCrew] = useState([]);
+  // const [mover, setMover] = useState({});
+  // const [jobDays, setJobDays] = useState();
   const [tip, setTip] = useState(0);
 
   const changeTip = (e) => setTip(e.target.value);
@@ -47,7 +47,7 @@ export const TipSplit = () => {
               Don't forget to add `static` to your Disclosure.Panel!
             */}
               <Disclosure.Panel static>
-                <li>Arnas</li>
+                <li>Arnas {tip} </li>
                 <li>Kevan</li>
                 <li>Connor</li>
                 <li>Marc</li>

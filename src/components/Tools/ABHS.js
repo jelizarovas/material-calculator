@@ -94,7 +94,7 @@ export const ABHS = () => {
     dispatch({ payload: { total: value } });
   }, [totalTime, rate, travelFee, dispatch]);
 
-  const jobs = [];
+  // const jobs = [];
 
   return (
     <div className="flex flex-col lg:flex-row items-center">

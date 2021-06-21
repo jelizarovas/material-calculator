@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../Inputs/Input";
 
-import {
-  Timelapse,
-  HourglassEmpty,
-  Restore,
-  Update,
-  Timer,
-  AlarmOn,
-  LocalOffer,
-  Clear,
-  LinkOff,
-} from "@material-ui/icons/";
+import { Timelapse, HourglassEmpty, Restore, Update, Timer, AlarmOn, LocalOffer, Clear } from "@material-ui/icons/";
 
 import { useMove, useMoveDispatch } from "../Providers/MoveProvider";
 
@@ -44,10 +34,21 @@ export const Local = () => {
     };
   };
 
-  const { isTravelFeeFixed, hourlyRate, totalHours, startTime, endTime, arriveTime, departTime, breakTime } = client;
+  const {
+    isTravelFeeFixed,
+    hourlyRate,
+    totalHours,
+    startTime,
+    endTime,
+    arriveTime,
+    departTime,
+    breakTime,
+    travelTime,
+  } = client;
 
   return (
     <React.Fragment>
+      {/* <pre>{JSON.stringify(travelTime, 0, 2)}</pre> */}
       <div className="flex max-w-md mx-auto space-x-2">
         <Input
           name="hourlyRate"
@@ -172,11 +173,11 @@ const TravelTime = (props) => {
   const dispatch = useMoveDispatch();
 
   const { isTravelFeeFixed, hourlyRate, travelTime } = client;
-  console.log("travel time render", travelTime);
 
   const times = [
     {
       label: "Not Fixed",
+      value: "notFixed",
       isCustom: true,
       Icon: Clear,
       onSelect: () => {
@@ -195,7 +196,7 @@ const TravelTime = (props) => {
     { label: "1:30 ", value: 1.5 },
     { label: "1:45 ", value: 1.75 },
     { label: "2:00 ", value: 2 },
-    { label: "More... ", isCustom: true },
+    { label: "More... ", isCustom: true, disabled: true }, //TODO add function to show more
   ];
 
   if (hourlyRate)
@@ -204,7 +205,8 @@ const TravelTime = (props) => {
       return t;
     });
   useEffect(() => {
-    if (!!isTravelFeeFixed && !!hourlyRate)
+    if (isTravelFeeFixed && hourlyRate)
+      // updates travel time selected label when hourly rate changes
       dispatch({
         field: "travelTime",
         value: {
@@ -212,7 +214,8 @@ const TravelTime = (props) => {
           label: travelTime.label.split(" ")[0] + ` ($${money_round(Number(hourlyRate) * travelTime.value)})`,
         },
       });
-  }, [hourlyRate]);
+    // eslint-disable-next-line
+  }, [hourlyRate, dispatch]);
 
   return <Select name="travelTime" value={travelTime} dispatch={dispatch} options={times} defaultValueIndex="5" />;
 };
