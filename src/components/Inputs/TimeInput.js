@@ -1,5 +1,5 @@
 import { UnfoldMore } from "@material-ui/icons";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Listbox } from "@headlessui/react";
 import { useLayer, Arrow } from "react-laag";
 import { AnimatePresence } from "framer-motion";
@@ -7,11 +7,13 @@ import { AnimatePresence } from "framer-motion";
 let hrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 let mins = ["00", 15, 30, 45];
 
-// const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+const scrollTo = (ref, parent, duration) => {
+  if (ref) parent.current.scrollTo({ top: ref.current.offsetTop - ref.current.clientHeight, behavior: "smooth" });
+};
 
-const scrollTo = (ref) => {
-  if (ref /* + other conditions */) {
-    ref.scrollIntoView({ behavior: "smooth", block: "start" });
+const scrollToSelected = (ref, parent) => {
+  if (ref) {
+    parent.current.scrollTo({ top: ref.current?.offsetTop - ref.current?.clientHeight });
   }
 };
 
@@ -23,12 +25,10 @@ export const TimeInput = (props) => {
     return acc;
   }, {});
 
+  // console.log({ selectedHourRef });
+
   const handleClick = (id) => {
-    if (refs[id])
-      refs[id].current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+    if (refs[id]) scrollTo(refs[id], hoursContainerRef);
   };
 
   const [time, setTime] = useState({ hours: "", minutes: "" });
@@ -36,9 +36,8 @@ export const TimeInput = (props) => {
   const [wasHoursSelected, setHoursSelected] = useState(false);
 
   const minuteRef = useRef(null);
-  const selectedHourRef = useRef(null);
   const hoursContainerRef = useRef(null);
-  const executeScroll = () => scrollTo(selectedHourRef);
+  // const executeScroll = () => scrollTo(selectedHourRef, hoursContainerRef);
 
   const KEYBAORD_EVENTS = ["Enter", "Tab", ",", ".", ":", " ", "-"];
   //TODO fix on mobile
@@ -77,8 +76,12 @@ export const TimeInput = (props) => {
 
   function open() {
     setOpen(true);
-    executeScroll();
+    // executeScroll();
   }
+
+  useEffect(() => {
+    if (isOpen === true) scrollToSelected(refs[time?.hours ? time.hours : 0], hoursContainerRef);
+  }, [isOpen]);
 
   const { renderLayer, triggerProps, layerProps, arrowProps } = useLayer({
     isOpen,
@@ -94,10 +97,11 @@ export const TimeInput = (props) => {
 
   return (
     <div className="flex  justify-between   text-sm text-gray-500 focus-within:text-purple-600">
+      {isOpen.toString()}
       {!!label && (
         <label htmlFor={name} className="text-xs mt-1 " onClick={() => (isOpen ? open() : close())}>
           {!!Icon && <Icon className=" mr-2" />}
-          {label} {isOpen}
+          {label}
         </label>
       )}
 
@@ -137,7 +141,10 @@ export const TimeInput = (props) => {
                 {...triggerProps}
                 onClick={() => setOpen(!isOpen)}
               >
-                <UnfoldMore className="p-1" aria-hidden="true" />
+                <UnfoldMore
+                  className="p-1 cursor-pointer hover:text-purple-700 hover:bg-gray-100 rounded-md"
+                  aria-hidden="true"
+                />
               </div>
               {renderLayer(
                 <AnimatePresence>
@@ -154,9 +161,9 @@ export const TimeInput = (props) => {
                       </div>
                       <div className="absolute left-2 text-xs text-gray-500 mx-auto text-center ">Hours</div>
                       <div
+                        ref={hoursContainerRef}
                         name="hours"
                         className="w-full mt-4 overflow-y-scroll overflow-x-hidden "
-                        ref={hoursContainerRef}
                       >
                         {hrs.map((h, hid) => (
                           <Listbox.Option
