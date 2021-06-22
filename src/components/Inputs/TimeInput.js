@@ -97,7 +97,7 @@ export const TimeInput = (props) => {
 
   return (
     <div className="flex  justify-between   text-sm text-gray-500 focus-within:text-purple-600">
-      {isOpen.toString()}
+      {/* {isOpen.toString()} */}
       {!!label && (
         <label htmlFor={name} className="text-xs mt-1 " onClick={() => (isOpen ? open() : close())}>
           {!!Icon && <Icon className=" mr-2" />}
