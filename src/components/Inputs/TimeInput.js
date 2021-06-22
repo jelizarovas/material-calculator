@@ -7,20 +7,20 @@ import { AnimatePresence } from "framer-motion";
 let hrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 let mins = ["00", 15, 30, 45];
 
-const scrollTo = (ref, parent, duration) => {
-  if (ref) parent.current.scrollTo({ top: ref.current.offsetTop - ref.current.clientHeight, behavior: "smooth" });
-};
-
-const scrollToSelected = (ref, parent) => {
-  if (ref) {
-    parent.current.scrollTo({ top: ref.current?.offsetTop - ref.current?.clientHeight });
-  }
+const scrollTo = (ref, parent, instant = false) => {
+  if (ref?.current && parent?.current)
+    parent.current.scrollTo({
+      top: ref.current.offsetTop - ref.current.clientHeight,
+      behavior: instant ? "auto" : "smooth",
+    });
 };
 
 export const TimeInput = (props) => {
+  console.log("Time Input Render");
   const { name, label = "", Icon } = props;
 
   const refs = hrs.reduce((acc, value) => {
+    console.log("ref created");
     acc[value] = React.createRef();
     return acc;
   }, {});
@@ -69,6 +69,10 @@ export const TimeInput = (props) => {
     setTime({ hours: now.getHours(), minutes: now.getMinutes() });
   };
 
+  function toggleOpen() {
+    isOpen ? close() : open();
+  }
+
   function close() {
     setOpen(false);
     setHoursSelected(false);
@@ -76,12 +80,13 @@ export const TimeInput = (props) => {
 
   function open() {
     setOpen(true);
+    scrollTo(refs[time?.hours ? time.hours : 8], hoursContainerRef, true);
     // executeScroll();
   }
 
   useEffect(() => {
-    if (isOpen === true) scrollToSelected(refs[time?.hours ? time.hours : 0], hoursContainerRef);
-  }, [isOpen]);
+    if (isOpen === true) scrollTo(refs[time?.hours ? time.hours : 8], hoursContainerRef);
+  }, [isOpen, time, refs]);
 
   const { renderLayer, triggerProps, layerProps, arrowProps } = useLayer({
     isOpen,
@@ -139,7 +144,7 @@ export const TimeInput = (props) => {
               <div
                 className="ml-2  focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 "
                 {...triggerProps}
-                onClick={() => setOpen(!isOpen)}
+                onClick={toggleOpen}
               >
                 <UnfoldMore
                   className="p-1 cursor-pointer hover:text-purple-700 hover:bg-gray-100 rounded-md"
