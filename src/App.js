@@ -1,5 +1,10 @@
 import React from "react";
-import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 import { Moves } from "./components/Moves/Moves";
 import { Move } from "./components/Moves/Move";
@@ -67,7 +72,7 @@ function App() {
         {/* </div> */}
         <div className="flex-grow relative w-full rounded-b-lg shadow-2xl  ">
           <Switch>
-            <Redirect exact from="/" to="/p/R2tpMl/" />
+            <Redirect exact from="/" to="/m/TdUWQH/rates" />
             <Redirect exact from="/materials" to="/t/materials" />
             <Redirect exact from="/bol" to="/t/coordinates" />
             <Redirect exact from="/bingo" to="/t/loadchart" />

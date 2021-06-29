@@ -1,10 +1,35 @@
-import { UnfoldMore } from "@material-ui/icons";
+import { Clear, UnfoldMore } from "@material-ui/icons";
 import React, { useState, useRef, useEffect } from "react";
 import { Listbox } from "@headlessui/react";
 import { useLayer, Arrow } from "react-laag";
 import { AnimatePresence } from "framer-motion";
 
-let hrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+let hrs = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+];
 let mins = ["00", 15, 30, 45];
 
 const scrollTo = (ref, parent, instant = false) => {
@@ -67,6 +92,7 @@ export const TimeInput = (props) => {
     e.preventDefault();
     const now = new Date();
     setTime({ hours: now.getHours(), minutes: now.getMinutes() });
+    // close();
   };
 
   function toggleOpen() {
@@ -84,8 +110,17 @@ export const TimeInput = (props) => {
     // executeScroll();
   }
 
+  function toggleHourType() {
+    //toggle between am and pm for the account
+  }
+
+  function toggleMinuteIncrement() {
+    //toggle between am and pm for the account
+  }
+
   useEffect(() => {
-    if (isOpen === true) scrollTo(refs[time?.hours ? time.hours : 8], hoursContainerRef);
+    if (isOpen === true)
+      scrollTo(refs[time?.hours ? time.hours : 8], hoursContainerRef);
   }, [isOpen, time, refs]);
 
   const { renderLayer, triggerProps, layerProps, arrowProps } = useLayer({
@@ -104,7 +139,11 @@ export const TimeInput = (props) => {
     <div className="flex  justify-between   text-sm text-gray-500 focus-within:text-purple-600">
       {/* {isOpen.toString()} */}
       {!!label && (
-        <label htmlFor={name} className="text-xs mt-1 " onClick={() => (isOpen ? open() : close())}>
+        <label
+          htmlFor={name}
+          className="text-xs mt-1 "
+          onClick={() => (isOpen ? open() : close())}
+        >
           {!!Icon && <Icon className=" mr-2" />}
           {label}
         </label>
@@ -113,11 +152,11 @@ export const TimeInput = (props) => {
       <Listbox value={time} onChange={onChange}>
         {({ open }) => (
           <>
-            <div className="relative flex  items-center  focus-within:border-purple-500  text-right text-xs w-max">
+            <div className="relative flex  items-center  focus-within:border-purple-500  text-right text-sm text-bold w-max">
               <input
                 name="hoursInput"
                 type="number"
-                className="p-1 w-6 text-right border-b bg-transparent"
+                className="p-1 w-8 text-right border-b bg-transparent"
                 onFocus={(e) => e.target.select()}
                 min="0"
                 max="24"
@@ -132,7 +171,7 @@ export const TimeInput = (props) => {
                 name="minutesInput"
                 type="number"
                 ref={minuteRef}
-                className="p-1 w-6 text-left border-b  bg-transparent"
+                className="p-1 w-8 text-left border-b  bg-transparent"
                 onFocus={(e) => e.target.select()}
                 min="0"
                 max="59"
@@ -159,12 +198,37 @@ export const TimeInput = (props) => {
                       static={true}
                       className="w-40 py-1  h-64 overflow-hidden  flex text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20"
                     >
-                      <div name="other" className="absolute bottom-2 right-2 text-xs">
-                        <button className="bg-blue-400 py-1 px-2 rounded-md text-white" onClick={setCurrentTime}>
+                      <div
+                        name="other"
+                        className="absolute bottom-10 right-2 text-xs"
+                      >
+                        <button
+                          className="bg-blue-400 py-1 px-2 rounded-md text-white"
+                          onClick={setCurrentTime}
+                        >
                           Now
                         </button>
                       </div>
-                      <div className="absolute left-2 text-xs text-gray-500 mx-auto text-center ">Hours</div>
+
+                      <div
+                        name="other"
+                        className="absolute bottom-2 right-2 text-xs"
+                      >
+                        <button
+                          className="bg-red-400 py-1 px-2 rounded-md text-white"
+                          onClick={close}
+                        >
+                          Close
+                        </button>
+                      </div>
+
+                      <div
+                        onClick={toggleHourType}
+                        className="absolute left-2 text-xs text-gray-500 mx-auto text-center hover:font-bold cursor-pointer "
+                      >
+                        Hours{" "}
+                        <UnfoldMore className="absolute p-1 -top-1 text-gray-300" />
+                      </div>
                       <div
                         ref={hoursContainerRef}
                         name="hours"
@@ -174,7 +238,11 @@ export const TimeInput = (props) => {
                           <Listbox.Option
                             key={hid}
                             className={({ active }) =>
-                              `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
+                              `${
+                                active
+                                  ? "text-amber-900 bg-amber-100"
+                                  : "text-gray-900"
+                              }
                       cursor-default select-none pb-1 px-4`
                             }
                             value={{ hours: h }}
@@ -184,7 +252,9 @@ export const TimeInput = (props) => {
                               return (
                                 <div
                                   className={`w-full cursor-pointer hover:bg-pink-50 pr-2  ${
-                                    selected ? "font-medium bg-pink-300" : "font-normal "
+                                    selected
+                                      ? "font-medium bg-pink-300"
+                                      : "font-normal "
                                   }`}
                                   ref={refs[h]}
                                 >
@@ -196,25 +266,37 @@ export const TimeInput = (props) => {
                         ))}
                       </div>
                       <div name="minutes" className="w-full px-2">
-                        <div className="text-xs text-gray-500 mx-auto text-center pb-2">Minutes</div>
+                        <div className="text-xs text-gray-500 mx-auto text-center pb-2 hover:font-bold cursor-pointer">
+                          Minutes{" "}
+                          <UnfoldMore className="absolute p-1 -top-1 text-gray-300" />
+                        </div>
                         {mins.map((m, mid) => (
                           <Listbox.Option
                             key={mid}
                             className={({ active }) =>
-                              `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
+                              `${
+                                active
+                                  ? "text-amber-900 bg-amber-100"
+                                  : "text-gray-900"
+                              }
                           cursor-default select-none relative  `
                             }
                             value={{ minutes: m }}
                           >
-                            {({ selected, active }) => (
-                              <div
-                                className={`w-full cursor-pointer hover:bg-pink-50 pr-2  ${
-                                  selected ? "font-medium" : "font-normal"
-                                }`}
-                              >
-                                {m}
-                              </div>
-                            )}
+                            {({ active }) => {
+                              const selected = time?.minutes === m;
+                              return (
+                                <div
+                                  className={`w-full cursor-pointer hover:bg-pink-50 pr-2  ${
+                                    selected
+                                      ? "font-medium bg-pink-300"
+                                      : "font-normal"
+                                  }`}
+                                >
+                                  {m}
+                                </div>
+                              );
+                            }}
                           </Listbox.Option>
                         ))}
                       </div>
